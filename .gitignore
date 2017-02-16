@@ -44,7 +44,6 @@ captures/
 
 # Maven target
 /target/
-
 *target*
 target/** 
 
@@ -70,7 +69,11 @@ tmp/**/*
 *.bak
 *.swp
 *~.nib
+/src/main/webapp/WEB-INF/classes/*
 
 
-
+.war
+.zip
+.rar
+*.ear
  
