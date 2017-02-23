@@ -3,6 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+
 <link href="../static/css/wxpay/index.css" type="text/css" rel="stylesheet" />
 <header class="nav wrap">
 	<a class="ico52 back" href="javascript:;"></a>充值记录<a href="/" class="ico52 home"></a>
