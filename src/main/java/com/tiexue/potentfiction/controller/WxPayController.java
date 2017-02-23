@@ -5,7 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.POST;
+
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -24,35 +24,36 @@ public class WxPayController {
 	@Resource
 	IWxPayService wxPayService;
 
-	@RequestMapping(value = "getList.do")
+	@RequestMapping("/index")
+	public String getList(HttpServletRequest request){
+		String userIdStr = request.getParameter("userId");
+		if (!userIdStr.isEmpty()) {
+			int userId = Integer.parseInt(userIdStr);
+			List<WxPay> wxPays = wxPayService.getList(userId);
+			request.setAttribute("wxpaylist", wxPays);
+		}
+		return "/wxPay/index";
+	}
+	
+	@RequestMapping(value = "getMoreList.do")
 	@ResponseBody
-	public String getList(HttpServletRequest request) {
+	public String getMoreList(HttpServletRequest request) {
 		JSONObject getObj = new JSONObject();
-		try {
-			String userIdStr = request.getParameter("userId");
-			if (!userIdStr.isEmpty()) {
-				int userId = Integer.parseInt(userIdStr);
-
-				List<WxPay> wxPays = wxPayService.getList(userId);
-				if (wxPays == null) {
-					getObj.put("ok", false);
-					getObj.put("msg", "没有数据");
-				} else {
-					getObj.put("OK", true);
-					getObj.put("msg", "成功获取数据");
-					getObj.put("WxPayData", wxPays);
-				}
-			}
-			else{
+		String userIdStr = request.getParameter("userId");
+		if (!userIdStr.isEmpty()) {
+			int userId = Integer.parseInt(userIdStr);
+			List<WxPay> wxPays = wxPayService.getList(userId);
+			if (wxPays == null) {
 				getObj.put("ok", false);
-				getObj.put("msg", "参数错误");
+				getObj.put("msg", "没有数据");
+			} else {
+				getObj.put("OK", true);
+				getObj.put("msg", "成功获取数据");
+				getObj.put("WxPayData", wxPays);
 			}
-			
-
-		} catch (Exception e) {
+		} else {
 			getObj.put("ok", false);
-			getObj.put("msg", "数据异常");
-			logger.error(e.toString());
+			getObj.put("msg", "参数错误");
 		}
 
 		return getObj.toString();

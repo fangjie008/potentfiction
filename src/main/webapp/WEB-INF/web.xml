@@ -10,11 +10,6 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:spring/spring-mybatis.xml</param-value>
 	</context-param>
-	<!-- 指定log4j日志配置 -->
-	<context-param>
-	    <param-name>log4jConfigLocation</param-name>
-	    <param-value>classpath:log4j.properties</param-value>
-	</context-param>
 	<!-- 定义SPRING监听器,加载spring容器,目前主流推荐方式 -->
 	<listener>
 		<description>spring listener</description>

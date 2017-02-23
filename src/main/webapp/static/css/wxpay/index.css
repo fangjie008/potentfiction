@@ -1,0 +1,14 @@
+header {
+    height: 44px;
+    background: #32c9ba;
+    position: relative;
+    top: 0;
+    left: 0;
+    line-height: 43px;
+}
+header.nav{text-align: center;color: #fff}
+.wrap{padding: 0 12px;}
+
+.shelf {
+    line-height: 26px;
+}
