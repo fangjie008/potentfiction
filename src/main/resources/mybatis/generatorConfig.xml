@@ -62,45 +62,12 @@
 			<property name="rootInterface" value="" />
 		</javaClientGenerator>
 
-		<!-- <table tableName="KongQi" domainObjectName="KongQi" enableCountByExample="false" 
-			enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" 
-			selectByExampleQueryId="false"> </table> -->
-
-		<table tableName="wxbookrack" domainObjectName="WxBookrack"
+		<table tableName="KongQi" domainObjectName="KongQi"
 			enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"
 			selectByExampleQueryId="false">
 		</table>
 
-		<table tableName="wxchapter" domainObjectName="WxChapter"
-			enableCountByExample="false" enableUpdateByExample="false"
-			enableDeleteByExample="false" enableSelectByExample="false"
-			selectByExampleQueryId="false">
-		</table>
-
-		<table tableName="wxchaptersub" domainObjectName="WxChapterSub"
-			enableCountByExample="false" enableUpdateByExample="false"
-			enableDeleteByExample="false" enableSelectByExample="false"
-			selectByExampleQueryId="false">
-		</table>
-
-		<table tableName="wxcomment" domainObjectName="WxComment"
-			enableCountByExample="false" enableUpdateByExample="false"
-			enableDeleteByExample="false" enableSelectByExample="false"
-			selectByExampleQueryId="false">
-		</table>
-
-		<table tableName="wxconsume" domainObjectName="WxConsume"
-			enableCountByExample="false" enableUpdateByExample="false"
-			enableDeleteByExample="false" enableSelectByExample="false"
-			selectByExampleQueryId="false">
-		</table>
-
-		<table tableName="wxuser" domainObjectName="WxUser"
-			enableCountByExample="false" enableUpdateByExample="false"
-			enableDeleteByExample="false" enableSelectByExample="false"
-			selectByExampleQueryId="false">
-		</table>
 	</context>
 
 </generatorConfiguration>
