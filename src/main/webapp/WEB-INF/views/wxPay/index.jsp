@@ -1,8 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=http://user.xsm.meixiangdao.com/">
+<meta http-equiv="mobile-agent" content="format=xhtml; url=http://user.xsm.meixiangdao.com/">
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <% 
    String path=request.getContextPath();
 %>
@@ -17,13 +24,13 @@
 <script type="text/javascript" src="<%=path %>/static/js/jquery/jquery-1.10.2.min.js"></script>
 <body>
 <div>
-<table id="wxpaylist">
-	<thead>
+<table class="table table-striped" style="text-align: center">
+	<thead >
 	  <tr>
-		<th>充值金额</th>
-		<th>充值类型</th>
-		<th>小说币</th>
-		<th>充值时间</th>
+		<th class="table_th">充值金额</th>
+		<th class="table_th">充值类型</th>
+		<th class="table_th">小说币</th>
+		<th class="table_th">充值时间</th>
 	   <tr>
 	</thead>
 	<tbody>
@@ -44,8 +51,8 @@
 	</tbody>
 </table>
 </div>
-<div>
-<ul id="pager" class="pager">
+<nav style="text-align: center">
+<ul class="pagination" >
 	<li><a class="btn btn-large" href="<%=path %>/wxPay/index?userId=${userId }&pageNo=0&pageSize=${pager.pageSize }">第一页</a></li>
 	<li>
 		<c:if test="${pager.prePage>0 }">
@@ -65,6 +72,6 @@
 	</li>
 	<li><a class="btn btn-large" href="<%=path %>/wxPay/index?userId=${userId }&pageNo=${pager.totalPage }&pageSize=${pager.pageSize }">最末页</a></li>
 </ul>
-</div>
+</nav>
 </body>
 </html>
