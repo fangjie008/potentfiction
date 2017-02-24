@@ -69,8 +69,8 @@ public class EnumType {
     };
 
     //充值类型常量
-    public static final int PayType_NovelCurr=0;
-    public static final int PayType_Time=1;
+    public static final int PayType_NovelCurr=1;
+    public static final int PayType_Time=2;
     //充值类型
     public static Map<Integer,String> PayType=new HashMap<Integer,String>(){
     	{
@@ -81,9 +81,9 @@ public class EnumType {
 
 
     //包年(月)充值的单位常量
-    public static final int PayUnit_Year=0;
-    public static final int PayUnit_Month=1;
-    public static final int PayUnit_Quarter=2;
+    public static final int PayUnit_Year=1;
+    public static final int PayUnit_Month=2;
+    public static final int PayUnit_Quarter=3;
     //包年(月)充值的单位
     public static Map<Integer,String> PayUnit=new HashMap<Integer,String>(){
     	{
