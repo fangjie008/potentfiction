@@ -15,7 +15,7 @@ public interface WxPayMapper {
 	//根据id获取数据
 	WxPay getModel(int id);
 	//根据userId获取支付记录
-	List<WxPay> getListByPage(int userId,int beginRow,int pageSize);
+	List<WxPay> getListByPage(int userId,int pageNo,int pageSize);
 	//获取总数
 	Integer getCountByUserId(int userId);
 }

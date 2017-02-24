@@ -14,7 +14,7 @@ header.nav{text-align: center;color: #fff}
 }
 
 #wxpaylist{
-	width:96%;
+	width:100%;
 }
 #wxpaylist thead tr th{
 	text-align:center;
@@ -24,4 +24,15 @@ header.nav{text-align: center;color: #fff}
 #wxpaylist tbody tr td{
 	text-align:center;
 	padding: 6px 4px 6px 4px;
+}
+
+.pager{
+	text-align:center;
+	list-style: none;
+}
+
+.pager li{
+	width:25%;
+	float:left;
+	text-align: center;
 }
