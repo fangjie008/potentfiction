@@ -12,3 +12,16 @@ header.nav{text-align: center;color: #fff}
 .shelf {
     line-height: 26px;
 }
+
+#wxpaylist{
+	width:96%;
+}
+#wxpaylist thead tr th{
+	text-align:center;
+	padding: 10px 4px 10px 4px;
+}
+
+#wxpaylist tbody tr td{
+	text-align:center;
+	padding: 6px 4px 6px 4px;
+}

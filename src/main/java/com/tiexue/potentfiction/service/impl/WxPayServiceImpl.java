@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import com.tiexue.potentfiction.entity.WxPay;
@@ -32,8 +33,13 @@ public class WxPayServiceImpl implements IWxPayService {
 	}
 
 	@Override
-	public List<WxPay> getList(int userId) {
-		return this.wxPayMapper.getList(userId);
+	public List<WxPay> getListByPage(@Param("userId")int userId,@Param("beginRow")int beginRow,@Param("pageSize")int pageSize) {
+		return this.wxPayMapper.getListByPage(userId,beginRow,pageSize);
+	}
+
+	@Override
+	public Integer getCountByUserId(@Param("userId")int userId) {
+		return this.wxPayMapper.getCountByUserId(userId);
 	}
 
 }

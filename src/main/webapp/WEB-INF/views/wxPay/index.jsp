@@ -12,18 +12,28 @@
 </head>
 <script type="text/javascript" src="../static/js/jquery/jquery-1.10.2.min.js"></script>
 <body>
-<table width="98%">
+<table id="wxpaylist">
 	<thead>
-		<th>金额</th>
+	  <tr>
+		<th>充值金额</th>
+		<th>充值类型</th>
 		<th>小说币</th>
 		<th>充值时间</th>
+	   <tr>
 	</thead>
 	<tbody>
 	 <c:forEach items="${wxpaylist}" var="wxpay">
 	 	<tr>
-	 	 <td>${wxpay.amount}</td>
-	 	 <td>${wxpay.count}</td>
-	 	 <td>${wxpay.unit}</td>
+	 	 <td >${wxpay.amount}</td>
+	 	 
+	 	 <td >${wxpay.payTypeName}</td>
+	 	 <c:if test="${wxpay.payType==1 }">
+	 	 <td >${wxpay.count}</td>
+	 	 </c:if>
+	 	 <c:if test="${wxpay.payType==2 }">
+	 	  <td >${wxpay.count}${wxpay.unitName}</td>
+	 	 </c:if>
+	 	 <td >${wxpay.createTime}</td>
 	 	</tr>
 	 </c:forEach>
 	</tbody>

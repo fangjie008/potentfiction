@@ -1,5 +1,7 @@
 package com.tiexue.potentfiction.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.tiexue.potentfiction.dto.WxPayDto;
+import com.tiexue.potentfiction.entity.EnumType;
 import com.tiexue.potentfiction.entity.WxPay;
 import com.tiexue.potentfiction.service.IWxPayService;
 
@@ -24,14 +28,31 @@ public class WxPayController {
 	@Resource
 	IWxPayService wxPayService;
 
+	//查询带分页的充值记录
 	@RequestMapping("/index")
 	public String getList(HttpServletRequest request){
 		String userIdStr = request.getParameter("userId");
+		String beginRowStr=request.getParameter("beginRow");
+		String pageSizeStr=request.getParameter("pageSize");
 		if (!userIdStr.isEmpty()) {
 			int userId = Integer.parseInt(userIdStr);
-			List<WxPay> wxPays = wxPayService.getList(userId);
-			request.setAttribute("wxpaylist", wxPays);
+			int beginRow = 0;
+			if(beginRowStr!=null&&!beginRowStr.isEmpty()){
+				beginRow = Integer.parseInt(beginRowStr);
+			}
+			int pageSize = 10;
+			if(pageSizeStr!=null&&!pageSizeStr.isEmpty()){
+				pageSize = Integer.parseInt(pageSizeStr);
+			}
+			List<WxPay> wxPays = wxPayService.getListByPage(userId,beginRow,pageSize);
+			List<WxPayDto> payDtos=wxPayFill(wxPays);
+			request.setAttribute("wxpaylist", payDtos);
+			//获取充值记录总数
+			Integer wxPayCount=wxPayService.getCountByUserId(userId);
+			request.setAttribute("total", wxPayCount);
 		}
+		
+		
 		return "/wxPay/index";
 	}
 	
@@ -40,9 +61,19 @@ public class WxPayController {
 	public String getMoreList(HttpServletRequest request) {
 		JSONObject getObj = new JSONObject();
 		String userIdStr = request.getParameter("userId");
-		if (!userIdStr.isEmpty()) {
+		String beginRowStr=request.getParameter("beginRow");
+		String pageSizeStr=request.getParameter("pageSize");
+		if (!userIdStr.isEmpty()&&!beginRowStr.isEmpty()&&pageSizeStr.isEmpty()) {
 			int userId = Integer.parseInt(userIdStr);
-			List<WxPay> wxPays = wxPayService.getList(userId);
+			int beginRow = 0;
+			if(userIdStr!=null&&!beginRowStr.isEmpty()){
+				beginRow = Integer.parseInt(beginRowStr);
+			}
+			int pageSize = 10;
+			if(pageSizeStr!=null&&!pageSizeStr.isEmpty()){
+				pageSize = Integer.parseInt(pageSizeStr);
+			}
+			List<WxPay> wxPays = wxPayService.getListByPage(userId,beginRow,pageSize);
 			if (wxPays == null) {
 				getObj.put("ok", false);
 				getObj.put("msg", "没有数据");
@@ -57,6 +88,27 @@ public class WxPayController {
 		}
 
 		return getObj.toString();
+	}
+	
+	private List<WxPayDto> wxPayFill(List<WxPay> wxpays)
+	{
+		List<WxPayDto> wxPayDtos=new ArrayList<WxPayDto>();
+		if(wxpays!=null){
+			for (WxPay pay : wxpays) {
+				WxPayDto payDto=new WxPayDto();
+				payDto.setId(pay.getId());
+				payDto.setPayType(pay.getPayType());
+				payDto.setPayTypeName(EnumType.PayType.get(pay.getPayType()));
+				payDto.setAmount(pay.getAmount());
+				payDto.setCount(pay.getCount());
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				payDto.setCreateTime(sdf.format(pay.getCreateTime()));
+				payDto.setUnit(pay.getUnit());
+				payDto.setUnitName(EnumType.PayUnit.get(pay.getUnit()));
+				wxPayDtos.add(payDto);
+			}
+		}
+		return wxPayDtos;
 	}
 
 }
