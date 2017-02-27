@@ -160,7 +160,7 @@ public class WxBookDto {
 		this.shareCount = shareCount;
 	}
 
-	public Integer getCotentLen() {
+	public Integer getContentLen() {
 		return this.contentLen;
 	}
 

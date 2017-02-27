@@ -41,8 +41,7 @@ public class WxBookController {
 		WxBookDto wxBookDto = new WxBookDto();
 		if (wxBook != null) {
 			wxBookDto.setId(wxBook.getId());
-			wxBookDto.setId(wxBook.getId());
-			wxBookDto.setId(wxBook.getId());
+			wxBookDto.setName(wxBook.getName());
 			wxBookDto.setCoverImgs(wxBook.getCoverImgs());
 			wxBookDto.setStatus(EnumType.BookStatus.get(wxBook.getStatus()));
 			wxBookDto.setContentLen(wxBook.getCotentLen());

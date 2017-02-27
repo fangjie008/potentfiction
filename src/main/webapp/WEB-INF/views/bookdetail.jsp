@@ -148,7 +148,7 @@ a{
 			<a href="#" class="btn-headindex"></a>
 		</div>
 		<div class="box-header-subtitle">
-			冤家老公
+			${wxBook.getName()}
 		</div>
 	</header>
 	
@@ -168,7 +168,7 @@ a{
 				<dd>已完结</dd>
 
 				<dt>字数：</dt>
-				<dd>65536</dd>
+				<dd>${wxBook.getContentLen()}</dd>
 
 				<dt>评论：</dt>
 				<dd><span style="color:#ff7800">50</span>&nbsp;<a href="#">看评论 »</a></dd>
