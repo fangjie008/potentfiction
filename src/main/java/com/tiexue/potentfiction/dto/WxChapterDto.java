@@ -1,32 +1,25 @@
-package com.tiexue.potentfiction.entity;
+package com.tiexue.potentfiction.dto;
 
-import java.util.Date;
 
-public class WxChapter {
+public class WxChapterDto {
 	//章节Id
     private Integer id;
     //对应的小说Id
     private Integer bookid;
-    //简介
-    private String intro;
     //章节号
     private Integer sortorder;
     //章节名称
     private String title;
     //章节类型
     private Integer chaptertype;
+    //章节类型名称
+    private String chaptertypeName;
     //章节价格
     private Integer pirce;
     //章节状态
     private Integer status;
     //章节字节		
     private Integer contentlen;
-    //创建时间
-    private Date createtime;
-    //修改时间
-    private Date updatetime;
-    //备注
-    private String remark;
 
     public Integer getId() {
         return id;
@@ -42,14 +35,6 @@ public class WxChapter {
 
     public void setBookid(Integer bookid) {
         this.bookid = bookid;
-    }
-
-    public String getIntro() {
-        return intro;
-    }
-
-    public void setIntro(String intro) {
-        this.intro = intro == null ? null : intro.trim();
     }
 
     public Integer getSortorder() {
@@ -100,27 +85,14 @@ public class WxChapter {
         this.contentlen = contentlen;
     }
 
-    public Date getCreatetime() {
-        return createtime;
-    }
+	public String getChaptertypeName() {
+		return chaptertypeName;
+	}
 
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
-    }
+	public void setChaptertypeName(String chaptertypeName) {
+		this.chaptertypeName = chaptertypeName;
+	}
 
-    public Date getUpdatetime() {
-        return updatetime;
-    }
 
-    public void setUpdatetime(Date updatetime) {
-        this.updatetime = updatetime;
-    }
 
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
-    }
 }

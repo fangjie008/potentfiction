@@ -15,6 +15,15 @@
     <result column="UpdateTime" property="updatetime" jdbcType="TIMESTAMP" />
     <result column="Remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap id="ResultListMap" type="com.tiexue.potentfiction.entity.WxChapter" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="BookId" property="bookid" jdbcType="INTEGER" />
+    <result column="SortOrder" property="sortorder" jdbcType="INTEGER" />
+    <result column="Title" property="title" jdbcType="VARCHAR" />
+    <result column="ChapterType" property="chaptertype" jdbcType="INTEGER" />
+    <result column="Pirce" property="pirce" jdbcType="INTEGER" />
+    <result column="ContentLen" property="contentlen" jdbcType="INTEGER" />
+  </resultMap>
   <sql id="Base_Column_List" >
     Id, BookId, Intro, SortOrder, Title, ChapterType, Pirce, Status, ContentLen, CreateTime, 
     UpdateTime, Remark

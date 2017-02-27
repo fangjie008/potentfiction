@@ -52,8 +52,8 @@ public class EnumType {
     public static Map<Integer,String> ChapterStatus=new HashMap<Integer,String>(){
     	{
     		put(ChapterStatus_Offline,"未上线");
-    		put(ChapterStatus_OnLine,"删除");
-    		put(ChapterStatus_Delete,"上线");
+    		put(ChapterStatus_OnLine,"上线");
+    		put(ChapterStatus_Delete,"删除");
     	}
     };
 

@@ -7,6 +7,10 @@
   <resultMap id="ResultMapWithBLOBs" type="com.tiexue.potentfiction.entity.WxChapterSub" extends="BaseResultMap" >
     <result column="Content" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
+    <resultMap id="AllResultMap" type="com.tiexue.potentfiction.entity.WxChapterSub" >
+    <result column="Id" property="id" jdbcType="INTEGER" />
+     <result column="Content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
   <sql id="Blob_Column_List" >
     Content
   </sql>

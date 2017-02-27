@@ -1,8 +1,12 @@
 package com.tiexue.potentfiction.mapper;
 
 import com.tiexue.potentfiction.entity.WxChapter;
+
+import java.util.List;
+
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -37,10 +41,18 @@ public interface WxChapterMapper {
         "Id, BookId, Intro, SortOrder, Title, ChapterType, Pirce, Status, ContentLen, ",
         "CreateTime, UpdateTime, Remark",
         "from wxchapter",
-        "where Id = #{id,jdbcType=INTEGER}"
+        "where Id = #{id,jdbcType=INTEGER} and Status=#{status}"
     })
     @ResultMap("BaseResultMap")
-    WxChapter selectByPrimaryKey(Integer id);
+    WxChapter selectByPrimaryKey(@Param("id") Integer id,@Param("status")Integer status);
+    
+    @Select({"select",
+        "Id, BookId, SortOrder, Title, ChapterType, Pirce,ContentLen ",
+        "from wxchapter",
+        "where BookId = #{bookId,jdbcType=INTEGER} and Status=#{status}",
+        " order by SortOrder LIMIT #{pageNo},#{pageSize}"})
+    @ResultMap("ResultListMap")
+    List<WxChapter> selectByBookId(@Param("bookId")Integer bookId,@Param("status")Integer status,@Param("pageNo")Integer pageNo,@Param("pageSize")Integer pageSize);
 
     int updateByPrimaryKeySelective(WxChapter record);
 
@@ -60,4 +72,26 @@ public interface WxChapterMapper {
         "where Id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(WxChapter record);
+
+    //获取章节总数
+    @Select({" select count(1) from wxchapter where BookId=#{bookId} and Status=#{status}"})
+    int getCountByBookId(@Param("bookId")Integer bookId,@Param("status")Integer status);
+    
+    //获取上一章内容
+    @Select({"select  ",
+        "Id, BookId, SortOrder, Title, ChapterType, Pirce,ContentLen ",
+        "from wxchapter",
+        "where id < #{chapterId,jdbcType=INTEGER} and Status=#{status}",
+        " order by SortOrder desc LIMIT 0,1 "})
+    @ResultMap("ResultListMap")
+    WxChapter getPreChapter(@Param("chapterId")Integer chapterId,@Param("status")Integer status);
+    
+    //获取下一章内容
+    @Select({"select ",
+        "Id, BookId, SortOrder, Title, ChapterType, Pirce,ContentLen ",
+        "from wxchapter",
+        "where id > #{chapterId,jdbcType=INTEGER} and Status=#{status}",
+        " order by SortOrder asc LIMIT 0,1 "})
+    @ResultMap("ResultListMap")
+    WxChapter getNextChapter(@Param("chapterId")Integer chapterId,@Param("status")Integer status);
 }

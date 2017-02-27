@@ -35,7 +35,7 @@ public class WxPayController {
 		String userIdStr = request.getParameter("userId");
 		String pageNoStr=request.getParameter("pageNo");
 		String pageSizeStr=request.getParameter("pageSize");
-		if (!userIdStr.isEmpty()) {
+		if (userIdStr!=null&&!userIdStr.isEmpty()) {
 			int userId = Integer.parseInt(userIdStr);
 			int pageNo = 0;
 			if(pageNoStr!=null&&!pageNoStr.isEmpty()){

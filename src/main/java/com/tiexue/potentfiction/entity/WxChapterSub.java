@@ -1,8 +1,9 @@
 package com.tiexue.potentfiction.entity;
 
 public class WxChapterSub {
+	//章节Id
     private Integer id;
-
+    //章节内容
     private String content;
 
     public Integer getId() {
