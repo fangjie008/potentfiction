@@ -20,7 +20,13 @@ ${wxBook.name}
 <body>
 <section>	
 	<div>
-		
+		<ul>
+		<c:forEach items="${chapNaviDtos }" var="navi">
+			<li>
+				<a href="<%=path%>${navi.url}" >${navi.name}</a>
+			</li>
+		</c:forEach>
+		</ul>
 	</div>
 </section>
 <section>

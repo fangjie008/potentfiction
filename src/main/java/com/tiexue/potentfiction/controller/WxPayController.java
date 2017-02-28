@@ -129,11 +129,11 @@ public class WxPayController {
 		pager.setTotalPage(totalPage);
 		int prePage=0;
 		if(pageNo>0)
-			prePage=pageNo-1;
+			prePage=pageNo-pageSize;
 		pager.setPrePage(prePage);
 		int nextPage=0;
 		if(pageNo<totalPage)
-			nextPage=pageNo+1;
+			nextPage=pageNo+pageNo;
 		pager.setNextPage(nextPage);
 		return pager;
 	}

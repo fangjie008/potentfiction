@@ -1,5 +1,8 @@
 package com.tiexue.potentfiction.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,10 +28,10 @@ public class WxChapterSubController {
 	
 	//获取章节的内容信息
 	@RequestMapping("/index")
-	public String getContent(HttpServletRequest request){
+	public String getContent(HttpServletRequest request) throws UnsupportedEncodingException{
 		String bookIdStr=request.getParameter("bookId");
 		String chapterIdStr=request.getParameter("chapterId");
-		String bookName=request.getParameter("bookName");
+		String bookName=new String(request.getParameter("bookName").getBytes("ISO-8859-1"),"UTF-8");
 		if(chapterIdStr!=null&&!chapterIdStr.isEmpty()){
 			int preId=0;
 			int nextId=0;
@@ -50,7 +53,6 @@ public class WxChapterSubController {
 		    }
 		    WxChapterSubDto chapSubDto= wxChapterSubDtoFill(chapSub,chapterModel,preId,nextId);
 		    request.setAttribute("wxChapterSub", chapSubDto);
-		    request.setAttribute("bookId", bookId);
 		    request.setAttribute("bookName", bookName);
 		}
 		return "wxChapterSub/index";
@@ -59,8 +61,10 @@ public class WxChapterSubController {
 	private WxChapterSubDto wxChapterSubDtoFill(WxChapterSub chapSub,WxChapter chapterModel,int preId,int nextId){
 		WxChapterSubDto chapSubDto=new WxChapterSubDto();
 		chapSubDto.setId(chapSub.getId());
+	
 		if(chapterModel!=null){
-		  chapSubDto.setTitle(chapterModel.getTitle());
+		    chapSubDto.setTitle(chapterModel.getTitle());
+			chapSubDto.setBookId(chapterModel.getBookid());
 		}
 		chapSubDto.setContent(chapSub.getContent());
 		chapSubDto.setPreId(preId);

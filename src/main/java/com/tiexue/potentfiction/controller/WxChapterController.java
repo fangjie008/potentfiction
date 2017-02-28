@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.tiexue.potentfiction.dto.WxChapterDto;
+import com.tiexue.potentfiction.dto.WxChapterNaviDto;
 import com.tiexue.potentfiction.entity.EnumType;
 import com.tiexue.potentfiction.entity.WxBook;
 import com.tiexue.potentfiction.entity.WxChapter;
@@ -30,7 +31,7 @@ public class WxChapterController {
 	//获取章节列表信息
 	@RequestMapping("/index")
 	public String getList(HttpServletRequest request) {
-		int pageSize=20;
+		int pageSize=2;
 		String bookIdStr = request.getParameter("bookId");
 		String pageNoStr = request.getParameter("pageNo");
 		if (bookIdStr != null && !bookIdStr.isEmpty()) {
@@ -43,10 +44,10 @@ public class WxChapterController {
 			WxBook wxBookModel=wxBook.getModel(bookId);
 			int totalRecord=wxChapterService.getCountByBookId(bookId, EnumType.ChapterStatus_OnLine);
 			request.setAttribute("wxChapters",wxChapterDtoFill(wxChapters));
+			List<WxChapterNaviDto> chapNaviDtos=wxChapterNaviDtoFill(bookId,totalRecord,pageSize,pageNo);
 			request.setAttribute("wxBook", wxBookModel);
-			request.setAttribute("totalRecord", totalRecord);
 			request.setAttribute("bookId", bookId);
-			request.setAttribute("pageNo", pageNo);
+		    request.setAttribute("chapNaviDtos", chapNaviDtos);
 		}
 
 		return "/wxChapter/index";
@@ -70,6 +71,37 @@ public class WxChapterController {
 		}
 		return resultData;
 	}
-	
-	
+	//绑定小说章节导航的数据
+	private List<WxChapterNaviDto> wxChapterNaviDtoFill(int bookId,int totalRecord,int pageSize,int pageNo)
+	{
+		ArrayList<WxChapterNaviDto> resultData=new ArrayList<WxChapterNaviDto>();
+		if(totalRecord<=0)
+			return resultData;
+		if(pageSize>=totalRecord){
+			WxChapterNaviDto chapNavi=new WxChapterNaviDto();
+			chapNavi.setName("1-"+pageSize+"章");
+			chapNavi.setUrl("/wxChapter/index?bookId="+bookId+"&pageNo="+pageNo);
+			chapNavi.setOrder(0);
+			chapNavi.setIsActive(true);
+			resultData.add(chapNavi);
+		}
+		else{
+			int count=totalRecord/pageSize;
+			if(totalRecord%pageSize>0)
+				count++;
+			for(int i=0;i<count;i++){
+				int prePage=(pageSize*i+1);
+				int lastPage=(pageSize*(i+1))>totalRecord?totalRecord:(pageSize*(i+1));
+				WxChapterNaviDto chapNavi=new WxChapterNaviDto();
+				chapNavi.setName(prePage+"-"+lastPage+"章");
+				chapNavi.setUrl("/wxChapter/index?bookId="+bookId+"&pageNo="+pageSize*i);
+				chapNavi.setOrder(i);
+				chapNavi.setIsActive(i==pageNo?true:false);
+				resultData.add(chapNavi);
+			}
+			
+		}
+			
+		return resultData;
+	}
 }

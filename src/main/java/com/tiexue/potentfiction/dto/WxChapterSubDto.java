@@ -5,6 +5,8 @@ public class WxChapterSubDto {
     private Integer id;
     //章节名称
     private String title;
+    //对应的小说Id
+    private Integer bookId;
     //章节内容
     private String content;
     //上一章
@@ -40,6 +42,12 @@ public class WxChapterSubDto {
 	}
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	public Integer getBookId() {
+		return bookId;
+	}
+	public void setBookId(Integer bookid) {
+		this.bookId = bookid;
 	}
     
     
