@@ -63,7 +63,7 @@
 		</javaClientGenerator>
 
 
-      <table tableName="wxbook" domainObjectName="wxbook"
+      <table tableName="Demo" domainObjectName="Demo"
 			enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"
 			selectByExampleQueryId="false">

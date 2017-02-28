@@ -1,194 +1,185 @@
 package com.tiexue.potentfiction.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class WxBook implements Serializable {
+public class WxBook {
+    private Integer id;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    private String name;
 
-	// 书籍Id
-	private Integer id;
-	// 书籍名称
-	private String name;
-	// 简介
-	private String intr;
-	// 发布者ID
-	private Integer publisherId;
-	// 发布者名称
-	private String publisherName;
-	// 封面图
-	private String coverImgs;
-	// tag
-	private String tag;
-	// mark
-	private Integer mark;
-	// 排序
-	private Integer sort;
-	// 状态
-	private Integer status;
-	// 点击量
-	private Integer viewCount;
-	// 评论量
-	private Integer commentCount;
-	// 顶
-	private Integer dingCount;
-	// 踩
-	private Integer caiCount;
-	// 分享
-	private Integer shareCount;
-	// 长度
-	private Integer contentLen;
-	// 创建时间
-	private Date createTime;
-	// 更新时间
-	private Date updateTime;
+    private String intr;
 
-	public Integer getId() {
-		return id;
-	}
+    private Integer publisherid;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    private String publishername;
 
-	public String getName() {
-		return name;
-	}
+    private String coverimgs;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    private String tag;
 
-	public String GetIntr() {
-		return this.intr;
-	}
+    private Integer mark;
 
-	public void SetIntr(String intr) {
-		this.intr = intr;
-	}
+    private Integer sort;
 
-	public Integer getPublisherId() {
-		return this.publisherId;
-	}
+    private Integer status;
 
-	public void setPublisherId(Integer publisherId) {
-		this.publisherId = publisherId;
-	}
+    private Integer viewcount;
 
-	public String getPublisherName() {
-		return this.publisherName;
-	}
+    private Integer commentcount;
 
-	public void setPublisherName(String publisherName) {
-		this.publisherName = publisherName;
-	}
+    private Integer dingcount;
 
-	public String getCoverImgs() {
-		return this.coverImgs;
-	}
+    private Integer caicount;
 
-	public void setCoverImgs(String coverImgs) {
-		this.coverImgs = coverImgs;
-	}
+    private Integer sharecount;
 
-	public String getTag() {
-		return this.tag;
-	}
+    private Integer contentlen;
 
-	public void setTag(String tag) {
-		this.tag = tag;
-	}
+    private Date createtime;
 
-	public Integer getMark() {
-		return this.mark;
-	}
+    private Date updatetime;
 
-	public void setMark(Integer mark) {
-		this.mark = mark;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public Integer getSort() {
-		return this.sort;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setSort(Integer sort) {
-		this.sort = sort;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public Integer getStatus() {
-		return this.status;
-	}
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
 
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
+    public String getIntr() {
+        return intr;
+    }
 
-	public Integer getViewCount() {
-		return this.viewCount;
-	}
+    public void setIntr(String intr) {
+        this.intr = intr == null ? null : intr.trim();
+    }
 
-	public void setViewCount(Integer viewCount) {
-		this.viewCount = viewCount;
-	}
+    public Integer getPublisherid() {
+        return publisherid;
+    }
 
-	public Integer getCommentCount() {
-		return this.commentCount;
-	}
+    public void setPublisherid(Integer publisherid) {
+        this.publisherid = publisherid;
+    }
 
-	public void setCommentCount(Integer commentCount) {
-		this.commentCount = commentCount;
-	}
+    public String getPublishername() {
+        return publishername;
+    }
 
-	public Integer getDingCount() {
-		return this.dingCount;
-	}
+    public void setPublishername(String publishername) {
+        this.publishername = publishername == null ? null : publishername.trim();
+    }
 
-	public void setDingCount(Integer dingCount) {
-		this.dingCount = dingCount;
-	}
+    public String getCoverimgs() {
+        return coverimgs;
+    }
 
-	public Integer getCaiCount() {
-		return this.caiCount;
-	}
+    public void setCoverimgs(String coverimgs) {
+        this.coverimgs = coverimgs == null ? null : coverimgs.trim();
+    }
 
-	public void setCaiCount(Integer caiCount) {
-		this.caiCount = caiCount;
-	}
+    public String getTag() {
+        return tag;
+    }
 
-	public Integer getShareCount() {
-		return this.shareCount;
-	}
+    public void setTag(String tag) {
+        this.tag = tag == null ? null : tag.trim();
+    }
 
-	public void setShareCount(Integer shareCount) {
-		this.shareCount = shareCount;
-	}
+    public Integer getMark() {
+        return mark;
+    }
 
-	public Integer getCotentLen() {
-		return this.contentLen;
-	}
+    public void setMark(Integer mark) {
+        this.mark = mark;
+    }
 
-	public void setContentLen(Integer contentLen) {
-		this.contentLen = contentLen;
-	}
+    public Integer getSort() {
+        return sort;
+    }
 
-	public Date getCreateTime() {
-		return this.createTime;
-	}
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
 
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
+    public Integer getStatus() {
+        return status;
+    }
 
-	public Date getUpdateTime() {
-		return this.updateTime;
-	}
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
-	}
+    public Integer getViewcount() {
+        return viewcount;
+    }
 
+    public void setViewcount(Integer viewcount) {
+        this.viewcount = viewcount;
+    }
+
+    public Integer getCommentcount() {
+        return commentcount;
+    }
+
+    public void setCommentcount(Integer commentcount) {
+        this.commentcount = commentcount;
+    }
+
+    public Integer getDingcount() {
+        return dingcount;
+    }
+
+    public void setDingcount(Integer dingcount) {
+        this.dingcount = dingcount;
+    }
+
+    public Integer getCaicount() {
+        return caicount;
+    }
+
+    public void setCaicount(Integer caicount) {
+        this.caicount = caicount;
+    }
+
+    public Integer getSharecount() {
+        return sharecount;
+    }
+
+    public void setSharecount(Integer sharecount) {
+        this.sharecount = sharecount;
+    }
+
+    public Integer getContentlen() {
+        return contentlen;
+    }
+
+    public void setContentlen(Integer contentlen) {
+        this.contentlen = contentlen;
+    }
+
+    public Date getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
+    }
+
+    public Date getUpdatetime() {
+        return updatetime;
+    }
+
+    public void setUpdatetime(Date updatetime) {
+        this.updatetime = updatetime;
+    }
 }

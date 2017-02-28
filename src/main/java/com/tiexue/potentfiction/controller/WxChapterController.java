@@ -44,7 +44,7 @@ public class WxChapterController {
 			pageNo = Integer.parseInt(pageNoStr);
 			List<WxChapter> wxChapters = wxChapterService.selectByBookId(bookId, EnumType.ChapterStatus_OnLine, pageNo,
 					pageSize);
-			WxBook wxBookModel=wxBook.getModel(bookId);
+			WxBook wxBookModel=wxBook.selectByPrimaryKey(bookId);
 			int totalRecord=wxChapterService.getCountByBookId(bookId, EnumType.ChapterStatus_OnLine);
 			//获取分页数据
 			Pager pagerModel=new Pager().getPager(pageNo,pageSize,totalRecord);

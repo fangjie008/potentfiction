@@ -15,10 +15,10 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 
-    <base href="<%=basePath%>">
+<link href="<%=path %>/static/css/booklist.css" type="text/css" rel="stylesheet" />
     
-    <title>小说站</title>
-  </head>
+<title>小说站</title>
+ </head>
   
   <body>
     <header>
@@ -28,7 +28,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	     <ul>
 	     <c:forEach items="${wxBooks}" var="books">
 	      <li>
-	      	${books.id}
+	        <a href="<%=path%>/wxbook/detail?id=${books.id}">
+	      	<img alt="" src="${books.coverImgs}">
+	      	 <span>${books.name}</span>
+	      	
+	      	</a>
 	      </li>
 	     </c:forEach>
 	     </ul>
