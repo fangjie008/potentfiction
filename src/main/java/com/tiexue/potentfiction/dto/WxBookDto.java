@@ -36,9 +36,9 @@ public class WxBookDto {
 	// 长度
 	private Integer contentLen;
 	// 创建时间
-	private Date createTime;
+	private String createTime;
 	// 更新时间
-	private Date updateTime;
+	private String updateTime;
 
 	public Integer getId() {
 		return id;
@@ -168,19 +168,19 @@ public class WxBookDto {
 		this.contentLen = contentLen;
 	}
 
-	public Date getCreateTime() {
+	public String getCreateTime() {
 		return this.createTime;
 	}
 
-	public void setCreateTime(Date createTime) {
+	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
 
-	public Date getUpdateTime() {
+	public String getUpdateTime() {
 		return this.updateTime;
 	}
 
-	public void setUpdateTime(Date updateTime) {
+	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
 	}
 }

@@ -1,5 +1,7 @@
 package com.tiexue.potentfiction.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -17,6 +19,11 @@ public class WxBookServiceImpl implements IWxBookService {
 	@Override
 	public WxBook getModel(int id) {
 		return this.wxBookMapper.getModel(id);
+	}
+
+	@Override
+	public List<WxBook> getList(String status, String orderStr) {
+		return this.wxBookMapper.getList(status, orderStr);
 	}
 
 }

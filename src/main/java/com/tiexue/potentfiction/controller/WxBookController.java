@@ -1,6 +1,8 @@
 package com.tiexue.potentfiction.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +38,17 @@ public class WxBookController {
 
 		return "bookdetail";
 	}
+	
+	@RequestMapping("/list")
+	public String list(HttpServletRequest request) {
+
+		   String status=EnumType.BookStatus_Finish+","+EnumType.BookStatus_Update;
+			List<WxBook> wxBooks = this.wxBookService.getList(status,"ViewCount");
+			List<WxBookDto> wxBookDtos = toWxBookListDto(wxBooks);
+			request.setAttribute("wxBooks", wxBookDtos);
+	
+		return "/booklist";
+	}
 
 	private WxBookDto toWxBookDto(WxBook wxBook) {
 		WxBookDto wxBookDto = new WxBookDto();
@@ -47,6 +60,24 @@ public class WxBookController {
 			wxBookDto.setContentLen(wxBook.getCotentLen());
 		}
 		return wxBookDto;
+	}
+	
+	private List<WxBookDto> toWxBookListDto(List<WxBook> wxBooks) {
+		ArrayList<WxBookDto> wxBookDtoList = new ArrayList<WxBookDto>();
+		if (wxBooks != null) {
+			for(WxBook book:wxBooks){
+				WxBookDto wxBookDto=new WxBookDto();
+				wxBookDto.setId(book.getId());
+				wxBookDto.setName(book.getName());
+				wxBookDto.setCoverImgs(book.getCoverImgs());
+				wxBookDto.setStatus(EnumType.BookStatus.get(book.getStatus()));
+				wxBookDto.setContentLen(book.getCotentLen());
+				wxBookDtoList.add(wxBookDto);
+			}
+			
+			
+		}
+		return wxBookDtoList;
 	}
 
 }

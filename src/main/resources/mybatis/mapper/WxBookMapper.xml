@@ -33,25 +33,5 @@
 		Id=#{Id}
 	</select>
 
-	<select id="getList" resultType="com.tiexue.potentfiction.entity.WxBook">
-		select `Id`,
-		`Name`,
-		`Intr`,
-		`PublisherId`,
-		`PublisherName`,
-		`CoverImgs`,
-		`Tag`,
-		`Mark`,
-		`Sort`,
-		`Status`,
-		`ViewCount`,
-		`CommentCount`,
-		`DingCount`,
-		`CaiCount`,
-		`ShareCount`,
-		`ContentLen`,
-		`CreateTime`,
-		`UpdateTime`
-		from wxbook
-	</select>
+
 </mapper>
