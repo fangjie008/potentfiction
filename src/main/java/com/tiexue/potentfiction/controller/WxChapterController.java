@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.tiexue.potentfiction.dto.Pager;
 import com.tiexue.potentfiction.dto.WxChapterDto;
 import com.tiexue.potentfiction.dto.WxChapterNaviDto;
 import com.tiexue.potentfiction.entity.EnumType;
@@ -31,9 +32,11 @@ public class WxChapterController {
 	//获取章节列表信息
 	@RequestMapping("/index")
 	public String getList(HttpServletRequest request) {
-		int pageSize=2;
+		int pageSize=3;
 		String bookIdStr = request.getParameter("bookId");
 		String pageNoStr = request.getParameter("pageNo");
+		String jumpPage = request.getParameter("jumpPage");
+		
 		if (bookIdStr != null && !bookIdStr.isEmpty()) {
 			int bookId = 0;
 			bookId = Integer.parseInt(bookIdStr);
@@ -43,11 +46,16 @@ public class WxChapterController {
 					pageSize);
 			WxBook wxBookModel=wxBook.getModel(bookId);
 			int totalRecord=wxChapterService.getCountByBookId(bookId, EnumType.ChapterStatus_OnLine);
-			request.setAttribute("wxChapters",wxChapterDtoFill(wxChapters));
+			//获取分页数据
+			Pager pagerModel=new Pager().getPager(pageNo,pageSize,totalRecord);
+			//获取导航
 			List<WxChapterNaviDto> chapNaviDtos=wxChapterNaviDtoFill(bookId,totalRecord,pageSize,pageNo);
 			request.setAttribute("wxBook", wxBookModel);
 			request.setAttribute("bookId", bookId);
 		    request.setAttribute("chapNaviDtos", chapNaviDtos);
+		    request.setAttribute("wxChapters",wxChapterDtoFill(wxChapters));
+			request.setAttribute("pager", pagerModel);
+			request.setAttribute("jumpPage", jumpPage);
 		}
 
 		return "/wxChapter/index";
@@ -103,5 +111,33 @@ public class WxChapterController {
 		}
 			
 		return resultData;
+	}
+	
+	//获取分页信息
+	private Pager getPager(int pageNo,int pageSize,int totalRecord){
+		Pager pager=new Pager();
+		pager.setPageNo(pageNo);
+		pager.setPageSize(pageSize);
+		pager.setTotalRecord(totalRecord);
+		//总页数
+		int totalPage=0;
+		totalPage=totalRecord/pageSize;
+		int remNum=totalRecord%pageSize;
+		if(remNum>0)
+			totalPage+=1;
+		pager.setTotalPage(totalPage);
+		//最后页码
+		int lastPageNo=totalRecord%pageSize>0?(totalRecord-totalRecord%pageSize):(totalRecord-pageSize);
+		pager.setLastPageNo(lastPageNo);
+		int prePage=-1;
+		if(pageNo>0)
+			prePage=pageNo-pageSize;
+		pager.setPrePage(prePage);
+		int nextPage=0;
+		if(pageNo<lastPageNo)
+			nextPage=pageNo+pageSize;
+		pager.setNextPage(nextPage);
+	
+		return pager;
 	}
 }

@@ -13,6 +13,8 @@
 
 <% String path=request.getContextPath(); %>
 <link href="<%=path %>/static/css/wxChapter/index.css" type="text/css" rel="stylesheet" />
+<link href="<%=path %>/static/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
+<script type="text/javascript" src="<%=path %>/static/js/jquery/jquery-1.10.2.min.js"></script>
 <title> 
 ${wxBook.name}
 </title>
@@ -43,5 +45,54 @@ ${wxBook.name}
 		</ul>
 	</div>
 </section>
+<nav style="text-align: center">
+<ul class="pagination" >
+	<li><a class="btn btn-large" href="<%=path %>/wxChapter/index?bookId=${bookId}&pageNo=0">第一页</a></li>
+	<li>
+		<c:if test="${pager.prePage>=0 }">
+		 <a class="btn btn-large" href="<%=path %>/wxChapter/index?bookId=${bookId}&pageNo=${pager.prePage }">上一页</a>
+		</c:if>
+		<c:if test="${pager.prePage<0 }">
+		 <a class="btn btn-large" href="#"  disabled="disabled" >上一页</a>
+		</c:if>
+   </li>
+	<li>
+	<c:if test="${pager.nextPage>0 }">
+		<a class="btn btn-large" href="<%=path %>/wxChapter/index?bookId=${bookId}&pageNo=${pager.nextPage }">下一页</a>
+		</c:if>
+		<c:if test="${pager.nextPage<=0 }">
+		 <a class="btn btn-large" href="#"  disabled="disabled" >上一页</a>
+		</c:if>
+	</li>
+	<li><a class="btn btn-large" href="<%=path %>/wxChapter/index?bookId=${bookId}&pageNo=${pager.lastPageNo }">最末页</a></li>
+</ul>
+</nav>
+<div>跳转至
+ <input type="hidden" id="totalPage" value="${pager.totalPage }">
+ <input type="hidden" id="pageSize" value="${pager.pageSize }">
+ <input type="hidden" id="preUrl" value="<%=path %>/wxChapter/index?bookId=${bookId}&pageNo=">
+ <input id="jump_page" name="p" value="${jumpPage }">页 
+ <a class="btn btn-large" href="#" onclick="jumpPage()">跳转</a>
+ </div>
 </body>
 </html>
+<script type="text/javascript">
+	function jumpPage(){
+		var jumpPage=$("#jump_page").val();
+		var totalPage=$("#totalPage").val();
+		var pageSize=$("#pageSize").val();
+		var preUrl=$("#preUrl").val();
+		
+		if(isNaN(jumpPage)||jumpPage<=0){
+			alert("请输入大于0的数字");
+			return;
+			}
+		if(jumpPage>totalPage){
+			alert("超出最大页数");
+		}
+		else{
+			var pageNo=(jumpPage-1)*pageSize;
+			window.location.href=preUrl+pageNo+"&jumpPage="+jumpPage;
+		}
+	}
+</script>

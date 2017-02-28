@@ -1,12 +1,11 @@
-
+ul{
+	list-style: none;
+	text-align: center;
+}
 .menu{
 	
 }
 
-.menu ul{
-	list-style: none;
-	text-align: center;
-}
 .menu  ul li{
 	margin: 10px;
 }

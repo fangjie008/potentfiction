@@ -41,7 +41,7 @@ public class WxPayController {
 			if(pageNoStr!=null&&!pageNoStr.isEmpty()){
 				pageNo = Integer.parseInt(pageNoStr);
 			}
-			int pageSize = 10;
+			int pageSize = 20;
 			if(pageSizeStr!=null&&!pageSizeStr.isEmpty()){
 				pageSize = Integer.parseInt(pageSizeStr);
 			}
@@ -51,7 +51,7 @@ public class WxPayController {
 			//获取充值记录总数
 			Integer totalRecord=wxPayService.getCountByUserId(userId);
 			//获取分页数据
-			Pager pagerModel= getPager(pageNo,pageSize,totalRecord);
+			Pager pagerModel=new Pager().getPager(pageNo,pageSize,totalRecord);;
 			request.setAttribute("pager", pagerModel);
 			
 			request.setAttribute("userId", userId);
@@ -114,28 +114,6 @@ public class WxPayController {
 			}
 		}
 		return wxPayDtos;
-	}
-	//获取分页信息
-	private Pager getPager(int pageNo,int pageSize,int totalRecord){
-		Pager pager=new Pager();
-		pager.setPageNo(pageNo);
-		pager.setPageSize(pageSize);
-		pager.setTotalRecord(totalRecord);
-		int totalPage=0;
-		totalPage=totalRecord/pageSize;
-		int remNum=totalRecord%pageSize;
-		if(remNum>0)
-			totalPage+=1;
-		pager.setTotalPage(totalPage);
-		int prePage=0;
-		if(pageNo>0)
-			prePage=pageNo-pageSize;
-		pager.setPrePage(prePage);
-		int nextPage=0;
-		if(pageNo<totalPage)
-			nextPage=pageNo+pageNo;
-		pager.setNextPage(nextPage);
-		return pager;
 	}
 
 }

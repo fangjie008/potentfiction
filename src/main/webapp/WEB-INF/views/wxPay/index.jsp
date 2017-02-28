@@ -55,10 +55,10 @@
 <ul class="pagination" >
 	<li><a class="btn btn-large" href="<%=path %>/wxPay/index?userId=${userId }&pageNo=0&pageSize=${pager.pageSize }">第一页</a></li>
 	<li>
-		<c:if test="${pager.prePage>0 }">
+		<c:if test="${pager.prePage>=0 }">
 		 <a class="btn btn-large" href="<%=path %>/wxPay/index?userId=${userId }&pageNo=${pager.prePage }&pageSize=${pager.pageSize }">上一页</a>
 		</c:if>
-		<c:if test="${pager.prePage<=0 }">
+		<c:if test="${pager.prePage<0 }">
 		 <a class="btn btn-large" href="#"  disabled="disabled" >上一页</a>
 		</c:if>
    </li>
@@ -70,7 +70,7 @@
 		 <a class="btn btn-large" href="#"  disabled="disabled" >上一页</a>
 		</c:if>
 	</li>
-	<li><a class="btn btn-large" href="<%=path %>/wxPay/index?userId=${userId }&pageNo=${pager.totalPage }&pageSize=${pager.pageSize }">最末页</a></li>
+	<li><a class="btn btn-large" href="<%=path %>/wxPay/index?userId=${userId }&pageNo=${pager.lastPageNo }&pageSize=${pager.pageSize }">最末页</a></li>
 </ul>
 </nav>
 </body>
