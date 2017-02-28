@@ -77,6 +77,16 @@ public interface WxChapterMapper {
     @Select({" select count(1) from wxchapter where BookId=#{bookId} and Status=#{status}"})
     int getCountByBookId(@Param("bookId")Integer bookId,@Param("status")Integer status);
     
+    
+    //获取第一章内容
+    @Select({"select  ",
+        "Id, BookId, SortOrder, Title, ChapterType, Pirce,ContentLen ",
+        "from wxchapter",
+        "where  Status=#{status}",
+        " order by SortOrder asc LIMIT 0,1 "})
+    @ResultMap("ResultListMap")
+    WxChapter getFirstChapter(@Param("status")Integer status);
+    
     //获取上一章内容
     @Select({"select  ",
         "Id, BookId, SortOrder, Title, ChapterType, Pirce,ContentLen ",

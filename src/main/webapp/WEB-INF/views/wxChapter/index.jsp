@@ -36,7 +36,7 @@ ${wxBook.name}
 		<ul>
 		<c:forEach items="${wxChapters}" var="chapters">
 		<li>
-		<a href="<%=path%>/wxChapterSub/index?bookId=${wxBook.id}&chapterId=${chapters.id}&bookName=${wxBook.name}">
+		<a href="<%=path%>/wxChapterSub/index?bookId=${wxBook.id}&chapterId=${chapters.id}">
 		 ${chapters.title}
 		</a>
 		</li>

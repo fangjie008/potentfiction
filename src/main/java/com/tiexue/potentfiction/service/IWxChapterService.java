@@ -2,6 +2,7 @@ package com.tiexue.potentfiction.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 
 import com.tiexue.potentfiction.entity.WxChapter;
 
@@ -28,5 +29,7 @@ public interface IWxChapterService  {
 	    
 	    //获取下一章内容
 	    WxChapter getNextChapter(Integer chapterId,Integer status);
+	    
+	    WxChapter getFirstChapter(Integer status);
 }
 

@@ -48,10 +48,10 @@ public interface WxBookMapper {
         "ViewCount, CommentCount, DingCount, CaiCount, ShareCount, ContentLen, CreateTime, ",
         "UpdateTime",
         "from wxbook",
-        "where Id = #{id,jdbcType=INTEGER}"
+        "where Id = #{id}"
     })
     @ResultMap("BaseResultMap")
-    WxBook selectByPrimaryKey(@Param("id")Integer id);
+    WxBook selectByPrimaryKey(Integer id);
     
     
     @Select({

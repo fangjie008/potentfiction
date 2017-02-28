@@ -30,7 +30,7 @@
 	
 	<li>
 		<c:if test="${wxChapterSub.preId>0 }">
-		 <a class="btn btn-large" href="<%=path %>/wxChapterSub/index?bookId=${wxChapterSub.bookId}&chapterId=${wxChapterSub.preId}&bookName=${bookName}">上一章</a>
+		 <a class="btn btn-large" href="<%=path %>/wxChapterSub/index?bookId=${wxChapterSub.bookId}&chapterId=${wxChapterSub.preId}">上一章</a>
 		</c:if>
 		<c:if test="${wxChapterSub.preId<=0 }">
 		 <a class="btn btn-large" href="#"  disabled="disabled" >上一章</a>
@@ -39,7 +39,7 @@
    <li><a class="btn btn-large" href="<%=path %>/wxChapter/index?bookId=${wxChapterSub.bookId}&pageNo=0">目录</a></li>
 	<li>
 	<c:if test="${wxChapterSub.nextId>0 }">
-		<a class="btn btn-large" href="<%=path %>/wxChapterSub/index?bookId=${wxChapterSub.bookId}&chapterId=${wxChapterSub.nextId}&bookName=${bookName}">下一章</a>
+		<a class="btn btn-large" href="<%=path %>/wxChapterSub/index?bookId=${wxChapterSub.bookId}&chapterId=${wxChapterSub.nextId}">下一章</a>
 		</c:if>
 		<c:if test="${wxChapterSub.nextId<=0 }">
 		 <a class="btn btn-large" href="#"  disabled="disabled" >下一章</a>

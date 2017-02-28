@@ -19,7 +19,7 @@ public class WxBookServiceImpl implements IWxBookService {
 
 	@Override
 	public int deleteByPrimaryKey(Integer id) {
-		return this.wxBookMapper.deleteByPrimaryKey(id);
+		return wxBookMapper.deleteByPrimaryKey(id);
 	}
 
 	@Override
@@ -29,12 +29,12 @@ public class WxBookServiceImpl implements IWxBookService {
 
 	@Override
 	public int insertSelective(WxBook record) {
-		return this.insertSelective(record);
+		return this.wxBookMapper.insertSelective(record);
 	}
 
 	@Override
 	public WxBook selectByPrimaryKey(Integer id) {
-		return this.selectByPrimaryKey(id);
+		return this.wxBookMapper.selectByPrimaryKey(id);
 	}
 	@Override
 	public List<WxBook> getList(String status, String orderStr) {
@@ -42,12 +42,12 @@ public class WxBookServiceImpl implements IWxBookService {
 	}
 	@Override
 	public int updateByPrimaryKeySelective(WxBook record) {
-		return this.updateByPrimaryKey(record);
+		return this.wxBookMapper.updateByPrimaryKey(record);
 	}
 
 	@Override
 	public int updateByPrimaryKey(WxBook record) {
-		return this.updateByPrimaryKey(record);
+		return this.wxBookMapper.updateByPrimaryKey(record);
 	}
 
 }

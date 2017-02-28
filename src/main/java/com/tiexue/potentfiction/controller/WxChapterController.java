@@ -41,7 +41,9 @@ public class WxChapterController {
 			int bookId = 0;
 			bookId = Integer.parseInt(bookIdStr);
 			int pageNo = 0;
-			pageNo = Integer.parseInt(pageNoStr);
+			if(pageNoStr != null && !pageNoStr.isEmpty()){
+				pageNo = Integer.parseInt(pageNoStr);
+			}
 			List<WxChapter> wxChapters = wxChapterService.selectByBookId(bookId, EnumType.ChapterStatus_OnLine, pageNo,
 					pageSize);
 			WxBook wxBookModel=wxBook.selectByPrimaryKey(bookId);
@@ -113,31 +115,5 @@ public class WxChapterController {
 		return resultData;
 	}
 	
-	//获取分页信息
-	private Pager getPager(int pageNo,int pageSize,int totalRecord){
-		Pager pager=new Pager();
-		pager.setPageNo(pageNo);
-		pager.setPageSize(pageSize);
-		pager.setTotalRecord(totalRecord);
-		//总页数
-		int totalPage=0;
-		totalPage=totalRecord/pageSize;
-		int remNum=totalRecord%pageSize;
-		if(remNum>0)
-			totalPage+=1;
-		pager.setTotalPage(totalPage);
-		//最后页码
-		int lastPageNo=totalRecord%pageSize>0?(totalRecord-totalRecord%pageSize):(totalRecord-pageSize);
-		pager.setLastPageNo(lastPageNo);
-		int prePage=-1;
-		if(pageNo>0)
-			prePage=pageNo-pageSize;
-		pager.setPrePage(prePage);
-		int nextPage=0;
-		if(pageNo<lastPageNo)
-			nextPage=pageNo+pageSize;
-		pager.setNextPage(nextPage);
-	
-		return pager;
-	}
+
 }

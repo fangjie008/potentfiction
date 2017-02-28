@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.tiexue.potentfiction.dto.WxChapterSubDto;
 import com.tiexue.potentfiction.entity.EnumType;
+import com.tiexue.potentfiction.entity.WxBook;
 import com.tiexue.potentfiction.entity.WxChapter;
 import com.tiexue.potentfiction.entity.WxChapterSub;
+import com.tiexue.potentfiction.service.IWxBookService;
 import com.tiexue.potentfiction.service.IWxChapterService;
 import com.tiexue.potentfiction.service.IWxChapterSubService;
 
@@ -25,18 +27,27 @@ public class WxChapterSubController {
 	IWxChapterSubService chapterSubSer;
 	@Resource
 	IWxChapterService chapterService;
-	
+	@Resource
+	IWxBookService bookService;
 	//获取章节的内容信息
 	@RequestMapping("/index")
 	public String getContent(HttpServletRequest request) throws UnsupportedEncodingException{
 		String bookIdStr=request.getParameter("bookId");
 		String chapterIdStr=request.getParameter("chapterId");
-		String bookName=new String(request.getParameter("bookName").getBytes("ISO-8859-1"),"UTF-8");
+		String bookName="";
 		if(chapterIdStr!=null&&!chapterIdStr.isEmpty()){
+			int chapterId=Integer.parseInt(chapterIdStr);
 			int preId=0;
 			int nextId=0;
-			int bookId=Integer.parseInt(bookIdStr);
-			int chapterId=Integer.parseInt(chapterIdStr);
+			int bookId=0;
+			if(bookIdStr!=null&&!bookIdStr.isEmpty()){
+				 bookId=Integer.parseInt(bookIdStr);
+			}
+			//获取图书信息
+			WxBook book=bookService.selectByPrimaryKey(bookId);
+			if(book!=null){
+				bookName=book.getName();
+			}
 			//章节内容数据
 			WxChapterSub chapSub=chapterSubSer.selectByChapterId(chapterId);
 			//章节数据
@@ -57,6 +68,41 @@ public class WxChapterSubController {
 		}
 		return "wxChapterSub/index";
 	}
+	
+	
+	// 获取章节的内容信息
+	@RequestMapping("/defualt")
+	public String getContentByBookId(HttpServletRequest request) throws UnsupportedEncodingException {
+		String bookIdStr = request.getParameter("bookId");
+		String bookName = "";
+		if (bookIdStr != null && !bookIdStr.isEmpty()) {
+			int preId = 0;
+			int nextId = 0;
+			int bookId = Integer.parseInt(bookIdStr);
+			int chapterId = 0;
+			// 获取图书信息
+			WxBook book = bookService.selectByPrimaryKey(bookId);
+			if (book != null) {
+				bookName = book.getName();
+			}
+			// 获取第一章数据
+			WxChapter chapterModel = chapterService.getFirstChapter(EnumType.ChapterStatus_OnLine);
+			if (chapterModel != null)
+				chapterId = chapterModel.getId();
+			// 章节内容数据
+			WxChapterSub chapSub = chapterSubSer.selectByChapterId(chapterId);
+			// 下一章数据
+			WxChapter nextChap = chapterService.getNextChapter(chapterId, EnumType.ChapterStatus_OnLine);
+			if (nextChap != null) {
+				nextId = nextChap.getId();
+			}
+			WxChapterSubDto chapSubDto = wxChapterSubDtoFill(chapSub, chapterModel, preId, nextId);
+			request.setAttribute("wxChapterSub", chapSubDto);
+			request.setAttribute("bookName", bookName);
+		}
+		return "wxChapterSub/index";
+	}
+	
 	
 	private WxChapterSubDto wxChapterSubDtoFill(WxChapterSub chapSub,WxChapter chapterModel,int preId,int nextId){
 		WxChapterSubDto chapSubDto=new WxChapterSubDto();
