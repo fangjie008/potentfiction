@@ -18,6 +18,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=path %>/static/css/booklist.css" type="text/css" rel="stylesheet" />
     
 <title>小说站</title>
+<base href="<%=basePath%>">
  </head>
   
   <body>

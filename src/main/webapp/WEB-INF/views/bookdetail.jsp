@@ -13,6 +13,7 @@
 String path = request.getContextPath();
 %>
 <link href="<%=path %>/static/css/bookdetail.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="<%=path %>/static/js/jquery/jquery-1.10.2.min.js"></script>
 <title>	${wxBook.getName()}</title>
 </head>
 <body>
@@ -26,9 +27,8 @@ String path = request.getContextPath();
 			${wxBook.getName()}
 		</div>
 	</header>
-	
-	
-	
+	<input type="hidden" id="bookid" name="bookid" value="${wxBook.getId()}">
+	<input type="hidden" id="bookname" name="bookname" value="${wxBook.getName()}">
 	<section>
 		<div class="box-bookinfo">
 			<img src="http://fm.xsm.meixiangdao.com/cover/77/14077-large.jpg"/>
@@ -52,7 +52,7 @@ String path = request.getContextPath();
 		</div>
 		<div class="box-action1">
 			<a href="<%=path %>/wxChapterSub/defualt?bookId=${wxBook.getId()}" class="btn-action1">免费阅读</a>&nbsp;
-			<a href="#" class="btn-action2">加入书架</a>
+			<a href="#" id="btn-addbookrack" class="btn-action2">加入书架</a>
 		</div>
 
 		<div class="box-action2">
@@ -70,3 +70,35 @@ String path = request.getContextPath();
 	</footer>
 </body>
 </html>
+<script type="text/javascript" src="<%=path %>/static/js/public.js"></script>
+<script type="text/javascript" src="<%=path %>/static/js/bookdetail.js"></script>
+
+<script type="text/javascript">
+	$("#btn-addbookrack").click(function(){
+		var text=$("#btn-addbookrack").html();
+		if(text=="已添加"){
+			return;
+		}
+		var bookid=$("#bookid").val();
+		var bookname=$("#bookname").val();
+		var userid=getCookie("wx_userid");
+		if(userid==undefined||userid==""){
+			userid=3;
+		}
+		var postData={'bookId':bookid,'bookName':bookname,'userId':userid}
+		$.ajax({
+			url:"<%=path%>/wxBookrack/addBookrack",
+			data:postData,
+			type:"post",
+			dataType:"json",
+			success:function(res){
+				$("#btn-addbookrack").prop("disabled","disabled");
+				$("#btn-addbookrack").html("已添加");
+				console.log(res.msg);
+			},
+			error:function(res){
+				//alert("失败");
+			}
+		});
+	});
+</script>
