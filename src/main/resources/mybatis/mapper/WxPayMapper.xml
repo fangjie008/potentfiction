@@ -24,7 +24,7 @@
 	<select id="getListByPage" resultType="com.tiexue.potentfiction.entity.WxPay">
 		select Id,UserId,PayType,Amount,Count,CreateTime,Unit 
 		from wxpay
-		where UserId=#{0} order by CreateTime LIMIT #{1},#{2}
+		where UserId=#{0} order by CreateTime desc LIMIT #{1},#{2}
 	</select>
 	<select id="getCountByUserId" resultType="int">
 		select count(1) from wxpay where UserId =#{userId} 

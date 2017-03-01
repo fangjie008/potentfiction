@@ -23,7 +23,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
     <header>
-    <a href="#">个人中心</a> 
+    <a href="<%=path%>/wxUser/content?userId=3">个人中心</a> 
     <a href="<%=path%>/wxBookrack/list?userId=3">书架</a>
     </header>
     <section>

@@ -20,6 +20,7 @@ import com.tiexue.potentfiction.dto.WxPayDto;
 import com.tiexue.potentfiction.entity.EnumType;
 import com.tiexue.potentfiction.entity.WxPay;
 import com.tiexue.potentfiction.service.IWxPayService;
+import com.tiexue.potentfiction.util.DateUtil;
 
 @Controller
 @RequestMapping("/wxPay")
@@ -41,7 +42,7 @@ public class WxPayController {
 			if(pageNoStr!=null&&!pageNoStr.isEmpty()){
 				pageNo = Integer.parseInt(pageNoStr);
 			}
-			int pageSize = 20;
+			int pageSize = 10;
 			if(pageSizeStr!=null&&!pageSizeStr.isEmpty()){
 				pageSize = Integer.parseInt(pageSizeStr);
 			}
@@ -106,8 +107,7 @@ public class WxPayController {
 				payDto.setPayTypeName(EnumType.PayType.get(pay.getPayType()));
 				payDto.setAmount(pay.getAmount());
 				payDto.setCount(pay.getCount());
-				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				payDto.setCreateTime(sdf.format(pay.getCreateTime()));
+				payDto.setCreateTime(DateUtil.date2Str(pay.getCreateTime(),"yyyy-MM-dd HH:mm:ss"));
 				payDto.setUnit(pay.getUnit());
 				payDto.setUnitName(EnumType.PayUnit.get(pay.getUnit()));
 				wxPayDtos.add(payDto);

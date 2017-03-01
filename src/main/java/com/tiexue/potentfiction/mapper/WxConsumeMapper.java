@@ -1,8 +1,13 @@
 package com.tiexue.potentfiction.mapper;
 
 import com.tiexue.potentfiction.entity.WxConsume;
+import com.tiexue.potentfiction.entity.WxPay;
+
+import java.util.List;
+
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -51,4 +56,21 @@ public interface WxConsumeMapper {
         "where Id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(WxConsume record);
+    
+    @Select({
+        "select",
+        "Id, UserId, CostCoin, BookId, BookName, CharpterId, CharpterTitle, CreateTime",
+        "from wxconsume",
+        "where UserId=#{userId} order by CreateTime desc LIMIT #{pageNo},#{pageSize}"
+    })
+    @ResultMap("BaseResultMap")
+  	List<WxConsume> getListByPage(@Param("userId")int userId,@Param("pageNo") int pageNo,@Param("pageSize") int pageSize);
+
+    @Select({
+        "select",
+        " count(1) ",
+        "from wxconsume",
+        "where UserId =#{userId} "
+    })
+  	Integer getCountByUserId(int userId);
 }
