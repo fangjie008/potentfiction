@@ -67,7 +67,7 @@ public class WxBookrackController {
 	public String getBookrackList(HttpServletRequest request,Integer userId){
 		List<WxBookrackDto> racks=bookrackService.getListByUserId(userId, 20);
 		request.setAttribute("bookracks", racks);
-		return "/bookracklist/index";
+		return "/wxBookrack/index";
 		
 	}
 }

@@ -14,7 +14,7 @@
 <% String path=request.getContextPath(); %>
 <link href="<%=path %>/static/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
 <script type="text/javascript" src="<%=path %>/static/js/jquery/jquery-1.10.2.min.js"></script>
-<link href="<%=path %>/static/css/bookracklist/index.css" type="text/css" rel="stylesheet" />
+<link href="<%=path %>/static/css/wxBookrack/index.css" type="text/css" rel="stylesheet" />
 <title>书架</title>
 </head>
 <body>
