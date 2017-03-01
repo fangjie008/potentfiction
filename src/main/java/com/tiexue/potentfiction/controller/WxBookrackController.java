@@ -2,6 +2,7 @@ package com.tiexue.potentfiction.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.tiexue.potentfiction.dto.WxBookrackDto;
 import com.tiexue.potentfiction.entity.WxBook;
 import com.tiexue.potentfiction.entity.WxBookrack;
 import com.tiexue.potentfiction.service.IWxBookService;
@@ -58,5 +60,14 @@ public class WxBookrackController {
 			}
 		}
 		return getObj.toString();
+	}
+	
+	//获取书架信息
+	@RequestMapping("list")
+	public String getBookrackList(HttpServletRequest request,Integer userId){
+		List<WxBookrackDto> racks=bookrackService.getListByUserId(userId, 20);
+		request.setAttribute("bookracks", racks);
+		return "/bookracklist/index";
+		
 	}
 }

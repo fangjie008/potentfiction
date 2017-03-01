@@ -3,6 +3,8 @@ package com.tiexue.potentfiction.service;
 
 
 import java.util.List;
+
+import com.tiexue.potentfiction.dto.WxBookrackDto;
 import com.tiexue.potentfiction.entity.WxBookrack;
 
 public interface IWxBookrackService {
@@ -22,9 +24,9 @@ public interface IWxBookrackService {
 	    WxBookrack getModelByBookId(Integer bookId);
 	    /**
 	     * 根据图书Id获取书架列表
-	     * @param bookId 图书id
+	     * @param userId 用户Id
 	     * @param size  数据数量
 	     * @return
 	     */
-	    List<WxBookrack> getListByBookId(Integer bookId,Integer size);
+	    List<WxBookrackDto> getListByUserId(Integer userId,Integer size);
 }

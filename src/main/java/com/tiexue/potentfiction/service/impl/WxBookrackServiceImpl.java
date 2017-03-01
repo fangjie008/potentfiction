@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.tiexue.potentfiction.dto.WxBookrackDto;
 import com.tiexue.potentfiction.entity.WxBookrack;
 import com.tiexue.potentfiction.mapper.WxBookrackMapper;
 import com.tiexue.potentfiction.service.IWxBookrackService;
@@ -53,8 +54,8 @@ public class WxBookrackServiceImpl implements IWxBookrackService {
 
 
 	@Override
-	public List<WxBookrack> getListByBookId(Integer bookId, Integer size) {
-		return bookrackMapper.getListByBookId(bookId, size);
+	public List<WxBookrackDto> getListByUserId(Integer userId, Integer size) {
+		return bookrackMapper.getListByUserId(userId, size);
 	}
 
 }

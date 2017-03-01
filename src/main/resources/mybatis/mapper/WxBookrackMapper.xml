@@ -11,6 +11,17 @@
     <result column="UserId" property="userid" jdbcType="INTEGER" />
     <result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
   </resultMap>
+   <resultMap id="joinBookResultMap" type="com.tiexue.potentfiction.dto.WxBookrackDto" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="BookId" property="bookid" jdbcType="INTEGER" />
+    <result column="BookName" property="bookname" jdbcType="VARCHAR" />
+    <result column="ChapterId" property="chapterid" jdbcType="INTEGER" />
+    <result column="ChapterTitle" property="chaptertitle" jdbcType="VARCHAR" />
+    <result column="Location" property="location" jdbcType="INTEGER" />
+    <result column="UserId" property="userid" jdbcType="INTEGER" />
+    <result column="Intr" jdbcType="VARCHAR" property="intr" />
+    <result column="CoverImgs" jdbcType="VARCHAR" property="coverimgs" />
+  </resultMap>
   <sql id="Base_Column_List" >
     Id, BookId, BookName, ChapterId, ChapterTitle, Location, UserId, CreateTime
   </sql>

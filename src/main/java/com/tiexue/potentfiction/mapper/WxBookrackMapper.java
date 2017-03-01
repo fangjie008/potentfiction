@@ -1,5 +1,6 @@
 package com.tiexue.potentfiction.mapper;
 
+import com.tiexue.potentfiction.dto.WxBookrackDto;
 import com.tiexue.potentfiction.entity.WxBookrack;
 
 import java.util.List;
@@ -69,17 +70,19 @@ public interface WxBookrackMapper {
     
     @Select({
         "select",
-        "Id, BookId, BookName, ChapterId, ChapterTitle, Location, UserId, CreateTime",
-        "from wxbookrack",
-        "where BookId = #{bookId,jdbcType=INTEGER} order by CreateTime desc LIMIT 0,#{size}"
+        "a.Id, a.BookId, a.BookName, a.ChapterId, a.ChapterTitle, a.Location, a.UserId, ",
+        " b.CoverImgs,b.Intr",
+        "from wxbookrack a inner join wxbook b on a.BookId=b.Id ",
+        "where a.UserId = #{userId,jdbcType=INTEGER} order by a.CreateTime desc LIMIT 0,#{size}"
     })
-    @ResultMap("BaseResultMap")
+    @ResultMap("joinBookResultMap")
     /**
      * 根据图书Id获取书架列表
      * @param bookId
      * @param size
      * @return
      */
-    List<WxBookrack> getListByBookId(@Param("bookId")Integer bookId,@Param("size")Integer size);
+    List<WxBookrackDto> getListByUserId(@Param("userId")Integer userId,@Param("size")Integer size);
+    
 
 }
