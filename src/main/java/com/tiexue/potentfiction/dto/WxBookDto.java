@@ -56,11 +56,11 @@ public class WxBookDto {
 		this.name = name;
 	}
 
-	public String GetIntr() {
+	public String getIntr() {
 		return this.intr;
 	}
 
-	public void SetIntr(String intr) {
+	public void setIntr(String intr) {
 		this.intr = intr;
 	}
 

@@ -28,9 +28,13 @@ public class WxUserController {
 		request.setAttribute("user", userDtoModel);
 		return "wxUser/index";
 	}
+	@RequestMapping("/login")
+	public String login(HttpServletRequest request){
+		return "wxUser/login";
+	}
 	
 	
-	private WxUserDto userDtoFill(WxUser user){
+ 	private WxUserDto userDtoFill(WxUser user){
 		WxUserDto userDto=new WxUserDto();
 		if(user!=null){
 			userDto.setId(user.getId());

@@ -1,39 +1,44 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="format-detection" content="telephone=no">
-<meta http-equiv="mobile-agent" content="format=html5; url=http://user.xsm.meixiangdao.com/">
-<meta http-equiv="mobile-agent" content="format=xhtml; url=http://user.xsm.meixiangdao.com/">
-<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-
-<% String path=request.getContextPath(); %>
-<link href="<%=path %>/static/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
-<script type="text/javascript" src="<%=path %>/static/js/jquery/jquery-1.10.2.min.js"></script>
-<link href="<%=path %>/static/css/wxBookrack/index.css" type="text/css" rel="stylesheet" />
+<%@ include file="/WEB-INF/views/include/include_base.jsp"%>
 <title>书架</title>
 </head>
+
 <body>
-<div>
-收藏书架
-</div>
-<div>
-	<ul>
-		<c:forEach items="${bookracks}" var="racks">
-			 <li>
-		        <a href="<%=path%>/wxbook/detail?id=${racks.getBookid()}">
-		      	<img alt="" src="${racks.getCoverimgs()}">
-		      	 <span>${racks.getBookname()}</span>
-		      	
-		      	</a>
-		      </li>
-		</c:forEach>
+<header class="nav wrap">
+	<a class="ico52 back" href="javascript:history.go(-1);"></a>我的书架<a href="<%=path%>/" class="ico52 home"></a>
+</header>
+<div class="panel-bar">
+<ul class="btn_area fn-clear">
+		<li><a class="btn  block " href="#">最近阅读</a></li>
+		<li><a class="btn white block" href="#">收藏书架</a></li>
 	</ul>
 </div>
-
+<div class="mod_tab_content shelf">
+	<ul class="current">
+	
+	<c:forEach items="${bookracks}" var="racks">
+			  <li id="${racks.getBookid() }">
+		        <a href="<%=path%>/wxbook/detail?id=${racks.getBookid()}">
+		      	<img  class="fn-left lazy" alt="" src="${racks.getCoverimgs()}">
+		      	</a>
+		      	<a  class="jxread" href="<%=path%>/wxbook/detail?id=${racks.getBookid()}">
+		      	  <div>
+		      	    <p class="nowrap">${racks.getBookname()}</p>
+                    <p class="small nowrap">最后更新：<label>第1305章 医生何求</label></p>
+                    <p class="small nowrap">阅读进度：<label class="ccode">3/1073 章节<br>继续阅读</label></p>
+		      	 </div>
+		      	</a>
+		      	<span class="del" data-bid="${racks.getBookid() }"><span class="verticalAlign"></span><label>删除</label></span>
+		      </li>
+		</c:forEach>
+        	
+        	</ul>
+</div>
+<%@ include file="/WEB-INF/views/include/include_footer.jsp"%>
 </body>
 </html>
+

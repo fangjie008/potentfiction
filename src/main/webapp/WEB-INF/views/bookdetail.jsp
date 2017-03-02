@@ -1,79 +1,56 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="format-detection" content="telephone=no">
-<meta http-equiv="mobile-agent" content="format=html5; url=http://user.xsm.meixiangdao.com/">
-<meta http-equiv="mobile-agent" content="format=xhtml; url=http://user.xsm.meixiangdao.com/">
-<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<%
-String path = request.getContextPath();
-%>
-<link href="<%=path %>/static/css/bookdetail.css" type="text/css" rel="stylesheet" />
-<script type="text/javascript" src="<%=path %>/static/js/jquery/jquery-1.10.2.min.js"></script>
+<%@ include file="/WEB-INF/views/include/include_base.jsp"%>
 <title>	${wxBook.getName()}</title>
+
+
 </head>
 <body>
-	<header class="box-header">
-		<div class="box-header-title">
-			<a href="#" class="btn-headback"></a>
-			书籍信息
-			<a href="#" class="btn-headindex"></a>
-		</div>
-		<div class="box-header-subtitle">
-			${wxBook.getName()}
-		</div>
-	</header>
-	<input type="hidden" id="bookid" name="bookid" value="${wxBook.getId()}">
-	<input type="hidden" id="bookname" name="bookname" value="${wxBook.getName()}">
-	<section>
-		<div class="box-bookinfo">
-			<img src="http://fm.xsm.meixiangdao.com/cover/77/14077-large.jpg"/>
-			<dl class="box-bookinfo-text">
-				<dt>专题：</dt>
-				<dd><a href="#">言情小说迷</a></dd>
-
-				<dt>类别：</dt>
-				<dd><a href="#">现代言情</a>&nbsp;<a href="#">总裁豪门</a></dd>
-
-				<dt>状态：</dt>
-				<dd>已完结</dd>
-
-				<dt>字数：</dt>
-				<dd>${wxBook.getContentLen()}</dd>
-
-				<dt>评论：</dt>
-				<dd><span style="color:#ff7800">50</span>&nbsp;<a href="#">看评论 »</a></dd>
-			</dl>
-
-		</div>
-		<div class="box-action1">
-			<a href="<%=path %>/wxChapterSub/defualt?bookId=${wxBook.getId()}" class="btn-action1">免费阅读</a>&nbsp;
-			<a href="#" id="btn-addbookrack" class="btn-action2">加入书架</a>
-		</div>
-
-		<div class="box-action2">
-			<a href="<%=path %>/wxChapter/index?bookId=${wxBook.getId()}">全部章节目录</a>
-		</div>
-	</section>
-
-
-	<section>
-	</section>
-
-
-	<footer>
-		
-	</footer>
+<header class="nav wrap">
+	<a class="ico52 back" href="javascript:history.go(-1);"></a>书籍信息<a href="<%=path%>/" class="ico52 home"></a>
+</header>
+<div class="book_title wrap">${wxBook.getName()}</div>
+<input type="hidden" id="bookid" name="bookid" value="${wxBook.getId()}">
+<input type="hidden" id="bookname" name="bookname" value="${wxBook.getName()}">
+<div class="panel">
+	<div class="fn-clear">
+        <img class="cover fn-left lazy" style="margin-top:0px;" src="${wxBook.getCoverImgs()}" dataimg="${wxBook.getCoverImgs()}" width="80px" height="112px">
+		<ul class="book_info">
+             <li><label>专题：</label><a href="/main/follow.html">言情小说迷</a></li>
+			<li><label>类别：</label><a href="#">现代言情</a> <a href="#">总裁豪门</a></li>
+			<li><label>状态：</label>连载中</li>
+			<li><label>字数：</label>${wxBook.getContentLen()}</li>
+			<li><label>评论：</label><span class="orange">53</span> <a class="scrollTo" href="#comments">看评论»</a></li>
+		</ul>
+	</div>
+	<ul class="btn_area fn-clear">
+		<li><a class="btn block start_read" href="<%=path %>/wxChapterSub/defualt?bookId=${wxBook.getId()}">免费阅读</a></li>
+		<li>
+		<span class="btn white block add-fav" id="btn-addbookrack" data-bid="${wxBook.getId()}" data-name="${wxBook.getName()}">
+		加入书架</span>
+		</li>
+	</ul>
+        <a href="<%=path %>/wxChapter/index?bookId=${wxBook.getId()}" class="btn block white">全部章节目录</a>
+	<ul class="continue_read fn-clear fn-hide">
+		<li class="orange">上次读到：<span></span></li>
+		<li><a class="fn-left" href="#">本章»</a><a class="fn-right" href="#">下章»</a></li>
+	</ul>
+</div>
+<div class="book_intro">
+	<p id="summary" style="height: 120px;">
+	 ${wxBook.getIntr()}
+	</p>
+	<p id="showSummary" class="arrow"><a href="javascript:;">展开</a></p>
+</div>
+<%@ include file="/WEB-INF/views/include/include_footer.jsp"%>
 </body>
-</html>
 <script type="text/javascript" src="<%=path %>/static/js/public.js"></script>
 <script type="text/javascript" src="<%=path %>/static/js/bookdetail.js"></script>
-
 <script type="text/javascript">
+$(function(){
 	$("#btn-addbookrack").click(function(){
 		var text=$("#btn-addbookrack").html();
 		if(text=="已添加"){
@@ -101,4 +78,7 @@ String path = request.getContextPath();
 			}
 		});
 	});
+});
+	
 </script>
+</html>

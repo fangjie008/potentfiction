@@ -1,45 +1,62 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="format-detection" content="telephone=no">
-<meta http-equiv="mobile-agent" content="format=html5; url=http://user.xsm.meixiangdao.com/">
-<meta http-equiv="mobile-agent" content="format=xhtml; url=http://user.xsm.meixiangdao.com/">
-<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+<%@ include file="/WEB-INF/views/include/include_base.jsp"%>
 
-<link href="<%=path %>/static/css/booklist.css" type="text/css" rel="stylesheet" />
-    
-<title>小说站</title>
-<base href="<%=basePath%>">
- </head>
-  
-  <body>
-    <header>
-    <a href="<%=path%>/wxUser/content?userId=3">个人中心</a> 
-    <a href="<%=path%>/wxBookrack/list?userId=3">书架</a>
-    </header>
-    <section>
-	    <div>
-	     <ul>
-	     <c:forEach items="${wxBooks}" var="books">
+<title>首页</title>
+</head>
+
+<body>
+<header class="wrap"> <a id="logo" href="<%=path%>/" class="logo" title=""></a>
+	<ul>
+		<!-- <li><a href="/book/search.html">搜索</a></li>
+		<li><a href="/top/tuijian.html">排行</a></li>
+		<li><a href="/all.html">书库</a></li> -->
+	</ul>
+</header>
+<dl class="user_area wrap">
+	<dt><span class="ico32 user"></span>
+	<a href="<%=path%>/wxUser/login">
+		<label>登录</label>
+		</a>
+		</dt>
+	<dd><a href="<%=path%>/wxBookrack/list?userId=3""><span class="ico32 bookcase"></span>书架</a></dd>
+	<dd class="sp"></dd>
+	<dd><a href="<%=path%>/wxPay/pay"><span class="ico32 pay"></span>充值</a></dd>
+</dl>
+<div class="mod_title mod_lastread">
+	<h1>
+		<!-- <ul>
+			<li><a href="/book/14547.html">
+				<label>[]</label>
+				美人一跃入君心</a></li>
+		</ul> -->
+	</h1>
+</div>
+<div class="mod_block"></div>
+<div class="mod_title c0">
+	<h1 class="f17"><i class="home-icon-tit home-icon-tit-b"></i> 本站必读</h1>
+</div>
+<div class="mod_content">
+	<ul>
+		<c:forEach items="${wxBooks}" var="books">
 	      <li>
-	        <a href="<%=path%>/wxbook/detail?id=${books.id}">
-	      	<img alt="" src="${books.coverImgs}">
-	      	 <span>${books.name}</span>
-	      	
-	      	</a>
+	        
+	      	<a href="<%=path%>/wxbook/detail?id=${books.id}"> 
+	      	<img class="fn-left lazy" src="${books.coverImgs}" dataimg="${books.coverImgs}" alt="${books.name}">
+			<div>
+				<p>${books.name}</p>
+				<p class="intro">${books.getIntr()}</p>
+			</div>
+			</a> 
 	      </li>
 	     </c:forEach>
-	     </ul>
-	    </div>
-    </section>
-  </body>
+	</ul>
+</div>
+<div class="mod_block"></div>
+<%@ include file="/WEB-INF/views/include/include_footer.jsp"%>
+</body>
 </html>
+

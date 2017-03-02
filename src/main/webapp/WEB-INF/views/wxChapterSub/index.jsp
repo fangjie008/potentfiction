@@ -1,53 +1,103 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="format-detection" content="telephone=no">
-<meta http-equiv="mobile-agent" content="format=html5; url=http://user.xsm.meixiangdao.com/">
-<meta http-equiv="mobile-agent" content="format=xhtml; url=http://user.xsm.meixiangdao.com/">
-<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<% String path=request.getContextPath(); %>
-<link href="<%=path %>/static/css/wxChapterSub/index.css" type="text/css" rel="stylesheet" />
-<link href="<%=path %>/static/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
+<%@ include file="/WEB-INF/views/include/include_base.jsp"%>
 <title>${bookName}</title>
 </head>
 <body>
-	<header>
-		<div>${wxChapterSub.title}</div>
-	</header>
-	<section>
-	 	<div class="content">
-	 	${wxChapterSub.content}
-	 	</div>
-	</section>
-	<footer>
-	<nav style="text-align: center">
-<ul class="pagination" >
-	
-	<li>
-		<c:if test="${wxChapterSub.preId>0 }">
-		 <a class="btn btn-large" href="<%=path %>/wxChapterSub/index?bookId=${wxChapterSub.bookId}&chapterId=${wxChapterSub.preId}">上一章</a>
-		</c:if>
-		<c:if test="${wxChapterSub.preId<=0 }">
-		 <a class="btn btn-large" href="#"  disabled="disabled" >上一章</a>
-		</c:if>
-   </li>
-   <li><a class="btn btn-large" href="<%=path %>/wxChapter/index?bookId=${wxChapterSub.bookId}&pageNo=0">目录</a></li>
-	<li>
-	<c:if test="${wxChapterSub.nextId>0 }">
-		<a class="btn btn-large" href="<%=path %>/wxChapterSub/index?bookId=${wxChapterSub.bookId}&chapterId=${wxChapterSub.nextId}">下一章</a>
-		</c:if>
-		<c:if test="${wxChapterSub.nextId<=0 }">
-		 <a class="btn btn-large" href="#"  disabled="disabled" >下一章</a>
-		</c:if>
-	</li>
-	
-</ul>
-</nav>
-	</footer>
+	<article class="theme1">
+		<nav>
+			<span>${wxChapterSub.title}</span><a class="badge menu"
+				href="javascript:history.go(-1);">菜单</a>
+		</nav>
+		<div class="content" style="font-size: 18px;">
+			${wxChapterSub.content}</div>
+		<ul class="chapter_pager">
+
+			<li class="pn"><c:if test="${wxChapterSub.preId>0 }">
+					<a class="chapter_prev btn white block"
+						data-cid="${wxChapterSub.preId}"
+						href="<%=path %>/wxChapterSub/index?bookId=${wxChapterSub.bookId}&chapterId=${wxChapterSub.preId}">上一章</a>
+				</c:if> <c:if test="${wxChapterSub.preId<=0 }">
+					<a class="chapter_prev btn white block" href="#"
+						disabled="disabled">上一章</a>
+				</c:if></li>
+			<li class="mulu"><a class="btn white block"
+				href="<%=path %>/wxChapter/index?bookId=${wxChapterSub.bookId}&pageNo=0">目录</a></li>
+			<li class="pn"><c:if test="${wxChapterSub.nextId>0 }">
+					<a class="chapter_next btn block" data-cid="${wxChapterSub.nextId}"
+						href="<%=path %>/wxChapterSub/index?bookId=${wxChapterSub.bookId}&chapterId=${wxChapterSub.nextId}">下一章</a>
+				</c:if> <c:if test="${wxChapterSub.nextId<=0 }">
+					<a class="chapter_next btn block" href="#" disabled="disabled">下一章</a>
+				</c:if></li>
+		</ul>
+
+		<div class="tool_mask"></div>
+		<div class="tool_option">
+			<ul>
+				<li id="background"><label>背景：</label> <span class="theme1"
+					data-theme="1">Aa</span> <span class="theme2" data-theme="2">Aa</span>
+					<span class="theme3" data-theme="3">Aa</span></li>
+				<li id="font-size"><label>文字：</label> <span
+					style="font-size: 30px" data-font="30" class="">A</span> <span
+					style="font-size: 26px" data-font="26" class="">A</span> <span
+					style="font-size: 22px" data-font="22" class="">A</span> <span
+					style="font-size: 18px" data-font="18" class="current">A</span> <span
+					style="font-size: 14px" data-font="14" class="">A</span></li>
+			</ul>
+		</div>
+		<div class="tool_top" style="display: none">
+			<ul>
+				<li><a href="<%=path%>/wxbook/detail?id=${wxChapterSub.bookId}"><i
+						class="ico40 back back2"></i>书页</a></li>
+				<li class="center-li"><a class=""
+					href="<%=path %>/wxChapter/index?bookId=${wxChapterSub.bookId}&pageNo=0">目录</a></li>
+				<li><a
+					href="<%=path%>/wxBookrack/list?userId=3">书架
+						<i class="ico40 bookshelf"></i>
+				</a></li>
+			</ul>
+		</div>
+		<div class="tool_bottom" style="display: none">
+			<ul>
+			<li class="pn"><c:if test="${wxChapterSub.preId>0 }">
+					<a class="chapter_prev"
+						data-cid="${wxChapterSub.preId}"
+						href="<%=path %>/wxChapterSub/index?bookId=${wxChapterSub.bookId}&chapterId=${wxChapterSub.preId}">
+<i
+						class="ico40 fastprev"></i>上章
+</a>
+				</c:if> <c:if test="${wxChapterSub.preId<=0 }">
+					<a class="chapter_prev" href="#"
+						disabled="disabled"><i
+						class="ico40 fastprev"></i>上章</a>
+				</c:if></li>
+			<li><a class="option" href="javascript:;"> <i
+						class="ico40 option"></i>设置
+				</a></li>
+			<li class="pn"><c:if test="${wxChapterSub.nextId>0 }">
+					<a class="chapter_next" data-cid="${wxChapterSub.nextId}"
+						href="<%=path %>/wxChapterSub/index?bookId=${wxChapterSub.bookId}&chapterId=${wxChapterSub.nextId}">下章 <i
+						class="ico40 fastnext"></i></a>
+				</c:if> <c:if test="${wxChapterSub.nextId<=0 }">
+					<a class="chapter_next" href="#" disabled="disabled">下章 <i
+						class="ico40 fastnext"></i></a>
+				</c:if></li>
+			</ul>
+		</div>
+		<!--收藏本书开始-->
+		<div class="alertbk alertbk-fav" id="collect">
+			<center>
+				<span>请加收藏，方便下次阅读</span> <a class="okbtn add-fav" data-hidden="ok"
+					data-bid="14438">确定</a>
+			</center>
+		</div>
+		<!--收藏本书结束-->
+
+<%@ include file="/WEB-INF/views/include/include_footer.jsp"%>
+	</article>
 </body>
 </html>

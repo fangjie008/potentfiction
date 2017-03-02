@@ -96,6 +96,17 @@ public class WxPayController {
 		return getObj.toString();
 	}
 	
+	/**
+	 * 充值
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/pay")
+	public String pay(HttpServletRequest request){
+		return "/wxPay/pay";
+	}
+	
+	
 	private List<WxPayDto> wxPayFill(List<WxPay> wxpays)
 	{
 		List<WxPayDto> wxPayDtos=new ArrayList<WxPayDto>();

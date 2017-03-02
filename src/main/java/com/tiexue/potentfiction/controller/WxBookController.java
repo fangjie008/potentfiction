@@ -59,6 +59,7 @@ public class WxBookController {
 			wxBookDto.setCoverImgs(wxBook.getCoverimgs());
 			wxBookDto.setStatus(EnumType.BookStatus.get(wxBook.getStatus()));
 			wxBookDto.setContentLen(wxBook.getContentlen());
+			wxBookDto.setIntr(wxBook.getIntr());
 		}
 		return wxBookDto;
 	}
@@ -73,7 +74,7 @@ public class WxBookController {
 				wxBookDto.setCoverImgs(book.getCoverimgs());
 				wxBookDto.setStatus(EnumType.BookStatus.get(book.getStatus()));
 				wxBookDto.setContentLen(book.getContentlen());
-				wxBookDto.SetIntr(book.getIntr());
+				wxBookDto.setIntr(book.getIntr());
 				wxBookDtoList.add(wxBookDto);
 			}
 			
