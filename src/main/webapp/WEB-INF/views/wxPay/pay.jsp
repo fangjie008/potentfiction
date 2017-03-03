@@ -21,7 +21,13 @@
 <div class="mod_content gray c1 ">
     <h1 style="border:none">选择充值渠道</h1>
     <ul class="channellist channellistnew" style="width: 100%;">
-        <li class="paychannel" style="width:100%"><span class="current btn-paychannel" data-channel="13"><img src="http://cdn.xsm.meixiangdao.com/mobile/girl/img/weixin.png" alt="" class="charge_wx"><img src="http://cdn.xsm.meixiangdao.com/mobile/girl/img/orangeTriangle.png" alt="" class="charge_wayImg"> | 微信支付</span></li>
+     <a href="<%=path%>/wxPay/errorpay">
+        <li class="paychannel" style="width:100%"><span class="current btn-paychannel" data-channel="13">
+
+        <img src="<%=path%>/static/image/user/weixin.png" alt="" class="charge_wx">
+        
+        <img src="<%=path%>/static/image/user/orangeTriangle.png" alt="" class="charge_wayImg"> | 微信支付</span></li>
+      </a>
     </ul>
 </div>
 <ul class="pay_money moneylist margin-top-10">

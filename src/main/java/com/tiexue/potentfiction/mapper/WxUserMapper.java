@@ -1,8 +1,12 @@
 package com.tiexue.potentfiction.mapper;
 
 import com.tiexue.potentfiction.entity.WxUser;
+
+import java.util.Date;
+
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -95,4 +99,13 @@ public interface WxUserMapper {
         "where Id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(WxUser record);
+    
+    
+    @Update({
+        "update wxuser",
+        "set Coin = #{coin,jdbcType=INTEGER},",
+          "UpdateTime = #{updatetime,jdbcType=TIMESTAMP}",
+        "where Id = #{id,jdbcType=INTEGER}"
+    })
+    int updateCoin(@Param("id")int id,@Param("coin")int coin,@Param("updatetime")Date updatetime);
 }

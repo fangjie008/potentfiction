@@ -13,6 +13,9 @@ public class WxChapterSubDto {
     private Integer preId;
     //下一章
     private Integer nextId;
+    //书名
+    private String bookName;
+    
 	public Integer getId() {
 		return id;
 	}
@@ -48,6 +51,12 @@ public class WxChapterSubDto {
 	}
 	public void setBookId(Integer bookid) {
 		this.bookId = bookid;
+	}
+	public String getBookName() {
+		return bookName;
+	}
+	public void setBookName(String bookName) {
+		this.bookName = bookName;
 	}
     
     

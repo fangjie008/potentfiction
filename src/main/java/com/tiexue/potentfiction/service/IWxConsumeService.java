@@ -1,9 +1,6 @@
 package com.tiexue.potentfiction.service;
 
 import java.util.List;
-
-
-
 import com.tiexue.potentfiction.entity.WxConsume;
 
 
@@ -24,4 +21,11 @@ public interface IWxConsumeService {
 	    List<WxConsume> getListByPage(int userId,int pageNo,int pageSize);
 
 	  	Integer getCountByUserId(int userId);
+	    /**
+	     * 判断某个章节用户是否消费
+	     * @param userId
+	     * @param charpterId
+	     * @return
+	     */
+	  	Integer judgeConsume(int userId,int charpterId);
 }

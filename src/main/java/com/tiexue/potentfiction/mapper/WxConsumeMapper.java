@@ -73,4 +73,19 @@ public interface WxConsumeMapper {
         "where UserId =#{userId} "
     })
   	Integer getCountByUserId(int userId);
+    
+    
+    @Select({
+        "select",
+        " count(1) ",
+        "from wxconsume",
+        "where UserId =#{userId} and CharpterId=#{charpterId} "
+    })
+    /**
+     * 判断某个章节用户是否消费
+     * @param userId
+     * @param charpterId
+     * @return
+     */
+  	Integer judgeConsume(@Param("userId")int userId,@Param("charpterId")int charpterId);
 }

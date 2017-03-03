@@ -42,8 +42,11 @@
 		<a class="chapter" href="<%=path%>/wxChapterSub/index?bookId=${wxBook.id}&chapterId=${chapters.id}">
 		 ${chapters.title}
 		</a>
-		<span
-				class="fn-right c999">免费</span>
+		
+		   <c:if test="${chapters.getChaptertype()==0}">
+		     <span class="fn-right c999">免费</span>
+		   </c:if>
+				
 		</li>
 		</c:forEach>
 			

@@ -106,6 +106,15 @@ public class WxPayController {
 		return "/wxPay/pay";
 	}
 	
+	/**
+	 * 支付失败
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/errorpay")
+	public String error(HttpServletRequest request){
+		return "/wxPay/errorpay";
+	}
 	
 	private List<WxPayDto> wxPayFill(List<WxPay> wxpays)
 	{

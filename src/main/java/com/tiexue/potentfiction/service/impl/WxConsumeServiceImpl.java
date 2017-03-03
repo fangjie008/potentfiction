@@ -56,6 +56,10 @@ public class WxConsumeServiceImpl implements IWxConsumeService {
 	public Integer getCountByUserId(int userId) {
 		return consume.getCountByUserId(userId);
 	}
+	@Override
+	public Integer judgeConsume(int userId,int charpterId) {
+		return consume.judgeConsume(userId,charpterId);
+	}
 
 
 }

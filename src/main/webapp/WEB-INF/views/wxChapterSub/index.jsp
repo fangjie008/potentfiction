@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
 <%@ include file="/WEB-INF/views/include/include_base.jsp"%>
-<title>${bookName}</title>
+<title>${wxChapterSub.bookName}</title>
 </head>
 <body>
 	<article class="theme1">

@@ -51,9 +51,17 @@ public class WxConsumeController {
 		}
 		return "wxConsume/index";
 	}
-		
-		private List<WxConsumeDto> wxConsumeFill(List<WxConsume> wxConsumes)
-		{
+	/**
+	 * 订阅章节页面
+	 * @return
+	 */
+	@RequestMapping("subscribe")
+	public String getSubscribe(){
+		return "wxConsume/subscribe";
+	}
+	
+	private List<WxConsumeDto> wxConsumeFill(List<WxConsume> wxConsumes)
+	{
 			List<WxConsumeDto> wxConsumeDtos=new ArrayList<WxConsumeDto>();
 			if(wxConsumes!=null){
 				for (WxConsume cons : wxConsumes) {
@@ -70,5 +78,5 @@ public class WxConsumeController {
 				}
 			}
 			return wxConsumeDtos;
-		}
+	}
 }

@@ -1,9 +1,11 @@
 package com.tiexue.potentfiction.service.impl;
 
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.tiexue.potentfiction.entity.WxConsume;
 import com.tiexue.potentfiction.entity.WxUser;
 import com.tiexue.potentfiction.mapper.WxUserMapper;
 import com.tiexue.potentfiction.service.IWxUserService;
@@ -12,6 +14,8 @@ public class WxUserServiceImpl implements IWxUserService{
 
 	@Resource
 	WxUserMapper userMapper;
+	@Resource
+	WxConsumeServiceImpl consSerImpl;
 
 	@Override
 	public int deleteByPrimaryKey(Integer id) {
@@ -45,6 +49,17 @@ public class WxUserServiceImpl implements IWxUserService{
 
 	@Override
 	public int updateByPrimaryKey(WxUser record) {
-		return userMapper.updateByPrimaryKey(record);
+		return userMapper.updateByPrimaryKeyWithBLOBs(record);
 	}
+
+	@Override
+	public int updateCoin(WxUser record, WxConsume cons) {
+		int resUpdate= userMapper.updateCoin(record.getId(),record.getCoin(), record.getUpdatetime());
+		consSerImpl.insert(cons);
+		return resUpdate;
+	}
+
+	
+	
+	
 }

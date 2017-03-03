@@ -32,7 +32,7 @@
 		<p class="solid"></p>
 		<div class="">
 			<ul class="class_list">
-				<li><a href="#"><img
+				<li><a href="<%=path%>/wxPay/pay"><img
 						src="<%=path%>/static/image/user/icon_pay.png" class="icon"><span
 						class="txt">充值小说币</span><img
 						src="<%=path%>/static/image/user/arrow_r.png"
@@ -52,12 +52,12 @@
 		<p class="solid"></p>
 		<div class="">
 			<ul class="class_list">
-				<li><a href="#"><img
+				<%-- <li><a href="#"><img
 						src="<%=path%>/static/image/user/icon_nearread.png" class="icon"><span
 						class="txt">最近阅读</span><img
 						src="<%=path%>/static/image/user/arrow_r.png"
-						class="arrow_r"></a></li>
-				<li><a href="#"><img
+						class="arrow_r"></a></li> --%>
+				<li><a href="<%=path%>/wxBookrack/list?userId=3"><img
 						src="<%=path%>/static/image/user/icon_feedback.png" class="icon"><span
 						class="txt">我的书架</span><img
 						src="<%=path%>/static/image/user/arrow_r.png"
