@@ -14,4 +14,12 @@ public interface IUserConsService {
 	 * @return 
 	 */
 	ResultMsg consDeal(int userId, int bookId, String bookName, WxChapter chapterModel);
+	/**
+	 * 直接付费
+	 * @param userId
+	 * @param bookId
+	 * @param chapterId
+	 * @return
+	 */
+    boolean consumeRecord(int userId, int bookId, int chapterId,boolean autoPay);
 }

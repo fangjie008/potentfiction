@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.tiexue.potentfiction.dto.ResultMsg;
 import com.tiexue.potentfiction.entity.EnumType;
+import com.tiexue.potentfiction.entity.WxBook;
 import com.tiexue.potentfiction.entity.WxChapter;
 import com.tiexue.potentfiction.entity.WxConsume;
 import com.tiexue.potentfiction.entity.WxUser;
@@ -25,6 +26,10 @@ public class UserConsServiceImpl implements IUserConsService {
 	WxUserServiceImpl userSerImpl;
 	@Resource
 	WxConsumeServiceImpl consSerImpl;
+	@Resource
+	WxBookServiceImpl bookSerImpl;
+	@Resource
+	WxChapterServiceImpl charpterSerImpl;
 	
 	public ResultMsg consDeal(int userId, int bookId, String bookName, WxChapter chapterModel) {
 		ResultMsg resultMsg = new ResultMsg();
@@ -91,12 +96,57 @@ public class UserConsServiceImpl implements IUserConsService {
 		return resultMsg;
 	}
 	
+	
+	public boolean consumeRecord(int userId, int bookId, int chapterId,boolean autoPay) {
+		// 用户信息
+		WxUser userModel = userSerImpl.selectByPrimaryKey(userId);
+		// 获取图书信息
+		WxBook book = bookSerImpl.selectByPrimaryKey(bookId);
+		// 章节数据
+		WxChapter chapterModel = charpterSerImpl.selectByPrimaryKey(chapterId, EnumType.ChapterStatus_OnLine);
+		int count = consSerImpl.judgeConsume(userId, chapterModel.getId());
+		// 未消费
+		if (count > 0) {
+			return true;
+		}
+		WxConsume cons = new WxConsume();
+		cons.setBookid(bookId);
+		cons.setBookname(book.getName());
+		cons.setCharpterid(chapterModel.getId());
+		cons.setCharptertitle(chapterModel.getTitle());
+		cons.setCostcoin(chapterModel.getPirce());
+		cons.setUserid(userId);
+		cons.setCreatetime(new Date());
+		// 更新小说币
+		userModel.setCoin(userModel.getCoin() - chapterModel.getPirce());
+		userModel.setUpdatetime(new Date());
+		//自动付费
+		if(autoPay)
+		{
+			String bookIds=userModel.getAutopurchase();
+			if(bookIds!=null&&!bookIds.isEmpty()){
+				bookIds+=','+bookId;
+			}else{
+				bookIds=bookId+"";
+			}
+			userModel.setAutopurchase(bookIds);
+		}
+		// 更新小说币并增加记录
+		int dealRes = userSerImpl.updateCoin(userModel, cons);
+		if (dealRes > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	/**
 	 * 验证用户阅读的小说是否自动付费
 	 * @param userId
 	 * @param bookId
 	 * @return
 	 */
+
 	private Boolean getAutoPurchase(WxUser userModel,Integer bookId){
 		Boolean result=false;
 		if(userModel!=null&&!userModel.getAutopurchase().isEmpty()){

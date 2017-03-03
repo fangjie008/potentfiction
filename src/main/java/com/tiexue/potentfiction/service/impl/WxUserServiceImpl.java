@@ -54,7 +54,7 @@ public class WxUserServiceImpl implements IWxUserService{
 
 	@Override
 	public int updateCoin(WxUser record, WxConsume cons) {
-		int resUpdate= userMapper.updateCoin(record.getId(),record.getCoin(), record.getUpdatetime());
+		int resUpdate= userMapper.updateByPrimaryKey(record);
 		consSerImpl.insert(cons);
 		return resUpdate;
 	}

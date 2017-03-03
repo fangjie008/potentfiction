@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tiexue.potentfiction.dto.ResultMsg;
 import com.tiexue.potentfiction.dto.WxChapterSubDto;
@@ -43,7 +44,7 @@ public class WxChapterSubController {
 
 	// 获取章节的内容信息
 	@RequestMapping("/index")
-	public String getContent(HttpServletRequest request) throws UnsupportedEncodingException {
+	public String getContent(HttpServletRequest request,RedirectAttributes attr) throws UnsupportedEncodingException {
 		String userIdStr = request.getParameter("userId");
 		String bookIdStr = request.getParameter("bookId");
 		String chapterIdStr = request.getParameter("chapterId");
@@ -75,9 +76,15 @@ public class WxChapterSubController {
 					case EnumType.ResultNum_Login:
 						return "wxUser/login";
 					case EnumType.ResultNum_Pay:
-						return "WxPay/pay";
+						attr.addAttribute("userId", userId);
+						attr.addAttribute("chapterId", chapterId);
+						attr.addAttribute("bookId", bookId);
+						return "redirect:/WxPay/pay";
 					case EnumType.ResultNum_Cons:
-						return "wxConsume/subscribe";
+						attr.addAttribute("userId", userId);
+						attr.addAttribute("chapterId", chapterId);
+						attr.addAttribute("bookId", bookId);
+						return "redirect:/wxConsume/subscribe";
 					}
 				}
 				logger.error(resultMsg.getMsg());
@@ -89,9 +96,44 @@ public class WxChapterSubController {
 		return "wxChapterSub/index";
 	}
 	
+	
+//	// 付费后获取内容信息
+//	@RequestMapping("/afterCons")
+//	public String getContentAfterCons(HttpServletRequest request,RedirectAttributes attr) throws UnsupportedEncodingException {
+//		String userIdStr = request.getParameter("userId");
+//		String bookIdStr = request.getParameter("bookId");
+//		String chapterIdStr = request.getParameter("chapterId");
+//		String bookName = "";
+//		int userId = 0;
+//		if (chapterIdStr != null && !chapterIdStr.isEmpty()) {
+//			int chapterId = Integer.parseInt(chapterIdStr);
+//			int bookId = 0;
+//			if (bookIdStr != null && !bookIdStr.isEmpty()) {
+//				bookId = Integer.parseInt(bookIdStr);
+//			}
+//			if (userIdStr != null && !userIdStr.isEmpty()) {
+//				userId = Integer.parseInt(userIdStr);
+//			}
+//			// 获取图书信息
+//			WxBook book = bookService.selectByPrimaryKey(bookId);
+//			if (book != null) {
+//				bookName = book.getName();
+//			}
+//			// 章节数据
+//			WxChapter chapterModel = chapterService.selectByPrimaryKey(chapterId, EnumType.ChapterStatus_OnLine);
+//			if (chapterModel == null)
+//				return "wxChapterSub/index";
+//			// 获取章节信息
+//			WxChapterSubDto chapSubDto = getCahperDto(bookName, chapterId, chapterModel);
+//			request.setAttribute("wxChapterSub", chapSubDto);
+//		}
+//		return "wxChapterSub/index";
+//	}
+//	
+	
 	// 获取章节的内容信息
 	@RequestMapping("/defualt")
-	public String getContentByBookId(HttpServletRequest request) throws UnsupportedEncodingException {
+	public String getContentByBookId(HttpServletRequest request,RedirectAttributes attr) throws UnsupportedEncodingException {
 		String userIdStr = request.getParameter("userID");
 		String bookIdStr = request.getParameter("bookId");
 		String bookName = "";
