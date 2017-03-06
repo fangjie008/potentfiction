@@ -13,20 +13,7 @@
 	<!-- 自动扫描该包,使springmvc认为包下用了@controoler注解的类是控制器 -->
 	<context:component-scan base-package="com.tiexue.potentfiction.controller" />
 
-    <!-- 解决返回JSON数据乱码，且要放在tx:annotation-driven前，否则不管用 -->
-	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-		<property name="messageConverters">
-				<list>
-					<bean class="org.springframework.http.converter.StringHttpMessageConverter">
-						<property name="supportedMediaTypes">
-							<list>
-								<value>text/html;charset=UTF-8</value>
-							</list>
-						</property>
-					</bean>
-				</list>
-			</property>
-	</bean>
+  
 	<!-- 默认的注解映射支持 -->
 	<mvc:annotation-driven />
 

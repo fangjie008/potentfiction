@@ -11,7 +11,7 @@
 	<article class="theme1">
 		<nav>
 			<span>${wxChapterSub.title}</span><a class="badge menu"
-				href="javascript:history.go(-1);">菜单</a>
+				href="javascript:;">菜单</a>
 		</nav>
 		<div class="content" style="font-size: 18px;">
 			${wxChapterSub.content}</div>

@@ -43,7 +43,7 @@
 	<p id="summary" style="height: 120px;">
 	 ${wxBook.getIntr()}
 	</p>
-	<p id="showSummary" class="arrow"><a href="javascript:;">展开</a></p>
+	<p id="showSummary" class="arrow"><a href="#" onclick="showmoreintr()">展开</a></p>
 </div>
 <%@ include file="/WEB-INF/views/include/include_footer.jsp"%>
 </body>
@@ -79,6 +79,20 @@ $(function(){
 		});
 	});
 });
+
+function showmoreintr(){
+    var content=$("#showSummary a").html();
+    if(content=="展开"){
+    	$("#showSummary").addClass("up");
+    	$("#showSummary a").html("折叠");
+    	$("#summary").attr("height","auto");
+    	
+    }else{
+    	$("#showSummary").removeClass("up");
+    	$("#summary").attr("height","120px");
+    	$("#showSummary a").html("展开");
+    }
+}
 	
 </script>
 </html>

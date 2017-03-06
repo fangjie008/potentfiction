@@ -106,7 +106,7 @@ public class WxChapterController {
 				chapNavi.setName(prePage+"-"+lastPage+"章");
 				chapNavi.setUrl("/wxChapter/index?bookId="+bookId+"&pageNo="+pageSize*i);
 				chapNavi.setOrder(i);
-				chapNavi.setIsActive(i==pageNo?true:false);
+				chapNavi.setIsActive((pageSize*i)==pageNo?true:false);
 				resultData.add(chapNavi);
 			}
 			

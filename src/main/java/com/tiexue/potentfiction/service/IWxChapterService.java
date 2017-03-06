@@ -25,11 +25,11 @@ public interface IWxChapterService  {
 	    int getCountByBookId(Integer bookId,Integer status);
 	    
 	    //获取上一章内容
-	    WxChapter getPreChapter(Integer chapterId,Integer status);
+	    WxChapter getPreChapter(Integer bookId,Integer chapterId,Integer status);
 	    
 	    //获取下一章内容
-	    WxChapter getNextChapter(Integer chapterId,Integer status);
+	    WxChapter getNextChapter(Integer bookId,Integer chapterId,Integer status);
 	    
-	    WxChapter getFirstChapter(Integer status);
+	    WxChapter getFirstChapter(Integer bookId,Integer status);
 }
 

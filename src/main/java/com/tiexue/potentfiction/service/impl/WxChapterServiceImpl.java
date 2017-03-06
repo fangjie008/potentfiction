@@ -57,18 +57,18 @@ public class WxChapterServiceImpl implements IWxChapterService {
 	}
 
 	@Override
-	public WxChapter getPreChapter(Integer chapterId, Integer status) {
-		return wxChapterMapper.getPreChapter(chapterId, status);
+	public WxChapter getPreChapter(Integer bookId,Integer chapterId, Integer status) {
+		return wxChapterMapper.getPreChapter(bookId,chapterId, status);
 	}
 
 	@Override
-	public WxChapter getNextChapter(Integer chapterId, Integer status) {
-		return wxChapterMapper.getNextChapter(chapterId, status);
+	public WxChapter getNextChapter(Integer bookId,Integer chapterId, Integer status) {
+		return wxChapterMapper.getNextChapter(bookId,chapterId, status);
 	}
 
 	@Override
-	public WxChapter getFirstChapter(Integer status) {
-		return wxChapterMapper.getFirstChapter(status);
+	public WxChapter getFirstChapter(Integer bookId,Integer status) {
+		return wxChapterMapper.getFirstChapter(bookId,status);
 	}
 
 }

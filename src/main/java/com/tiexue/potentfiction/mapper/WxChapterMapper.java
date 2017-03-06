@@ -82,26 +82,26 @@ public interface WxChapterMapper {
     @Select({"select  ",
         "Id, BookId, SortOrder, Title, ChapterType, Pirce,ContentLen ",
         "from wxchapter",
-        "where  Status=#{status}",
+        "where bookId=#{bookId} and Status=#{status}",
         " order by SortOrder asc LIMIT 0,1 "})
     @ResultMap("ResultListMap")
-    WxChapter getFirstChapter(@Param("status")Integer status);
+    WxChapter getFirstChapter(@Param("bookId")Integer bookId,@Param("status")Integer status);
     
     //获取上一章内容
     @Select({"select  ",
         "Id, BookId, SortOrder, Title, ChapterType, Pirce,ContentLen ",
         "from wxchapter",
-        "where id < #{chapterId,jdbcType=INTEGER} and Status=#{status}",
+        "where bookId=#{bookId} and id < #{chapterId,jdbcType=INTEGER} and Status=#{status}",
         " order by SortOrder desc LIMIT 0,1 "})
     @ResultMap("ResultListMap")
-    WxChapter getPreChapter(@Param("chapterId")Integer chapterId,@Param("status")Integer status);
+    WxChapter getPreChapter(@Param("bookId")Integer bookId,@Param("chapterId")Integer chapterId,@Param("status")Integer status);
     
     //获取下一章内容
     @Select({"select ",
         "Id, BookId, SortOrder, Title, ChapterType, Pirce,ContentLen ",
         "from wxchapter",
-        "where id > #{chapterId,jdbcType=INTEGER} and Status=#{status}",
+        "where bookId=#{bookId} and id > #{chapterId,jdbcType=INTEGER} and Status=#{status}",
         " order by SortOrder asc LIMIT 0,1 "})
     @ResultMap("ResultListMap")
-    WxChapter getNextChapter(@Param("chapterId")Integer chapterId,@Param("status")Integer status);
+    WxChapter getNextChapter(@Param("bookId")Integer bookId,@Param("chapterId")Integer chapterId,@Param("status")Integer status);
 }

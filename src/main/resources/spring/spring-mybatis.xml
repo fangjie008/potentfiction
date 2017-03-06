@@ -20,7 +20,20 @@
 	<!-- enable autowire -->
 	<context:annotation-config />
 
-
+   <!-- 解决返回JSON数据乱码，且要放在tx:annotation-driven前，否则不管用 -->
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+				<list>
+					<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+						<property name="supportedMediaTypes">
+							<list>
+								<value>text/html;charset=UTF-8</value>
+							</list>
+						</property>
+					</bean>
+				</list>
+			</property>
+	</bean>
 
 	<!-- 引入配置文件 jdbc配置 -->
 	<bean id="propertyConfigurer"

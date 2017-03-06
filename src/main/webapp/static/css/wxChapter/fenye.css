@@ -3,7 +3,7 @@
 }
 .fenye .fy {
     float: left;
-    width: 75%;
+    width: 96%;
     margin-left: 1%;
     margin-right: 2%;
     margin-left: 0px;
@@ -39,7 +39,7 @@
     padding: 0px 5px;
     text-align: center;
     border-color: #1ABC9C;
-    background: #fff no-repeat center right url(/static/mobile/xsm/img/list2.png);
+    background: #fff no-repeat center right url(./static/list2.png);
     border-radius: 3px;
 }
 .fenye .showpage div {
@@ -73,7 +73,7 @@
     border-color: #E2E2E2;
 }
 .fenye .showpage .this {
-    background: right center no-repeat url(/static/mobile/xsm/img/yes.gif);
+    background: right center no-repeat url(./static/image/yes.gif);
 }
 .tb {
     color: #1ABC9C;
