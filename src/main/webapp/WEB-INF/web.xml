@@ -57,5 +57,15 @@
 	<welcome-file-list>	
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
-
+<!-- 全局错误处理页面配置 -->
+  <error-page>
+        <!--服务器发生错误时-->
+      <error-code>500</error-code>
+      <location>/500.jsp</location>
+  </error-page>
+  <error-page>
+        <!--资源找不到-->
+      <error-code>404</error-code>
+      <location>/404.jsp</location>
+  </error-page>
 </web-app>

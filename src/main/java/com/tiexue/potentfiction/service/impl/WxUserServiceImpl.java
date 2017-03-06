@@ -3,15 +3,19 @@ package com.tiexue.potentfiction.service.impl;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.tiexue.potentfiction.controller.WxBookController;
 import com.tiexue.potentfiction.entity.WxConsume;
 import com.tiexue.potentfiction.entity.WxUser;
 import com.tiexue.potentfiction.mapper.WxUserMapper;
 import com.tiexue.potentfiction.service.IWxUserService;
 @Service("wxUserService")
 public class WxUserServiceImpl implements IWxUserService{
-
+	// 日志
+	private Logger logger = Logger.getLogger(WxUserServiceImpl.class);
 	@Resource
 	WxUserMapper userMapper;
 	@Resource
@@ -52,10 +56,22 @@ public class WxUserServiceImpl implements IWxUserService{
 		return userMapper.updateByPrimaryKeyWithBLOBs(record);
 	}
 
+	/**
+	 * 更新操作 
+	 */
 	@Override
-	public int updateCoin(WxUser record, WxConsume cons) {
-		int resUpdate= userMapper.updateByPrimaryKey(record);
-		consSerImpl.insert(cons);
+	@Transactional
+	public boolean updateCoin(WxUser record, WxConsume cons) {
+		boolean resUpdate=false;
+		try {
+			userMapper.updateByPrimaryKey(record);
+		    consSerImpl.insert(cons);
+		    resUpdate=true;
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			//必须抛出异常 否则事务就不能正常执行
+			throw e;
+		}
 		return resUpdate;
 	}
 

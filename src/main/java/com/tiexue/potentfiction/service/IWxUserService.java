@@ -32,7 +32,7 @@ public interface IWxUserService {
      * @param updatetime
      * @return
      */
-    int updateCoin(WxUser record,WxConsume cons);
+    boolean updateCoin(WxUser record,WxConsume cons);
     
     
  

@@ -82,8 +82,8 @@ public class UserConsServiceImpl implements IUserConsService {
 			userModel.setCoin(userModel.getCoin() - chapterModel.getPirce());
 			userModel.setUpdatetime(new Date());
 			// 更新小说币并增加记录
-			int dealRes= userSerImpl.updateCoin(userModel, cons);
-			if(dealRes>0){
+			boolean dealRes= userSerImpl.updateCoin(userModel, cons);
+			if(dealRes){
 			resultMsg.setStatus(true);
 			resultMsg.setMsg("支付成功");
 			}
@@ -132,12 +132,9 @@ public class UserConsServiceImpl implements IUserConsService {
 			userModel.setAutopurchase(bookIds);
 		}
 		// 更新小说币并增加记录
-		int dealRes = userSerImpl.updateCoin(userModel, cons);
-		if (dealRes > 0) {
-			return true;
-		} else {
-			return false;
-		}
+		boolean dealRes = userSerImpl.updateCoin(userModel, cons);
+		return dealRes;
+
 	}
 	
 	/**
