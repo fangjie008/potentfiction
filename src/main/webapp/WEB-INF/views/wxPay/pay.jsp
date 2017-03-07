@@ -14,8 +14,8 @@
 </header>
 <div class="mod_content panel c1  " style="padding-top:8px;padding-bottom: 2px; ">
 	<ul class="gray">
-        <li>充值账号：<label class="orange">嘿吥六球</label><br>
-            用户余额：<label class="orange">0</label>小说币</li>
+        <li>充值账号：<label class="orange">${user.name }</label><br>
+            用户余额：<label class="orange">${user.coin}</label>小说币</li>
     </ul>
 </div>
 <div class="mod_content gray c1 ">

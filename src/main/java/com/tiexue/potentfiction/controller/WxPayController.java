@@ -17,9 +17,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.tiexue.potentfiction.dto.Pager;
 import com.tiexue.potentfiction.dto.WxPayDto;
+import com.tiexue.potentfiction.dto.WxUserDto;
 import com.tiexue.potentfiction.entity.EnumType;
 import com.tiexue.potentfiction.entity.WxPay;
+import com.tiexue.potentfiction.entity.WxUser;
 import com.tiexue.potentfiction.service.IWxPayService;
+import com.tiexue.potentfiction.service.IWxUserService;
 import com.tiexue.potentfiction.util.DateUtil;
 
 @Controller
@@ -29,7 +32,9 @@ public class WxPayController {
 	private Logger logger = Logger.getLogger(WxPayController.class);
 	@Resource
 	IWxPayService wxPayService;
-
+	@Resource
+	IWxUserService userSer;
+	
 	//查询带分页的充值记录
 	@RequestMapping("/index")
 	public String getList(HttpServletRequest request){
@@ -69,7 +74,7 @@ public class WxPayController {
 		String userIdStr = request.getParameter("userId");
 		String pageNoStr=request.getParameter("pageNo");
 		String pageSizeStr=request.getParameter("pageSize");
-		if (!userIdStr.isEmpty()) {
+		if (userIdStr != null && !userIdStr.isEmpty()) {
 			int userId = Integer.parseInt(userIdStr);
 			int pageNo = 0;
 			if(pageNoStr!=null&&!pageNoStr.isEmpty()){
@@ -103,6 +108,13 @@ public class WxPayController {
 	 */
 	@RequestMapping("/pay")
 	public String pay(HttpServletRequest request){
+		String userIdStr = request.getParameter("userId");
+		if (userIdStr != null && !userIdStr.isEmpty()) {
+			int userId = Integer.parseInt(userIdStr);
+			WxUser userModel= userSer.selectByPrimaryKey(userId);
+			 WxUserDto userDto=	userDtoFill(userModel);
+			 request.setAttribute("user", userDto);
+		}
 		return "/wxPay/pay";
 	}
 	
@@ -134,6 +146,35 @@ public class WxPayController {
 			}
 		}
 		return wxPayDtos;
+	}
+	
+	
+ 	private WxUserDto userDtoFill(WxUser user){
+		WxUserDto userDto=new WxUserDto();
+		if(user!=null){
+			userDto.setId(user.getId());
+			userDto.setAutopurchase(user.getAutopurchase());
+			userDto.setCoin(user.getCoin());
+			userDto.setCreatetime(DateUtil.date2Str(user.getCreatetime()));
+			userDto.setDeadline(DateUtil.date2Str(user.getDeadline()));
+			userDto.setDevicecode(user.getDevicecode());
+			userDto.setHeadericon(user.getHeadericon());
+			userDto.setLastactivetime(DateUtil.date2Str(user.getLastactivetime()));
+			userDto.setMobile(user.getMobile());
+			userDto.setName(user.getName());
+			userDto.setPwd(user.getPwd());
+			userDto.setSignature(user.getSignature());
+			userDto.setStatus(user.getStatus());
+			userDto.setStatusStr(EnumType.UserStatus.get(user.getStatus()));
+			userDto.setToken(user.getToken());
+			userDto.setUpdatetime(DateUtil.date2Str(user.getUpdatetime()));
+			userDto.setUsertype(user.getUsertype());
+			userDto.setUsertypestr(EnumType.UserType.get(user.getUsertype()));
+			userDto.setWeixinid(user.getWeixinid());
+			userDto.setWeixintoken(user.getWeixinid());
+			
+		}
+		return userDto;
 	}
 
 }
