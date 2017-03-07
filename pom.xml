@@ -185,23 +185,30 @@
 		</dependency>
 		<!-- Json和对象转换工具 -->
 		<dependency>
-		    <groupId>com.alibaba</groupId>
-		    <artifactId>fastjson</artifactId>
-		    <version>1.2.23</version>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.23</version>
 		</dependency>
 	</dependencies>
 
 	<profiles>
 		<profile>
 			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<properties>
 				<env>env/dev</env>
+				<!--包名后缀 -->
+				<p.package.suffix>test</p.package.suffix>
 			</properties>
 		</profile>
 		<profile>
 			<id>prod</id>
 			<properties>
 				<env>env/prod</env>
+				<!--包名后缀 -->
+				<p.package.suffix>prod</p.package.suffix>
 			</properties>
 		</profile>
 
@@ -216,7 +223,13 @@
 					<include>spring/*</include>
 					<include>mybatis/**</include>
 					<include>ehcache.xml</include>
+					<include>log4j.properties</include>
+					<!--<include>**/*.properties</include> <include>**/*</include> -->
 				</includes>
+				<excludes>
+					<exclude>dev/*</exclude>
+					<exclude>prod/*</exclude>
+				</excludes>
 			</resource>
 			<resource>
 				<directory>${basedir}/src/main/resources/${env}</directory>
