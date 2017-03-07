@@ -29,18 +29,29 @@ public class WxCallbackController {
 	@Resource
 	IWxCallbackService wxCallbackService;
 
-	@RequestMapping(name="check", method={RequestMethod.GET}, produces="application/json;charset=UTF-8")
-	public void check(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String signature = request.getParameter("signature");
-		String timestamp = request.getParameter("timestamp");
-		String nonce = request.getParameter("nonce");
-		String echostr = request.getParameter("echostr");
+	@RequestMapping("check")
+	public void check(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			String signature = request.getParameter("signature");
+			String timestamp = request.getParameter("timestamp");
+			String nonce = request.getParameter("nonce");
+			String echostr = request.getParameter("echostr");
 
-		boolean ret = wxCallbackService.checkSignature(signature, timestamp, nonce);
-		if (ret == true) {
-			response.getWriter().print(echostr);
+			boolean ret = wxCallbackService.checkSignature(signature, timestamp, nonce);
+			if (ret == true) {
+				response.getWriter().print(echostr);
+			} else {
+				response.getWriter().print("error");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			try {
+				response.getWriter().print(e.getMessage());
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
-		response.getWriter().print("error");
 	}
 
 }
