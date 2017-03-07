@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tiexue.potentfiction.entity.WxConstants;
 import com.tiexue.potentfiction.service.IWxCallbackService;
@@ -27,7 +29,7 @@ public class WxCallbackController {
 	@Resource
 	IWxCallbackService wxCallbackService;
 
-	@RequestMapping("check")
+	@RequestMapping(name="check", method={RequestMethod.GET}, produces="application/json;charset=UTF-8")
 	public void check(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String signature = request.getParameter("signature");
 		String timestamp = request.getParameter("timestamp");
@@ -38,7 +40,7 @@ public class WxCallbackController {
 		if (ret == true) {
 			response.getWriter().print(echostr);
 		}
-		response.getWriter().print("");
+		response.getWriter().print("error");
 	}
 
 }
