@@ -28,15 +28,17 @@ public class WxCallbackController {
 	IWxCallbackService wxCallbackService;
 
 	@RequestMapping("check")
-	public String check(HttpServletRequest request, HttpServletResponse response) {
+	public void check(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String signature = request.getParameter("signature");
 		String timestamp = request.getParameter("timestamp");
 		String nonce = request.getParameter("nonce");
+		String echostr = request.getParameter("echostr");
+
 		boolean ret = wxCallbackService.checkSignature(signature, timestamp, nonce);
 		if (ret == true) {
-			return nonce;
+			response.getWriter().print(echostr);
 		}
-		return "";
+		response.getWriter().print("");
 	}
 
 }

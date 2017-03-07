@@ -20,6 +20,11 @@ public class WxCallbackServiceImpl implements IWxCallbackService {
 	@Override
 	public Boolean checkSignature(String signature, String timestamp, String nonce) {
 		String token = WxConstants.WxToken;
+		if(null == signature || null == timestamp || null == nonce)
+		{
+			return false;
+		}
+			
 		String[] tmpArr = { token, timestamp, nonce };
 		Arrays.sort(tmpArr);
 		String tmpStr = this.ArrayToString(tmpArr);
