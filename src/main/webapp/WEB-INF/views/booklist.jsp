@@ -28,11 +28,21 @@
 </dl>
 <div class="mod_title mod_lastread">
 	<h1>
-		<!-- <ul>
-			<li><a href="/book/14547.html">
-				<label>[]</label>
-				美人一跃入君心</a></li>
-		</ul> -->
+		<ul>
+			<li>	
+		<c:if test="${bookrack.bookid>0&&bookrack.chapterid>0}">
+		<label>继续阅读:</label>
+		<a  href="<%=path %>/wxChapterSub/index?bookId=${bookrack.bookid}&chapterId=${bookrack.chapterid}">
+		《${bookrack.bookname}》 ${bookrack.chaptertitle}</a>
+		</c:if>
+		<c:if test="${bookrack.bookid>0&&bookrack.chapterid<=0}">
+		<label>免费阅读:</label>
+		<a  href="<%=path %>/wxChapterSub/defualt?bookId=${wxBook.bookid}">
+		《${bookrack.bookname}》</a>
+		</c:if>
+		<c:if test="${bookrack==null||bookrack.bookid<=0}">
+		</c:if>
+		</ul> 
 	</h1>
 </div>
 <div class="mod_block"></div>

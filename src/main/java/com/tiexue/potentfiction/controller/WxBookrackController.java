@@ -34,7 +34,7 @@ public class WxBookrackController {
 		JSONObject getObj = new JSONObject();
 		WxBookrack rack;
 		if (bookId > 0) {
-			rack = bookrackService.getModelByBookId(bookId);
+			rack = bookrackService.getModelByBookId(userId,bookId);
 			if (rack != null && rack.getBookid() > 0) {
 				getObj.put("ok", false);
 				getObj.put("msg", "已收藏此书");
@@ -57,6 +57,43 @@ public class WxBookrackController {
 				int res = bookrackService.insert(rack);
 				getObj.put("ok", res > 0 ? true : false);
 				getObj.put("msg", "收藏成功");
+			}
+		}
+		return getObj.toString();
+	}
+	
+	@RequestMapping("updateBookrack")
+	@ResponseBody
+	public String updateBookrack(HttpServletRequest request, Integer bookId, String bookName, Integer userId,Integer chapterId,String chapterName)
+			throws UnsupportedEncodingException {
+		JSONObject getObj = new JSONObject();
+		WxBookrack rack;
+		if (bookId > 0) {
+			rack = bookrackService.getModelByBookId(userId,bookId);
+			if (rack != null && rack.getBookid() > 0) {
+				Date time = new Date();
+				rack.setBookid(bookId);
+				rack.setUserid(userId);
+				rack.setChapterid(chapterId);
+				rack.setCreatetime(time);
+				rack.setChaptertitle(chapterName);
+				int res = bookrackService.updateByPrimaryKey(rack);
+				getObj.put("ok", res > 0 ? true : false);
+				getObj.put("msg", "收藏成功");
+			} else {
+
+					Date time = new Date();
+					rack = new WxBookrack();
+					rack.setBookid(bookId);
+					rack.setBookname(bookName);
+					rack.setUserid(userId);
+					rack.setChapterid(chapterId);
+					rack.setLocation(0);
+					rack.setCreatetime(time);
+					rack.setChaptertitle(chapterName);
+					int res = bookrackService.insert(rack);
+					getObj.put("ok", res > 0 ? true : false);
+					getObj.put("msg", "收藏成功");
 			}
 		}
 		return getObj.toString();

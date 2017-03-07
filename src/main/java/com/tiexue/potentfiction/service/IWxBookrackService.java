@@ -21,7 +21,7 @@ public interface IWxBookrackService {
 	    
 	    int updateByPrimaryKey(WxBookrack record);
 	    //根据图书Id获取最新书架
-	    WxBookrack getModelByBookId(Integer bookId);
+	    WxBookrack getModelByBookId(Integer userId,Integer bookId);
 	    /**
 	     * 根据图书Id获取书架列表
 	     * @param userId 用户Id
@@ -29,4 +29,13 @@ public interface IWxBookrackService {
 	     * @return
 	     */
 	    List<WxBookrackDto> getListByUserId(Integer userId,Integer size);
+	    
+	    /**
+	     * 根据图书Id获取最近阅读的书
+	     * @param userId 用户Id
+	     * @param size  数据数量
+	     * @return
+	     */
+	    WxBookrack getModelByUserId(Integer userId);
+
 }

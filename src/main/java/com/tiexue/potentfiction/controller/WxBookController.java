@@ -11,9 +11,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.tiexue.potentfiction.dto.WxBookDto;
+import com.tiexue.potentfiction.dto.WxBookrackDto;
 import com.tiexue.potentfiction.entity.EnumType;
 import com.tiexue.potentfiction.entity.WxBook;
+import com.tiexue.potentfiction.entity.WxBookrack;
 import com.tiexue.potentfiction.service.IWxBookService;
+import com.tiexue.potentfiction.service.IWxBookrackService;
 
 @Controller
 @RequestMapping("/wxbook")
@@ -23,34 +26,57 @@ public class WxBookController {
 
 	@Resource
 	IWxBookService wxBookService;
-
-	@RequestMapping("/detail")
-	public String detailInfo(HttpServletRequest request) {
-		String bookIdStr = request.getParameter("id");
-		if (bookIdStr != null && !bookIdStr.isEmpty()) {
-			int bookId = Integer.parseInt(bookIdStr);
-			WxBook wxBook = this.wxBookService.selectByPrimaryKey(bookId);
-			WxBookDto wxBookDto = toWxBookDto(wxBook);
-			request.setAttribute("wxBook", wxBookDto);
-		}
-
-		return "bookdetail";
-	}
-	//首页入口
+	
+	@Resource
+	IWxBookrackService bookrackService;
+	
+	/**
+	 * 首页入口
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/list")
 	public String list(HttpServletRequest request) {
 
 		try {
+			String userIdStr = request.getParameter("userId");
 			String status = EnumType.BookStatus_Finish + "," + EnumType.BookStatus_Update;
 			List<WxBook> wxBooks = this.wxBookService.getList(status, "ViewCount");
 			List<WxBookDto> wxBookDtos = toWxBookListDto(wxBooks);
 			request.setAttribute("wxBooks", wxBookDtos);
+			if (userIdStr != null && !userIdStr.isEmpty()) {
+				int userId = Integer.parseInt(userIdStr);
+				WxBookrack rack = bookrackService.getModelByUserId(userId);
+				request.setAttribute("bookrack", rack);
+			}
 		} catch (Exception e) {
 			logger.error("首页获取数据异常"+e.getMessage());
 		}
 		return "/booklist";
 	}
 
+	
+	@RequestMapping("/detail")
+	public String detailInfo(HttpServletRequest request) {
+		String bookIdStr = request.getParameter("id");
+		String userIdStr = request.getParameter("userId");
+		if (bookIdStr != null && !bookIdStr.isEmpty()) {
+			int bookId = Integer.parseInt(bookIdStr);
+			WxBook wxBook = this.wxBookService.selectByPrimaryKey(bookId);
+			WxBookDto wxBookDto = toWxBookDto(wxBook);
+			request.setAttribute("wxBook", wxBookDto);
+			if (userIdStr != null && !userIdStr.isEmpty()) {
+				int userId = Integer.parseInt(userIdStr);
+				WxBookrack rack = bookrackService.getModelByBookId(userId, bookId);
+				request.setAttribute("bookrack", rack);
+			}
+
+		}
+
+		return "bookdetail";
+	}
+	
+	
 	private WxBookDto toWxBookDto(WxBook wxBook) {
 		WxBookDto wxBookDto = new WxBookDto();
 		if (wxBook != null) {

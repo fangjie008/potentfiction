@@ -48,8 +48,13 @@ public class WxBookrackServiceImpl implements IWxBookrackService {
 	}
 
 	@Override
-	public WxBookrack getModelByBookId(Integer bookId) {
-		return bookrackMapper.getModelByBookId(bookId);
+	public WxBookrack getModelByBookId(Integer userId,Integer bookId) {
+		return bookrackMapper.getModelByBookId(userId,bookId);
+	}
+	
+	@Override
+	public WxBookrack getModelByUserId(Integer userId) {
+		return bookrackMapper.getModelByUserId(userId);
 	}
 
 

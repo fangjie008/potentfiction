@@ -90,8 +90,12 @@
 		</div>
 		<!--收藏本书开始-->
 		<div class="alertbk alertbk-fav" id="collect">
+		   <input type="hidden" id="bookid" name="bookid" value="${wxChapterSub.bookId}">
+		   <input type="hidden" id="bookname" name="bookname" value="${wxChapterSub.bookName}">
+            <input type="hidden" id="chapterid" name="chapterid" value="${wxChapterSub.id}">
+            <input type="hidden" id="chaptername" name="chaptername" value="${wxChapterSub.title}">     
 			<center>
-				<span>请加收藏，方便下次阅读</span> <a class="okbtn add-fav" data-hidden="ok"
+				<span>请加收藏，方便下次阅读</span> <a id="btn-addbookrack" class="okbtn add-fav" data-hidden="ok"
 					data-bid="14438">确定</a>
 			</center>
 		</div>
@@ -100,4 +104,41 @@
 <%@ include file="/WEB-INF/views/include/include_footer.jsp"%>
 	</article>
 </body>
+<script type="text/javascript" src="<%=path %>/static/js/public.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#btn-addbookrack").click(function(){
+		var text=$("#btn-addbookrack").html();
+		if(text=="已添加"){
+			return;
+		}
+		var bookid=$("#bookid").val();
+		var bookname=$("#bookname").val();
+		var chapterid=$("#chapterid").val();
+		var chaptername=$("#chaptername").val();
+		var userid=getCookie("wx_userid");
+		if(userid==undefined||userid==""){
+			userid=3;
+		}
+		var postData={'bookId':bookid,'bookName':bookname,'chapterId':chapterid,'chapterName':chaptername,'userId':userid}
+		$.ajax({
+			url:"<%=path%>/wxBookrack/updateBookrack",
+			data:postData,
+			type:"post",
+			dataType:"json",
+			success:function(res){
+				$("#btn-addbookrack").css("disabled");
+				$("#btn-addbookrack").html("已添加");
+				console.log(res.msg);
+			},
+			error:function(res){
+				//alert("失败");
+			}
+		});
+	});
+});
+
+
+	
+</script>
 </html>

@@ -27,10 +27,24 @@
 		</ul>
 	</div>
 	<ul class="btn_area fn-clear">
-		<li><a class="btn block start_read" href="<%=path %>/wxChapterSub/defualt?bookId=${wxBook.getId()}">免费阅读</a></li>
 		<li>
+		<c:if test="${bookrack.chapterid>0}">
+		<a class="btn block start_read" href="<%=path %>/wxChapterSub/index?bookId=${wxBook.getId()}&chapterId=${bookrack.chapterid}">继续阅读</a>
+		</c:if>
+		<c:if test="${bookrack==null||bookrack.chapterid<=0}">
+		<a class="btn block start_read" href="<%=path %>/wxChapterSub/defualt?bookId=${wxBook.getId()}">免费阅读</a>
+		</c:if>
+		</li>
+		<li>
+		<c:if test="${bookrack.bookid>0}">
+		<span class="btn white block add-fav disabled" id="btn-addbookrack" data-bid="${wxBook.getId()}" data-name="${wxBook.getName()}">
+		已添加</span>
+		</c:if>
+		<c:if test="${bookrack==null||bookrack.bookid<=0}">
 		<span class="btn white block add-fav" id="btn-addbookrack" data-bid="${wxBook.getId()}" data-name="${wxBook.getName()}">
 		加入书架</span>
+		</c:if>
+		
 		</li>
 	</ul>
         <a href="<%=path %>/wxChapter/index?bookId=${wxBook.getId()}" class="btn block white">全部章节目录</a>
@@ -69,7 +83,7 @@ $(function(){
 			type:"post",
 			dataType:"json",
 			success:function(res){
-				$("#btn-addbookrack").prop("disabled","disabled");
+				$("#btn-addbookrack").css("disabled");
 				$("#btn-addbookrack").html("已添加");
 				console.log(res.msg);
 			},
@@ -85,11 +99,11 @@ function showmoreintr(){
     if(content=="展开"){
     	$("#showSummary").addClass("up");
     	$("#showSummary a").html("折叠");
-    	$("#summary").attr("height","auto");
+    	$("#summary").css("height","auto");
     	
     }else{
     	$("#showSummary").removeClass("up");
-    	$("#summary").attr("height","120px");
+    	$("#summary").css("height","120px");
     	$("#showSummary a").html("展开");
     }
 }

@@ -62,10 +62,20 @@ public interface WxBookrackMapper {
         "select",
         "Id, BookId, BookName, ChapterId, ChapterTitle, Location, UserId, CreateTime",
         "from wxbookrack",
-        "where BookId = #{bookId,jdbcType=INTEGER} order by CreateTime desc LIMIT 0,1"
+        "where UserId = #{userId,jdbcType=INTEGER} and BookId = #{bookId,jdbcType=INTEGER} order by CreateTime desc LIMIT 0,1"
     })
     @ResultMap("BaseResultMap")
-    WxBookrack getModelByBookId(Integer bookId);
+    WxBookrack getModelByBookId(@Param("userId")Integer userId,@Param("bookId")Integer bookId);
+    
+    
+    @Select({
+        "select",
+        "Id, BookId, BookName, ChapterId, ChapterTitle, Location, UserId, CreateTime",
+        "from wxbookrack",
+        "where UserId = #{userId,jdbcType=INTEGER}  order by CreateTime desc LIMIT 0,1"
+    })
+    @ResultMap("BaseResultMap")
+    WxBookrack getModelByUserId(@Param("userId")Integer userId);
     
     
     @Select({
