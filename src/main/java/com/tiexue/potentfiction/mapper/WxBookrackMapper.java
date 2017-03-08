@@ -83,7 +83,7 @@ public interface WxBookrackMapper {
         "a.Id, a.BookId, a.BookName, a.ChapterId, a.ChapterTitle, a.Location, a.UserId, ",
         " b.CoverImgs,b.Intr,c.SortOrder",
         "from wxbookrack a inner join wxbook b on a.BookId=b.Id ",
-        " inner join wxchapter c on a.ChapterId=c.Id ",
+        " left join wxchapter c on a.ChapterId=c.Id ",
         "where a.UserId = #{userId,jdbcType=INTEGER} order by a.CreateTime desc LIMIT 0,#{size}"
     })
     @ResultMap("joinBookResultMap")

@@ -5,12 +5,21 @@
 <html lang="en">
 <head>
 <%@ include file="/WEB-INF/views/include/include_base.jsp"%>
+<style type="text/css">
+ .body1{
+   background: rgb(230, 224, 189);
+ }
+ .body2{
+   background: rgb(56, 56, 56);
+ }
+
+</style>
 <title>${wxChapterSub.bookName}</title>
 </head>
 <body>
 	<article class="theme1">
 		<nav>
-			<span>${wxChapterSub.title}</span><a class="badge menu"
+			<span>${wxChapterSub.title}</span><a id="badge_menu" class="badge menu"
 				href="javascript:;">菜单</a>
 		</nav>
 		<div class="content" style="font-size: 18px;">
@@ -38,9 +47,11 @@
 		<div class="tool_mask"></div>
 		<div class="tool_option">
 			<ul>
-				<li id="background"><label>背景：</label> <span class="theme1"
-					data-theme="1">Aa</span> <span class="theme2" data-theme="2">Aa</span>
-					<span class="theme3" data-theme="3">Aa</span></li>
+				<li id="background"><label>背景：</label> 
+				<span class="theme1" data-theme="1">Aa</span> 
+				<span class="theme2" data-theme="2">Aa</span>
+				<span class="theme3" data-theme="3">Aa</span>
+				</li>
 				<li id="font-size"><label>文字：</label> <span
 					style="font-size: 30px" data-font="30" class="">A</span> <span
 					style="font-size: 26px" data-font="26" class="">A</span> <span
@@ -49,7 +60,7 @@
 					style="font-size: 14px" data-font="14" class="">A</span></li>
 			</ul>
 		</div>
-		<div class="tool_top" style="display: none">
+		<div class="tool_top" style="display: none;">
 			<ul>
 				<li><a href="<%=path%>/wxbook/detail?id=${wxChapterSub.bookId}"><i
 						class="ico40 back back2"></i>书页</a></li>
@@ -61,16 +72,14 @@
 				</a></li>
 			</ul>
 		</div>
-		<div class="tool_bottom" style="display: none">
+		<div class="tool_bottom" style="display: none;">
 			<ul>
 			<li class="pn"><c:if test="${wxChapterSub.preId>0 }">
 					<a class="chapter_prev"
 						data-cid="${wxChapterSub.preId}"
 						href="<%=path %>/wxChapterSub/index?bookId=${wxChapterSub.bookId}&chapterId=${wxChapterSub.preId}">
-<i
-						class="ico40 fastprev"></i>上章
-</a>
-				</c:if> <c:if test="${wxChapterSub.preId<=0 }">
+                  <i class="ico40 fastprev"></i>上章</a>
+				 </c:if> <c:if test="${wxChapterSub.preId<=0 }">
 					<a class="chapter_prev" href="#"
 						disabled="disabled"><i
 						class="ico40 fastprev"></i>上章</a>
@@ -94,7 +103,7 @@
 		   <input type="hidden" id="bookname" name="bookname" value="${wxChapterSub.bookName}">
             <input type="hidden" id="chapterid" name="chapterid" value="${wxChapterSub.id}">
             <input type="hidden" id="chaptername" name="chaptername" value="${wxChapterSub.title}">     
-			<center>
+			<center >
 				<span>请加收藏，方便下次阅读</span> 
 				<a id="btn-addbookrack" class="okbtn add-fav" 	dden="ok" data-bid="14438">确定</a>
 			</center>
@@ -104,22 +113,39 @@
 <%@ include file="/WEB-INF/views/include/include_footer.jsp"%>
 	</article>
 </body>
+
 <script type="text/javascript" src="<%=path %>/static/js/public.js"></script>
 <script type="text/javascript">
+var chaptersub_article_fontsize="chaptersub_article_fontsize";
+var chaptersub_body_background="chaptersub_body_background";
 $(function(){
-	$("#btn-addbookrack").click(function(){
-		var text=$("#btn-addbookrack").html();
-		if(text=="已添加"){
-			return;
-		}
-		var bookid=$("#bookid").val();
-		var bookname=$("#bookname").val();
-		var chapterid=$("#chapterid").val();
-		var chaptername=$("#chaptername").val();
-		var userid=getCookie("wx_userid");
-		if(userid==undefined||userid==""){
-			userid=3;
-		}
+	var body_background=getCookie(chaptersub_body_background);
+	var article_fontsize=getCookie(chaptersub_article_fontsize);
+	if(body_background!=undefined&&body_background!=""){
+	 	 $("body article").attr("class",body_background);
+	}
+	if(article_fontsize!=undefined&&article_fontsize!=""){
+		$(".content").css("font-size",article_fontsize+"px");
+	}
+});
+
+
+$("#btn-addbookrack").click(function(){
+	var text=$("#btn-addbookrack").html();
+	if(text=="已添加"){
+		return;
+	}
+	var bookid=$("#bookid").val();
+	var bookname=$("#bookname").val();
+	var chapterid=$("#chapterid").val();
+	var chaptername=$("#chaptername").val();
+	var userid=getCookie("wx_userid");
+	if(userid==undefined||userid==""){
+		addbookrack(bookid,chapterid);
+		$("#btn-addbookrack").css("disabled");
+		$("#btn-addbookrack").html("已添加");
+		$("#collect").hide();
+	}else{
 		var postData={'bookId':bookid,'bookName':bookname,'chapterId':chapterid,'chapterName':chaptername,'userId':userid}
 		$.ajax({
 			url:"<%=path%>/wxBookrack/updateBookrack",
@@ -129,15 +155,77 @@ $(function(){
 			success:function(res){
 				$("#btn-addbookrack").css("disabled");
 				$("#btn-addbookrack").html("已添加");
+				$("#collect").hide();
 				console.log(res.msg);
 			},
 			error:function(res){
 				//alert("失败");
 			}
 		});
-	});
+	}
+	
 });
 
+$("#badge_menu").click(function(){
+	$(".tool_top").show();
+	$(".tool_bottom").show();
+});
+$(".content").click(function(){
+	var display =$('.tool_top').css('display');
+	if(display == 'none'){
+		$(".tool_top").show();
+		$(".tool_bottom").show();
+	}else{
+		$(".tool_top").hide();
+		$(".tool_bottom").hide();
+		$(".tool_option").hide();
+	}
+	
+});
+
+$(".option").click(function(){
+	var display =$('.tool_option').css('display');
+	if(display == 'none'){
+		$(".tool_option").show();
+
+	}else{
+		$(".tool_option").hide();
+	}
+	
+});
+
+$("span[data-font]").click(function(){
+	var _this = $(this);
+	var fontsize = _this.attr("data-font");
+	
+	$("span[data-font]").each(function(index,element){
+		if(fontsize==$(element).attr("data-font")){
+			$(element).addClass("current");
+		}
+		else{
+			$(element).removeClass("current");
+		}
+	});
+	$(".content").css("font-size",fontsize+"px");
+	setCookie("chaptersub_article_fontsize",fontsize,3650);
+	console.log(fontsize);
+});
+
+$("span[data-theme]").click(function(){
+	var _this=$(this);
+	var className=_this.attr("class");
+	$("span[data-theme]").each(function(index,element){
+		if(className==$(element).attr("class")){
+			$(element).addClass("current");
+		}
+		else{
+			$(element).removeClass("current");
+		}
+	});
+	$("body article").attr("class",className);
+	setCookie("chaptersub_body_background",className,3650);
+	
+});
 
 	
 </script>

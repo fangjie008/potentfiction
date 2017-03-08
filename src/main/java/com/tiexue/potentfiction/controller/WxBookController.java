@@ -83,6 +83,7 @@ public class WxBookController {
 			wxBookDto.setId(wxBook.getId());
 			wxBookDto.setName(wxBook.getName());
 			wxBookDto.setCoverImgs(wxBook.getCoverimgs());
+			wxBookDto.setTag(wxBook.getTag());
 			wxBookDto.setStatus(EnumType.BookStatus.get(wxBook.getStatus()));
 			wxBookDto.setContentLen(wxBook.getContentlen());
 			wxBookDto.setIntr(wxBook.getIntr());
@@ -97,6 +98,7 @@ public class WxBookController {
 				WxBookDto wxBookDto=new WxBookDto();
 				wxBookDto.setId(book.getId());
 				wxBookDto.setName(book.getName());
+				wxBookDto.setTag(book.getTag());
 				wxBookDto.setCoverImgs(book.getCoverimgs());
 				wxBookDto.setStatus(EnumType.BookStatus.get(book.getStatus()));
 				wxBookDto.setContentLen(book.getContentlen());

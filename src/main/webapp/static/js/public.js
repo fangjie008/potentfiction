@@ -16,7 +16,7 @@ function setCookie(c_name, value, expiredays) {
     var exdate = new Date();
     exdate.setDate(exdate.getDate() + expiredays);
     document.cookie = c_name + "=" + escape(value) +
-    ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString());
+    ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())+";path=/";
 }
 
 //获得url中传递的参数
@@ -31,3 +31,39 @@ function getParameterByName(name) {
         return decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
+
+function bookrack(bookid,chapterid){
+	this.bookid=bookid;
+	this.chapterid=chapterid;
+}
+//把书架信息添加到cookie中
+function addbookrack(bookid,chapterid){
+	var isupdate=false;
+	var array=new Array();
+	var bookracks= getCookie("defaultbookrack");
+	if(bookracks==undefined||bookracks==""){
+		array.push(new bookrack(bookid,chapterid));
+	}else{
+		var jsonobj=JSON.parse(bookracks);
+		if(jsonobj.length>=20){
+			//删除第一个
+			jsonobj.shift();
+		}
+		for(var i=0;i<jsonobj.length;i++){
+			if(jsonobj[i].bookid==bookid){
+				isupdate=true;
+				if(chapterid!="0"||chapterid!=0){
+					jsonobj[i].chapterid=chapterid;
+				}
+			}
+		}
+		array=jsonobj;
+		if(!isupdate){
+			array.push(new bookrack(bookid,chapterid));
+		}
+		
+	}
+	
+	var json=JSON.stringify(array);
+    setCookie("defaultbookrack",json,365);
+}

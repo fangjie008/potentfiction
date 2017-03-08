@@ -22,7 +22,7 @@
 		<label>登录</label>
 		</a>
 		</dt>
-	<dd><a href="<%=path%>/wxBookrack/list?userId=3""><span class="ico32 bookcase"></span>书架</a></dd>
+	<dd><a href="<%=path%>/wxBookrack/list""><span class="ico32 bookcase"></span>书架</a></dd>
 	<dd class="sp"></dd>
 	<dd><a href="<%=path%>/wxPay/pay"><span class="ico32 pay"></span>充值</a></dd>
 </dl>

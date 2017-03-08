@@ -1,18 +1,24 @@
 package com.tiexue.potentfiction.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tiexue.potentfiction.dto.WxBookrackDto;
+import com.tiexue.potentfiction.dto.bookrackCookieDto;
 import com.tiexue.potentfiction.entity.EnumType;
 import com.tiexue.potentfiction.entity.WxBook;
 import com.tiexue.potentfiction.entity.WxBookrack;
@@ -24,7 +30,8 @@ import com.tiexue.potentfiction.service.IWxChapterService;
 @Controller
 @RequestMapping("wxBookrack")
 public class WxBookrackController {
-
+	// 日志
+	private Logger logger = Logger.getLogger(WxBookrackController.class);
 	@Resource
 	IWxBookrackService bookrackService;
 	@Resource
@@ -105,25 +112,87 @@ public class WxBookrackController {
 		return getObj.toString();
 	}
 	
-	//获取书架信息
+	/**
+	 * 获取书架信息 最多获取20条书架
+	 * 
+	 * @param request
+	 * @param userId
+	 * @return
+	 */
 	@RequestMapping("list")
-	public String getBookrackList(HttpServletRequest request,Integer userId){
+	public String getBookrackList(HttpServletRequest request,@CookieValue("defaultbookrack")String rackCookie) {
+		String userIdStr = request.getParameter("userId");
+		int userId = 0;
 		WxChapter chap;
-		List<WxBookrackDto> racks=bookrackService.getListByUserId(userId, 20);
-		if(racks!=null){
-			for (WxBookrackDto rackDto : racks) {
-				chap=new WxChapter();
-			    chap=wxChapterService.getLastChapter(rackDto.getBookid(), EnumType.ChapterStatus_OnLine);
-			    if(chap!=null){
-			    	rackDto.setLastchapterid(chap.getId());
-			    	rackDto.setLastchaptertitle(chap.getTitle());
-			    	rackDto.setLastsortorder(chap.getSortorder());
-			    }
-			    	
+		List<WxBookrackDto> racks = new ArrayList<WxBookrackDto>();
+		try {
+			//未登录
+			if (userIdStr == null ||userIdStr.isEmpty()) {
+				if(rackCookie!=null&&!rackCookie.isEmpty()){
+				 List<bookrackCookieDto> cookies=JSON.parseArray(rackCookie, bookrackCookieDto.class);
+				 if(cookies!=null&&cookies.size()>0){
+					 for (int i = cookies.size()-1; i >=0; i--) {
+						 //最多取20条记录
+						 if(racks.size()>=20)
+							break;
+						 WxChapter curChap = null;
+						 WxChapter lastChap = null;
+						 WxBook book= bookService.selectByPrimaryKey(cookies.get(i).getBookid());
+						 lastChap = wxChapterService.getLastChapter(cookies.get(i).getBookid(), EnumType.ChapterStatus_OnLine);
+						 if(cookies.get(i).getChapterid()>0){
+							 curChap=wxChapterService.selectByPrimaryKey(cookies.get(i).getChapterid(), EnumType.ChapterStatus_OnLine);
+						 }
+						 racks.add(bookrackDtoFill(book,curChap,lastChap));
+					}
+				 }
+				 
+				}
+			}//已登录 
+			else {
+				userId=Integer.parseInt(userIdStr);
+				racks = bookrackService.getListByUserId(userId, 20);
+				if (racks != null) {
+					for (WxBookrackDto rackDto : racks) {
+						chap = new WxChapter();
+						chap = wxChapterService.getLastChapter(rackDto.getBookid(), EnumType.ChapterStatus_OnLine);
+						if (chap != null) {
+							rackDto.setLastchapterid(chap.getId());
+							rackDto.setLastchaptertitle(chap.getTitle());
+							rackDto.setLastsortorder(chap.getSortorder());
+						}
+
+					}
+				}
 			}
+			request.setAttribute("bookracks", racks);
+		} catch (Exception e) {
+			logger.error("获取书架信息失败:"+e.getMessage());
 		}
-		request.setAttribute("bookracks", racks);
-		return "/wxBookrack/index";
 		
+		return "/wxBookrack/index";
+
+	}
+	
+	private WxBookrackDto bookrackDtoFill(WxBook book,WxChapter curChap,WxChapter lastChap){
+		WxBookrackDto rack = new WxBookrackDto();
+		if (book != null) {
+			rack.setBookid(book.getId());
+			rack.setBookname(book.getName());
+			rack.setCoverimgs(book.getCoverimgs());
+			rack.setIntr(book.getIntr());
+			rack.setLocation(0);
+			rack.setUserid(0);
+		}
+		if (curChap != null) {
+			rack.setChapterid(curChap.getId());
+			rack.setChaptertitle(curChap.getTitle());
+			rack.setSortorder(curChap.getSortorder());
+		}
+		if (lastChap != null) {
+			rack.setLastchapterid(lastChap.getId());
+			rack.setLastchaptertitle(lastChap.getTitle());
+			rack.setLastsortorder(lastChap.getSortorder());
+		}
+		return rack;
 	}
 }

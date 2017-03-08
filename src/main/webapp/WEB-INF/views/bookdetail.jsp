@@ -19,11 +19,11 @@
 	<div class="fn-clear">
         <img class="cover fn-left lazy" style="margin-top:0px;" src="${wxBook.getCoverImgs()}" dataimg="${wxBook.getCoverImgs()}" width="80px" height="112px">
 		<ul class="book_info">
-             <li><label>专题：</label><a href="/main/follow.html">言情小说迷</a></li>
-			<li><label>类别：</label><a href="#">现代言情</a> <a href="#">总裁豪门</a></li>
-			<li><label>状态：</label>连载中</li>
+             <li><label>专题：</label><a href="#">言情小说</a></li>
+			<li><label>类别：</label><a href="#">${wxBook.tag}</a></li>
+			<li><label>状态：</label>${wxBook.status}</li>
 			<li><label>字数：</label>${wxBook.getContentLen()}</li>
-			<li><label>评论：</label><span class="orange"></span> <a class="scrollTo" href="#comments"></a></li>
+			<li><label></label><span class="orange"></span> <a class="scrollTo" href="#comments"></a></li>
 		</ul>
 	</div>
 	<ul class="btn_area fn-clear">
@@ -74,23 +74,27 @@ $(function(){
 		var bookname=$("#bookname").val();
 		var userid=getCookie("wx_userid");
 		if(userid==undefined||userid==""){
-			userid=3;
+			addbookrack(bookid,0);
+			$("#btn-addbookrack").css("disabled");
+			$("#btn-addbookrack").html("已添加");
+		}else{
+			var postData={'bookId':bookid,'bookName':bookname,'userId':userid}
+			$.ajax({
+				url:"<%=path%>/wxBookrack/addBookrack",
+				data:postData,
+				type:"post",
+				dataType:"json",
+				success:function(res){
+					$("#btn-addbookrack").css("disabled");
+					$("#btn-addbookrack").html("已添加");
+					console.log(res.msg);
+				},
+				error:function(res){
+					//alert("失败");
+				}
+			});
 		}
-		var postData={'bookId':bookid,'bookName':bookname,'userId':userid}
-		$.ajax({
-			url:"<%=path%>/wxBookrack/addBookrack",
-			data:postData,
-			type:"post",
-			dataType:"json",
-			success:function(res){
-				$("#btn-addbookrack").css("disabled");
-				$("#btn-addbookrack").html("已添加");
-				console.log(res.msg);
-			},
-			error:function(res){
-				//alert("失败");
-			}
-		});
+		
 	});
 });
 
