@@ -31,5 +31,12 @@ public interface IWxChapterService  {
 	    WxChapter getNextChapter(Integer bookId,Integer chapterId,Integer status);
 	    
 	    WxChapter getFirstChapter(Integer bookId,Integer status);
+	    /**
+	     * 或许最新章节
+	     * @param bookId
+	     * @param status
+	     * @return
+	     */
+	    WxChapter getLastChapter(Integer bookId,Integer status);
 }
 

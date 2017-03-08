@@ -71,4 +71,9 @@ public class WxChapterServiceImpl implements IWxChapterService {
 		return wxChapterMapper.getFirstChapter(bookId,status);
 	}
 
+	@Override
+	public WxChapter getLastChapter(Integer bookId, Integer status) {
+		return wxChapterMapper.getLastChapter(bookId, status);
+	}
+
 }

@@ -9,6 +9,9 @@ public class WxBookrackDto {
 	    private Integer chapterid;
 
 	    private String chaptertitle;
+	    
+	    //章节号
+	    private Integer sortorder;
 
 	    private Integer location;
 
@@ -17,6 +20,12 @@ public class WxBookrackDto {
 		private String intr;
 		// 封面图
 		private String coverimgs;
+		
+		private Integer lastchapterid;
+		
+		private Integer lastsortorder;
+
+	    private String lastchaptertitle;
 
 	    public Integer getId() {
 	        return id;
@@ -88,6 +97,38 @@ public class WxBookrackDto {
 
 		public void setCoverimgs(String coverimgs) {
 			this.coverimgs = coverimgs;
+		}
+
+		public Integer getSortorder() {
+			return sortorder;
+		}
+
+		public void setSortorder(Integer sortorder) {
+			this.sortorder = sortorder;
+		}
+
+		public Integer getLastchapterid() {
+			return lastchapterid;
+		}
+
+		public void setLastchapterid(Integer lastchapterid) {
+			this.lastchapterid = lastchapterid;
+		}
+
+		public Integer getLastsortorder() {
+			return lastsortorder;
+		}
+
+		public void setLastsortorder(Integer lastsortorder) {
+			this.lastsortorder = lastsortorder;
+		}
+
+		public String getLastchaptertitle() {
+			return lastchaptertitle;
+		}
+
+		public void setLastchaptertitle(String lastchaptertitle) {
+			this.lastchaptertitle = lastchaptertitle;
 		}
 
 	

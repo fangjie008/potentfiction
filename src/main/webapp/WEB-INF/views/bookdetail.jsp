@@ -23,7 +23,7 @@
 			<li><label>类别：</label><a href="#">现代言情</a> <a href="#">总裁豪门</a></li>
 			<li><label>状态：</label>连载中</li>
 			<li><label>字数：</label>${wxBook.getContentLen()}</li>
-			<li><label>评论：</label><span class="orange">53</span> <a class="scrollTo" href="#comments">看评论»</a></li>
+			<li><label>评论：</label><span class="orange"></span> <a class="scrollTo" href="#comments"></a></li>
 		</ul>
 	</div>
 	<ul class="btn_area fn-clear">

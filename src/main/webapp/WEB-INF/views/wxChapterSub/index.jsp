@@ -95,8 +95,8 @@
             <input type="hidden" id="chapterid" name="chapterid" value="${wxChapterSub.id}">
             <input type="hidden" id="chaptername" name="chaptername" value="${wxChapterSub.title}">     
 			<center>
-				<span>请加收藏，方便下次阅读</span> <a id="btn-addbookrack" class="okbtn add-fav" data-hidden="ok"
-					data-bid="14438">确定</a>
+				<span>请加收藏，方便下次阅读</span> 
+				<a id="btn-addbookrack" class="okbtn add-fav" 	dden="ok" data-bid="14438">确定</a>
 			</center>
 		</div>
 		<!--收藏本书结束-->

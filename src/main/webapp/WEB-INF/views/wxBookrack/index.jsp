@@ -28,8 +28,10 @@
 		      	<a  class="jxread" href="<%=path%>/wxbook/detail?id=${racks.getBookid()}">
 		      	  <div>
 		      	    <p class="nowrap">${racks.getBookname()}</p>
-                    <p class="small nowrap">最后更新：<label>第1305章 医生何求</label></p>
-                    <p class="small nowrap">阅读进度：<label class="ccode">3/1073 章节<br>继续阅读</label></p>
+                    <p class="small nowrap">最后更新：<label>${racks.lastchaptertitle}</label></p>
+                    <a herf="<%=path %>/wxChapterSub/index?bookId=${racks.getBookid()}&chapterId=${racks.chapterid}">
+                    <p class="small nowrap">阅读进度：<label class="ccode">${racks.sortorder}/${racks.lastsortorder} 章节<br>继续阅读</label></p>
+                    </a>
 		      	 </div>
 		      	</a>
 		      	<span class="del" data-bid="${racks.getBookid() }"><span class="verticalAlign"></span><label>删除</label></span>

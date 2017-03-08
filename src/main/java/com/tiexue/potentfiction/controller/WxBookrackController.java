@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.tiexue.potentfiction.dto.WxBookrackDto;
+import com.tiexue.potentfiction.entity.EnumType;
 import com.tiexue.potentfiction.entity.WxBook;
 import com.tiexue.potentfiction.entity.WxBookrack;
+import com.tiexue.potentfiction.entity.WxChapter;
 import com.tiexue.potentfiction.service.IWxBookService;
 import com.tiexue.potentfiction.service.IWxBookrackService;
+import com.tiexue.potentfiction.service.IWxChapterService;
 
 @Controller
 @RequestMapping("wxBookrack")
@@ -26,7 +29,10 @@ public class WxBookrackController {
 	IWxBookrackService bookrackService;
 	@Resource
 	IWxBookService bookService;
-
+	//获取章节信息的服务
+	@Resource
+	IWxChapterService wxChapterService;
+	
 	@RequestMapping("addBookrack")
 	@ResponseBody
 	public String insertBookrack(HttpServletRequest request, Integer bookId, String bookName, Integer userId)
@@ -102,7 +108,20 @@ public class WxBookrackController {
 	//获取书架信息
 	@RequestMapping("list")
 	public String getBookrackList(HttpServletRequest request,Integer userId){
+		WxChapter chap;
 		List<WxBookrackDto> racks=bookrackService.getListByUserId(userId, 20);
+		if(racks!=null){
+			for (WxBookrackDto rackDto : racks) {
+				chap=new WxChapter();
+			    chap=wxChapterService.getLastChapter(rackDto.getBookid(), EnumType.ChapterStatus_OnLine);
+			    if(chap!=null){
+			    	rackDto.setLastchapterid(chap.getId());
+			    	rackDto.setLastchaptertitle(chap.getTitle());
+			    	rackDto.setLastsortorder(chap.getSortorder());
+			    }
+			    	
+			}
+		}
 		request.setAttribute("bookracks", racks);
 		return "/wxBookrack/index";
 		
