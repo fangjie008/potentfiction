@@ -141,6 +141,8 @@ public class WxUserController {
 			sb.append("YourCountry:").append(wxSnsUser.getCountry()).append(System.lineSeparator());
 			sb.append("YourHeadimgurl:").append(wxSnsUser.getHeadimgurl()).append(System.lineSeparator());
 			sb.append("YourSex:").append(wxSnsUser.getSex()).append(System.lineSeparator());
+			response.setHeader("Content-type", "text/html;charset=UTF-8");
+			response.setCharacterEncoding("UTF-8");
 			response.getWriter().println(sb.toString());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
