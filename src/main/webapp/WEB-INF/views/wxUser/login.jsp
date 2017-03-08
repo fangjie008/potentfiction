@@ -17,7 +17,7 @@
 	<div class="other_login">
         <div class="dsflogin"><span>免注册快速登录</span></div>
 		<ul>
-			<li><a class="btn block btn_login" href="<%=path%>/wxUser/content?userId=3"><span class="bgs login_wxpng"></span>微信登录</a></li>
+			<li><a class="btn block btn_login" href="<%=path%>/wxUser/wxlogindo"><span class="bgs login_wxpng"></span>微信登录</a></li>
 		</ul>
 		<br>
 	</div>
