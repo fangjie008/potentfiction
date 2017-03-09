@@ -49,11 +49,11 @@ public class UserConsServiceImpl implements IUserConsService {
 			return resultMsg;
 		}
 		// 包年用户
-				if (userModel.getDeadline().getTime() > new Date().getTime()) {
-					resultMsg.setStatus(true);
-					resultMsg.setMsg("包年用户");
-					return resultMsg;
-				}
+		if (userModel.getDeadline().getTime() > new Date().getTime()) {
+			resultMsg.setStatus(true);
+			resultMsg.setMsg("包年用户");
+			return resultMsg;
+		}
 		// 是否自动付费
 		if (!getAutoPurchase(userModel, bookId)) {
 			resultMsg.setStatus(false);
@@ -61,15 +61,14 @@ public class UserConsServiceImpl implements IUserConsService {
 			resultMsg.setNum(EnumType.ResultNum_Cons);
 			return resultMsg;
 		}
-		
+
 		// 余额不足
 		if (userModel.getCoin() < chapterModel.getPirce()) {
 			resultMsg.setStatus(false);
 			resultMsg.setMsg("跳转到充值页面");
 			resultMsg.setNum(EnumType.ResultNum_Pay);
 			return resultMsg;
-		}
-		else {
+		} else {
 			// 添加消费信息
 			WxConsume cons = new WxConsume();
 			cons.setBookid(bookId);
@@ -83,12 +82,11 @@ public class UserConsServiceImpl implements IUserConsService {
 			userModel.setCoin(userModel.getCoin() - chapterModel.getPirce());
 			userModel.setUpdatetime(new Date());
 			// 更新小说币并增加记录
-			boolean dealRes= userSerImpl.updateCoin(userModel, cons);
-			if(dealRes){
-			resultMsg.setStatus(true);
-			resultMsg.setMsg("支付成功");
-			}
-			else{
+			boolean dealRes = userSerImpl.updateCoin(userModel, cons);
+			if (dealRes) {
+				resultMsg.setStatus(true);
+				resultMsg.setMsg("支付成功");
+			} else {
 				resultMsg.setStatus(false);
 				resultMsg.setMsg("自动扣款失败跳转到扣费页面");
 				resultMsg.setNum(EnumType.ResultNum_Cons);
