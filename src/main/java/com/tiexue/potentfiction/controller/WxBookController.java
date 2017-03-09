@@ -8,15 +8,20 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.alibaba.fastjson.JSON;
 import com.tiexue.potentfiction.dto.WxBookDto;
 import com.tiexue.potentfiction.dto.WxBookrackDto;
+import com.tiexue.potentfiction.dto.bookrackCookieDto;
 import com.tiexue.potentfiction.entity.EnumType;
 import com.tiexue.potentfiction.entity.WxBook;
 import com.tiexue.potentfiction.entity.WxBookrack;
+import com.tiexue.potentfiction.entity.WxChapter;
 import com.tiexue.potentfiction.service.IWxBookService;
 import com.tiexue.potentfiction.service.IWxBookrackService;
+import com.tiexue.potentfiction.service.IWxChapterService;
 
 @Controller
 @RequestMapping("/wxbook")
@@ -29,6 +34,9 @@ public class WxBookController {
 	
 	@Resource
 	IWxBookrackService bookrackService;
+	//获取章节信息的服务
+	@Resource
+	IWxChapterService wxChapterService;
 	
 	/**
 	 * 首页入口
@@ -36,7 +44,7 @@ public class WxBookController {
 	 * @return
 	 */
 	@RequestMapping("/list")
-	public String list(HttpServletRequest request) {
+	public String list(HttpServletRequest request,@CookieValue(value ="defaultbookrack",required = true, defaultValue = "")String rackCookie) {
 
 		try {
 			String userIdStr = request.getParameter("userId");
@@ -44,11 +52,14 @@ public class WxBookController {
 			List<WxBook> wxBooks = this.wxBookService.getList(status, "ViewCount");
 			List<WxBookDto> wxBookDtos = toWxBookListDto(wxBooks);
 			request.setAttribute("wxBooks", wxBookDtos);
+			WxBookrack rack=new WxBookrack();
 			if (userIdStr != null && !userIdStr.isEmpty()) {
 				int userId = Integer.parseInt(userIdStr);
-				WxBookrack rack = bookrackService.getModelByUserId(userId);
-				request.setAttribute("bookrack", rack);
+			    rack = bookrackService.getModelByUserId(userId);
+			}else{
+				rack=getBookrackByCookie(rackCookie);
 			}
+			request.setAttribute("bookrack", rack);
 		} catch (Exception e) {
 			logger.error("首页获取数据异常"+e.getMessage());
 		}
@@ -69,11 +80,49 @@ public class WxBookController {
 				int userId = Integer.parseInt(userIdStr);
 				WxBookrack rack = bookrackService.getModelByBookId(userId, bookId);
 				request.setAttribute("bookrack", rack);
+			}else{
+				
 			}
 
 		}
 
 		return "bookdetail";
+	}
+	
+	/**
+	 * 根据cookie获取收藏的书架
+	 * @param rackCookie
+	 * @return
+	 */
+	private WxBookrack getBookrackByCookie(String rackCookie){
+		WxBookrack rack = new WxBookrack();
+		 List<bookrackCookieDto> cookies=JSON.parseArray(rackCookie, bookrackCookieDto.class);
+		 if(cookies!=null&&cookies.size()>0){
+				 WxChapter curChap = null;
+				 WxBook book= wxBookService.selectByPrimaryKey(cookies.get(cookies.size()-1).getBookid());
+				 if(cookies.get(cookies.size()-1).getChapterid()>0){
+					 curChap=wxChapterService.selectByPrimaryKey(cookies.get(cookies.size()-1).getChapterid(), EnumType.ChapterStatus_OnLine);
+				 }
+				 rack = bookrackDtoFill(book,curChap);
+		 }
+		 return rack;
+	}
+	
+	
+	private WxBookrack bookrackDtoFill(WxBook book,WxChapter curChap){
+		WxBookrack rack = new WxBookrack();
+		if (book != null) {
+			rack.setBookid(book.getId());
+			rack.setBookname(book.getName());
+			rack.setLocation(0);
+			rack.setUserid(0);
+		}
+		if (curChap != null) {
+			rack.setChapterid(curChap.getId());
+			rack.setChaptertitle(curChap.getTitle());
+		}
+
+		return rack;
 	}
 	
 	

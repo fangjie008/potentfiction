@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
@@ -120,7 +121,7 @@ public class WxBookrackController {
 	 * @return
 	 */
 	@RequestMapping("list")
-	public String getBookrackList(HttpServletRequest request,@CookieValue("defaultbookrack")String rackCookie) {
+	public String getBookrackList(HttpServletRequest request,@CookieValue(value ="defaultbookrack",required = true, defaultValue = "")String rackCookie) {
 		String userIdStr = request.getParameter("userId");
 		int userId = 0;
 		WxChapter chap;
