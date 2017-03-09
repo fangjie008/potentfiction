@@ -19,4 +19,14 @@ public class WxConstants {
 	// 微信网页授权语言编码
 	public static final String WxSnsLang = "zh_CN";
 
+	// 微信商户支付相关
+	public static final String WxMch_Id = "";
+
+	// 微信商户支付秘钥
+	public static final String WxMch_Key = "";
+
+	// 微信商户支付后回调url
+	public static final String WxMch_NotifyUrl = "";
+	
+
 }
