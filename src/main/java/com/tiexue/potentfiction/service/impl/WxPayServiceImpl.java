@@ -17,29 +17,49 @@ public class WxPayServiceImpl implements IWxPayService {
 	@Resource
 	private WxPayMapper wxPayMapper;
 	
-	@Override
-	public Boolean insert(WxPay wxPay) {
-		return this.wxPayMapper.insert(wxPay);
-	}
 
 	@Override
-	public Boolean update(WxPay wxPay) {
-		return this.wxPayMapper.update(wxPay);
-	}
-
-	@Override
-	public WxPay getModel(int id) {
-		return this.wxPayMapper.getModel(id);
-	}
-
-	@Override
-	public List<WxPay> getListByPage(@Param("userId")int userId,@Param("beginRow")int beginRow,@Param("pageSize")int pageSize) {
+	public List<WxPay> getListByPage(int userId,int beginRow,int pageSize) {
 		return this.wxPayMapper.getListByPage(userId,beginRow,pageSize);
 	}
 
 	@Override
-	public Integer getCountByUserId(@Param("userId")int userId) {
+	public Integer getCountByUserId(int userId) {
 		return this.wxPayMapper.getCountByUserId(userId);
 	}
+
+	@Override
+	public int deleteByPrimaryKey(String ordernum) {
+		return wxPayMapper.deleteByPrimaryKey(ordernum);
+	}
+
+	@Override
+	public int insert(WxPay record) {
+		return wxPayMapper.insert(record);
+	}
+
+	@Override
+	public int insertSelective(WxPay record) {
+		return wxPayMapper.insertSelective(record);
+	}
+
+	@Override
+	public WxPay selectByPrimaryKey(String ordernum) {
+		return wxPayMapper.selectByPrimaryKey(ordernum);
+	}
+
+	@Override
+	public int updateByPrimaryKeySelective(WxPay record) {
+		return wxPayMapper.updateByPrimaryKey(record);
+	}
+
+	@Override
+	public int updateByPrimaryKey(WxPay record) {
+		return wxPayMapper.updateByPrimaryKey(record);
+	}
+
+
+
+
 
 }

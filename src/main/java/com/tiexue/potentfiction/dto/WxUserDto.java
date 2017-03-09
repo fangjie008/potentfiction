@@ -28,7 +28,7 @@ public class WxUserDto {
 
     private String mobile;
 
-    private String weixinid;
+    private String openid;
 
     private String weixintoken;
 
@@ -123,15 +123,17 @@ public class WxUserDto {
         this.mobile = mobile == null ? null : mobile.trim();
     }
 
-    public String getWeixinid() {
-        return weixinid;
-    }
+ 
 
-    public void setWeixinid(String weixinid) {
-        this.weixinid = weixinid == null ? null : weixinid.trim();
-    }
+    public String getOpenid() {
+		return openid;
+	}
 
-    public String getWeixintoken() {
+	public void setOpenid(String openid) {
+		this.openid = openid;
+	}
+
+	public String getWeixintoken() {
         return weixintoken;
     }
 

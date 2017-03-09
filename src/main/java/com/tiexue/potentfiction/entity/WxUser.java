@@ -13,6 +13,12 @@ public class WxUser {
 
     private String pwd;
 
+    private Integer sex;
+
+    private String city;
+
+    private String province;
+
     private Integer usertype;
 
     private Integer coin;
@@ -25,7 +31,7 @@ public class WxUser {
 
     private String mobile;
 
-    private String weixinid;
+    private String openid;
 
     private String weixintoken;
 
@@ -79,6 +85,30 @@ public class WxUser {
         this.pwd = pwd == null ? null : pwd.trim();
     }
 
+    public Integer getSex() {
+        return sex;
+    }
+
+    public void setSex(Integer sex) {
+        this.sex = sex;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city == null ? null : city.trim();
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province == null ? null : province.trim();
+    }
+
     public Integer getUsertype() {
         return usertype;
     }
@@ -127,12 +157,12 @@ public class WxUser {
         this.mobile = mobile == null ? null : mobile.trim();
     }
 
-    public String getWeixinid() {
-        return weixinid;
+    public String getOpenid() {
+        return openid;
     }
 
-    public void setWeixinid(String weixinid) {
-        this.weixinid = weixinid == null ? null : weixinid.trim();
+    public void setOpenid(String openid) {
+        this.openid = openid == null ? null : openid.trim();
     }
 
     public String getWeixintoken() {

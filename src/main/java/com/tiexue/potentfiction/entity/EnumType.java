@@ -90,8 +90,33 @@ public class EnumType {
     		put(PayType_Time,"包月(年)");
     	}
     };
-
-
+    
+    //订单支付状态
+    public static final int OrderStatus_Success=1;
+    public static final int OrderStatus_Error=1;
+    /**
+     * 订单支付状态
+     */
+    public static Map<Integer,String> OrderStatus=new HashMap<Integer,String>(){
+    	{
+    		put(OrderStatus_Success,"支付成功");
+    		put(OrderStatus_Error,"支付失败");
+    	}
+    };
+    
+    //支付渠道
+    public static final int PayChannel_Wx=1;
+    public static final int PayChannel_ZhiFuBao=2;
+    /**
+     * 支付渠道
+     */
+    public static Map<Integer,String> PayChannel=new HashMap<Integer,String>(){
+    	{
+    		put(PayChannel_Wx,"微信");
+    		put(PayChannel_ZhiFuBao,"支付宝");
+    	}
+    };
+    
     //包年(月)充值的单位常量
     public static final int PayUnit_Year=1;
     public static final int PayUnit_Month=2;
@@ -120,6 +145,19 @@ public class EnumType {
     	}
     };
 
+    //用户性别
+    public static final int UserSex_Male=1;
+    public static final int UserSex_Female=2;
+    /**
+     * 用户性别
+     */
+    public static Map<Integer,String> UserSex=new HashMap<Integer,String>(){
+    	{
+    		put(UserSex_Male,"男性");
+    		put(UserSex_Female,"女性");
+    	}
+    };
+    
     //用户状态常量
     public static final int UserStatus_Normal=0;
     public static final int UserStatus_Delete=1;

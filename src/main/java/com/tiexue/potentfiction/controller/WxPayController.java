@@ -1,6 +1,6 @@
 package com.tiexue.potentfiction.controller;
 
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -134,12 +134,12 @@ public class WxPayController {
 		if(wxpays!=null){
 			for (WxPay pay : wxpays) {
 				WxPayDto payDto=new WxPayDto();
-				payDto.setId(pay.getId());
-				payDto.setPayType(pay.getPayType());
-				payDto.setPayTypeName(EnumType.PayType.get(pay.getPayType()));
+				payDto.setOrdernum(pay.getOrdernum());
+				payDto.setPaytype(pay.getPaytype());
+				payDto.setPaytypeName(EnumType.PayType.get(pay.getPaytype()));
 				payDto.setAmount(pay.getAmount());
 				payDto.setCount(pay.getCount());
-				payDto.setCreateTime(DateUtil.date2Str(pay.getCreateTime(),"yyyy-MM-dd HH:mm:ss"));
+				payDto.setCreatetime(DateUtil.date2Str(pay.getCreatetime(),"yyyy-MM-dd HH:mm:ss"));
 				payDto.setUnit(pay.getUnit());
 				payDto.setUnitName(EnumType.PayUnit.get(pay.getUnit()));
 				wxPayDtos.add(payDto);
@@ -170,8 +170,8 @@ public class WxPayController {
 			userDto.setUpdatetime(DateUtil.date2Str(user.getUpdatetime()));
 			userDto.setUsertype(user.getUsertype());
 			userDto.setUsertypestr(EnumType.UserType.get(user.getUsertype()));
-			userDto.setWeixinid(user.getWeixinid());
-			userDto.setWeixintoken(user.getWeixinid());
+			userDto.setOpenid(user.getOpenid());
+			userDto.setWeixintoken(user.getWeixintoken());
 			
 		}
 		return userDto;

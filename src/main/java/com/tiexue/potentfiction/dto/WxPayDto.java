@@ -3,38 +3,39 @@ package com.tiexue.potentfiction.dto;
 public class WxPayDto {
 
 	    //充值Id
-		private Integer id;
+	    private String ordernum;
 		//充值类型
-		private Integer payType; 
+		private Integer paytype; 
 		//充值类型名称
-		private String payTypeName; 
+		private String paytypeName; 
 		//充值金额
 		private Double amount;
 		//小说币
 		private Integer Count;   
 		//充值时间
-		private String createTime;
+		private String createtime;
 		//单位
 		private Integer unit;
 		//单位对应名称
 		private String unitName;
-		public Integer getId() {
-			return id;
+
+		public String getOrdernum() {
+			return ordernum;
 		}
-		public void setId(Integer id) {
-			this.id = id;
+		public void setOrdernum(String ordernum) {
+			this.ordernum = ordernum;
 		}
-		public Integer getPayType() {
-			return payType;
+		public Integer getPaytype() {
+			return paytype;
 		}
-		public void setPayType(Integer payType) {
-			this.payType = payType;
+		public void setPaytype(Integer paytype) {
+			this.paytype = paytype;
 		}
-		public String getPayTypeName() {
-			return payTypeName;
+		public String getPaytypeName() {
+			return paytypeName;
 		}
-		public void setPayTypeName(String payTypeName) {
-			this.payTypeName = payTypeName;
+		public void setPaytypeName(String paytypeName) {
+			this.paytypeName = paytypeName;
 		}
 		public Double getAmount() {
 			return amount;
@@ -48,11 +49,11 @@ public class WxPayDto {
 		public void setCount(Integer count) {
 			Count = count;
 		}
-		public String getCreateTime() {
-			return createTime;
+		public String getCreatetime() {
+			return createtime;
 		}
-		public void setCreateTime(String createTime) {
-			this.createTime = createTime;
+		public void setCreatetime(String createtime) {
+			this.createtime = createtime;
 		}
 		public Integer getUnit() {
 			return unit;

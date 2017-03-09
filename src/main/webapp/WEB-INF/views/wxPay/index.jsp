@@ -19,14 +19,14 @@
 	 	<li>
 	 	 <span>${wxpay.amount}</span>
 	 	 
-	 	 <span>${wxpay.payTypeName}</span>
-	 	 <c:if test="${wxpay.payType==1 }">
+	 	 <span>${wxpay.paytypeName}</span>
+	 	 <c:if test="${wxpay.paytype==1 }">
 	 	 <span>${wxpay.count}</span>
 	 	 </c:if>
-	 	 <c:if test="${wxpay.payType==2 }">
+	 	 <c:if test="${wxpay.paytype==2 }">
 	 	  <span>${wxpay.count}${wxpay.unitName}</span>
 	 	 </c:if>
-	 	 <span>${wxpay.createTime}</span>
+	 	 <span>${wxpay.createtime}</span>
 	 	</li>
 	 </c:forEach>
     </ul>

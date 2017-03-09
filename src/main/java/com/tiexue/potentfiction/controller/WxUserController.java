@@ -74,8 +74,8 @@ public class WxUserController {
 			userDto.setUpdatetime(DateUtil.date2Str(user.getUpdatetime()));
 			userDto.setUsertype(user.getUsertype());
 			userDto.setUsertypestr(EnumType.UserType.get(user.getUsertype()));
-			userDto.setWeixinid(user.getWeixinid());
-			userDto.setWeixintoken(user.getWeixinid());
+			userDto.setOpenid(user.getOpenid());
+			userDto.setWeixintoken(user.getWeixintoken());
 
 		}
 		return userDto;

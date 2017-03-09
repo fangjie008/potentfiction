@@ -63,12 +63,16 @@
 		</javaClientGenerator>
 
 
-      <table tableName="Demo" domainObjectName="Demo"
+<!--       <table tableName="wxpay" domainObjectName="WxPay"
+			enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"
+			selectByExampleQueryId="false">
+		</table> -->
+<table tableName="demo" domainObjectName="Demo"
 			enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"
 			selectByExampleQueryId="false">
 		</table>
-
 	</context>
 
 </generatorConfiguration>
