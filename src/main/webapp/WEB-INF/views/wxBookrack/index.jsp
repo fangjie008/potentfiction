@@ -13,8 +13,8 @@
 </header>
 <div class="panel-bar">
 <ul class="btn_area fn-clear">
-		<li><a class="btn  block " href="#">最近阅读</a></li>
-		<li><a class="btn white block" href="#">收藏书架</a></li>
+<!-- 		<li><a class="btn  block " href="#">最近阅读</a></li>
+		<li><a class="btn white block" href="#">收藏书架</a></li> -->
 	</ul>
 </div>
 <div class="mod_tab_content shelf">

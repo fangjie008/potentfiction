@@ -48,6 +48,12 @@ public class UserConsServiceImpl implements IUserConsService {
 			resultMsg.setMsg("已付费");
 			return resultMsg;
 		}
+		// 包年用户
+				if (userModel.getDeadline().getTime() > new Date().getTime()) {
+					resultMsg.setStatus(true);
+					resultMsg.setMsg("包年用户");
+					return resultMsg;
+				}
 		// 是否自动付费
 		if (!getAutoPurchase(userModel, bookId)) {
 			resultMsg.setStatus(false);
@@ -55,12 +61,7 @@ public class UserConsServiceImpl implements IUserConsService {
 			resultMsg.setNum(EnumType.ResultNum_Cons);
 			return resultMsg;
 		}
-		// 包年用户
-		if (userModel.getDeadline().getTime() > new Date().getTime()) {
-			resultMsg.setStatus(true);
-			resultMsg.setMsg("包年用户");
-			return resultMsg;
-		}
+		
 		// 余额不足
 		if (userModel.getCoin() < chapterModel.getPirce()) {
 			resultMsg.setStatus(false);

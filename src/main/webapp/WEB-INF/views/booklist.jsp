@@ -35,9 +35,9 @@
 		<a  href="<%=path %>/wxChapterSub/index?bookId=${bookrack.bookid}&chapterId=${bookrack.chapterid}">
 		《${bookrack.bookname}》 ${bookrack.chaptertitle}</a>
 		</c:if>
-		<c:if test="${bookrack.bookid>0&&bookrack.chapterid<=0}">
+		<c:if test="${bookrack.bookid>0&&(bookrack.chapterid==null||bookrack.chapterid<=0)}">
 		<label>免费阅读:</label>
-		<a  href="<%=path %>/wxChapterSub/defualt?bookId=${wxBook.bookid}">
+		<a  href="<%=path %>/wxChapterSub/defualt?bookId=${bookrack.bookid}">
 		《${bookrack.bookname}》</a>
 		</c:if>
 		<c:if test="${bookrack==null||bookrack.bookid<=0}">
