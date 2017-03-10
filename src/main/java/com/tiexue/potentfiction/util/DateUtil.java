@@ -26,6 +26,8 @@ public class DateUtil {
 	public static final String DATE_FORMAT_YYYY_MM_DD = "yyyy-MM-dd";
 	
 	public static final String DATE_FORMAT_YYYYMMDD = "yyyyMMdd";
+	
+	public static final String DATE_FORMAT_YYYYMMDDHHmmdd = "yyyyMMddHHmmssSSS";
 
 	/**
 	 * 默认构造函数
@@ -94,7 +96,15 @@ public class DateUtil {
 		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_YYYY_MM_DD);
 		return sdf.format(date);
 	}
-
+	public static String date2StrDetail(Date date) {
+		if (null == date) {
+			return null;
+		}
+		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_YYYYMMDDHHmmdd);
+		return sdf.format(date);
+	}
+	
+	
 	/**
 	 * 字符串型时间戳转换日期
 	 * @param timestamp

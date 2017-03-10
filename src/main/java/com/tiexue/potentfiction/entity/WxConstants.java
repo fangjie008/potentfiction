@@ -26,7 +26,12 @@ public class WxConstants {
 	public static final String WxMch_Key = "";
 
 	// 微信商户支付后回调url
-	public static final String WxMch_NotifyUrl = "";
-	
+	public static final String WxMch_NotifyUrl = "http://wx.top657.cn/wxPay/wxpaycallback";
+
+	// 签名方式
+	public static final String WxMch_SignType = "MD5";
+
+	// 交易发起方式
+	public static final String WxMch_TradeType = "JSAPI";
 
 }
