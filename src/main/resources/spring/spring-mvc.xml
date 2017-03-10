@@ -11,8 +11,8 @@
 						http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd">
 	<!-- 自动扫描该包,使springmvc认为包下用了@controoler注解的类是控制器 -->
 	<context:component-scan base-package="com.tiexue.potentfiction.controller" />
- 
-  
+
+
 	<!-- 默认的注解映射支持 -->
 	<mvc:annotation-driven />
 
@@ -27,4 +27,8 @@
 	<!-- 静态资源配置 -->
 	<mvc:resources location="/static/" mapping="/static/**" />
 	<mvc:default-servlet-handler />
+
+	<!-- 容器启动,执行的默认方法 -->
+	<bean id="wxAppInitServiceImpl" class="com.tiexue.potentfiction.service.impl.WxAppInitServiceImpl">
+	</bean>
 </beans>
