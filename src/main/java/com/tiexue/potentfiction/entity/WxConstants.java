@@ -8,10 +8,10 @@ public class WxConstants {
 	public static final String WxOauthState = "ok";
 
 	// 微信公众号Appid
-	public static final String WxAppId = "wxbfa39e44977aead2";
+	public static final String WxAppId = "wx432b6d6decd0f420";
 
 	// 微信公众号AppKey
-	public static final String WxAppSecret = "d37aa936620b14325b151f74d40f7211";
+	public static final String WxAppSecret = "fe287da35d854a7a4c279afd25a45ef5";
 
 	// 微信网页授权回调地址
 	public static final String WxRedirectUrl = "http://wx.top657.cn/wxUser/wxoauthcallback";
