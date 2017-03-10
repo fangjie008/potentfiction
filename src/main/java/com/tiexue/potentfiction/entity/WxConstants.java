@@ -11,7 +11,7 @@ public class WxConstants {
 	public static final String WxAppId = "wx432b6d6decd0f420";
 
 	// 微信公众号AppKey
-	public static final String WxAppSecret = "fe287da35d854a7a4c279afd25a45ef5";
+	public static final String WxAppSecret = "RyaW3NC3aWYxjpk2EQ820aqHkgEh4sSBz4eZ2OU8rNz";
 
 	// 微信网页授权回调地址
 	public static final String WxRedirectUrl = "http://wx.top657.cn/wxUser/wxoauthcallback";
