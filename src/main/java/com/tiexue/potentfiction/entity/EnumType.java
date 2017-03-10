@@ -186,5 +186,7 @@ public class EnumType {
      */
 	public static final int ResultNum_Cons=103;	
 
+	
+	public static final String Des_Key="abc123bca321";
 			
 }

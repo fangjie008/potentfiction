@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.tiexue.potentfiction.dto.PageUserDto;
 import com.tiexue.potentfiction.dto.WxBookrackDto;
 import com.tiexue.potentfiction.dto.bookrackCookieDto;
 import com.tiexue.potentfiction.entity.EnumType;
@@ -27,6 +28,7 @@ import com.tiexue.potentfiction.entity.WxChapter;
 import com.tiexue.potentfiction.service.IWxBookService;
 import com.tiexue.potentfiction.service.IWxBookrackService;
 import com.tiexue.potentfiction.service.IWxChapterService;
+import com.tiexue.potentfiction.service.IWxUserService;
 
 @Controller
 @RequestMapping("wxBookrack")
@@ -40,15 +42,28 @@ public class WxBookrackController {
 	//获取章节信息的服务
 	@Resource
 	IWxChapterService wxChapterService;
+	@Resource
+	IWxUserService userSer;
 	
 	@RequestMapping("addBookrack")
 	@ResponseBody
-	public String insertBookrack(HttpServletRequest request, Integer bookId, String bookName, Integer userId)
+	public String insertBookrack(HttpServletRequest request, Integer bookId, String bookName,
+			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token)
 			throws UnsupportedEncodingException {
+		String userIdStr = "";
+		int userId = 0;
+		if (wx_gzh_token != "") {
+			PageUserDto pageUser = userSer.getPageUserDto(wx_gzh_token);
+			if (pageUser != null) {
+				userIdStr = pageUser.getId();
+				if (userIdStr != null && !userIdStr.isEmpty())
+					userId = Integer.parseInt(userIdStr);
+			}
+		}
 		JSONObject getObj = new JSONObject();
 		WxBookrack rack;
-		if (bookId > 0) {
-			rack = bookrackService.getModelByBookId(userId,bookId);
+		if (bookId > 0 && userId > 0) {
+			rack = bookrackService.getModelByBookId(userId, bookId);
 			if (rack != null && rack.getBookid() > 0) {
 				getObj.put("ok", false);
 				getObj.put("msg", "已收藏此书");
@@ -78,12 +93,24 @@ public class WxBookrackController {
 	
 	@RequestMapping("updateBookrack")
 	@ResponseBody
-	public String updateBookrack(HttpServletRequest request, Integer bookId, String bookName, Integer userId,Integer chapterId,String chapterName)
+	public String updateBookrack(HttpServletRequest request, Integer bookId, String bookName, Integer chapterId,
+			String chapterName,
+			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token)
 			throws UnsupportedEncodingException {
+		String userIdStr = "";
+		int userId = 0;
+		if (wx_gzh_token != "") {
+			PageUserDto pageUser = userSer.getPageUserDto(wx_gzh_token);
+			if (pageUser != null) {
+				userIdStr = pageUser.getId();
+				if (userIdStr != null && !userIdStr.isEmpty())
+					userId = Integer.parseInt(userIdStr);
+			}
+		}
 		JSONObject getObj = new JSONObject();
 		WxBookrack rack;
-		if (bookId > 0) {
-			rack = bookrackService.getModelByBookId(userId,bookId);
+		if (bookId > 0&&userId>0) {
+			rack = bookrackService.getModelByBookId(userId, bookId);
 			if (rack != null && rack.getBookid() > 0) {
 				Date time = new Date();
 				rack.setBookid(bookId);
@@ -96,18 +123,18 @@ public class WxBookrackController {
 				getObj.put("msg", "收藏成功");
 			} else {
 
-					Date time = new Date();
-					rack = new WxBookrack();
-					rack.setBookid(bookId);
-					rack.setBookname(bookName);
-					rack.setUserid(userId);
-					rack.setChapterid(chapterId);
-					rack.setLocation(0);
-					rack.setCreatetime(time);
-					rack.setChaptertitle(chapterName);
-					int res = bookrackService.insert(rack);
-					getObj.put("ok", res > 0 ? true : false);
-					getObj.put("msg", "收藏成功");
+				Date time = new Date();
+				rack = new WxBookrack();
+				rack.setBookid(bookId);
+				rack.setBookname(bookName);
+				rack.setUserid(userId);
+				rack.setChapterid(chapterId);
+				rack.setLocation(0);
+				rack.setCreatetime(time);
+				rack.setChaptertitle(chapterName);
+				int res = bookrackService.insert(rack);
+				getObj.put("ok", res > 0 ? true : false);
+				getObj.put("msg", "收藏成功");
 			}
 		}
 		return getObj.toString();
@@ -121,36 +148,46 @@ public class WxBookrackController {
 	 * @return
 	 */
 	@RequestMapping("list")
-	public String getBookrackList(HttpServletRequest request,@CookieValue(value ="defaultbookrack",required = true, defaultValue = "")String rackCookie) {
-		String userIdStr = request.getParameter("userId");
+	public String getBookrackList(HttpServletRequest request,
+			@CookieValue(value = "defaultbookrack", required = true, defaultValue = "") String rackCookie,
+			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token) {
+		String userIdStr = "";
+		if (wx_gzh_token != "") {
+			PageUserDto pageUser = userSer.getPageUserDto(wx_gzh_token);
+			if (pageUser != null) {
+				userIdStr = pageUser.getId();
+			}
+		}
 		int userId = 0;
 		WxChapter chap;
 		List<WxBookrackDto> racks = new ArrayList<WxBookrackDto>();
 		try {
-			//未登录
-			if (userIdStr == null ||userIdStr.isEmpty()) {
-				if(rackCookie!=null&&!rackCookie.isEmpty()){
-				 List<bookrackCookieDto> cookies=JSON.parseArray(rackCookie, bookrackCookieDto.class);
-				 if(cookies!=null&&cookies.size()>0){
-					 for (int i = cookies.size()-1; i >=0; i--) {
-						 //最多取20条记录
-						 if(racks.size()>=20)
-							break;
-						 WxChapter curChap = null;
-						 WxChapter lastChap = null;
-						 WxBook book= bookService.selectByPrimaryKey(cookies.get(i).getBookid());
-						 lastChap = wxChapterService.getLastChapter(cookies.get(i).getBookid(), EnumType.ChapterStatus_OnLine);
-						 if(cookies.get(i).getChapterid()>0){
-							 curChap=wxChapterService.selectByPrimaryKey(cookies.get(i).getChapterid(), EnumType.ChapterStatus_OnLine);
-						 }
-						 racks.add(bookrackDtoFill(book,curChap,lastChap));
+			// 未登录
+			if (userIdStr == null || userIdStr.isEmpty()) {
+				if (rackCookie != null && !rackCookie.isEmpty()) {
+					List<bookrackCookieDto> cookies = JSON.parseArray(rackCookie, bookrackCookieDto.class);
+					if (cookies != null && cookies.size() > 0) {
+						for (int i = cookies.size() - 1; i >= 0; i--) {
+							// 最多取20条记录
+							if (racks.size() >= 20)
+								break;
+							WxChapter curChap = null;
+							WxChapter lastChap = null;
+							WxBook book = bookService.selectByPrimaryKey(cookies.get(i).getBookid());
+							lastChap = wxChapterService.getLastChapter(cookies.get(i).getBookid(),
+									EnumType.ChapterStatus_OnLine);
+							if (cookies.get(i).getChapterid() > 0) {
+								curChap = wxChapterService.selectByPrimaryKey(cookies.get(i).getChapterid(),
+										EnumType.ChapterStatus_OnLine);
+							}
+							racks.add(bookrackDtoFill(book, curChap, lastChap));
+						}
 					}
-				 }
-				 
+
 				}
-			}//已登录 
+			} // 已登录
 			else {
-				userId=Integer.parseInt(userIdStr);
+				userId = Integer.parseInt(userIdStr);
 				racks = bookrackService.getListByUserId(userId, 20);
 				if (racks != null) {
 					for (WxBookrackDto rackDto : racks) {
@@ -167,9 +204,9 @@ public class WxBookrackController {
 			}
 			request.setAttribute("bookracks", racks);
 		} catch (Exception e) {
-			logger.error("获取书架信息失败:"+e.getMessage());
+			logger.error("获取书架信息失败:" + e.getMessage());
 		}
-		
+
 		return "/wxBookrack/index";
 
 	}

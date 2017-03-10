@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSON;
+import com.tiexue.potentfiction.dto.PageUserDto;
 import com.tiexue.potentfiction.dto.WxBookDto;
 import com.tiexue.potentfiction.dto.WxBookrackDto;
 import com.tiexue.potentfiction.dto.bookrackCookieDto;
@@ -22,6 +23,7 @@ import com.tiexue.potentfiction.entity.WxChapter;
 import com.tiexue.potentfiction.service.IWxBookService;
 import com.tiexue.potentfiction.service.IWxBookrackService;
 import com.tiexue.potentfiction.service.IWxChapterService;
+import com.tiexue.potentfiction.service.IWxUserService;
 
 @Controller
 @RequestMapping("/wxbook")
@@ -38,16 +40,29 @@ public class WxBookController {
 	@Resource
 	IWxChapterService wxChapterService;
 	
+	@Resource
+	IWxUserService userSer;
+	
 	/**
 	 * 首页入口
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping("/list")
-	public String list(HttpServletRequest request,@CookieValue(value ="defaultbookrack",required = true, defaultValue = "")String rackCookie) {
-
+	public String list(HttpServletRequest request
+			,@CookieValue(value ="defaultbookrack",required = true, defaultValue = "")String rackCookie
+			,@CookieValue(value ="wx_gzh_token",required = true, defaultValue = "")String wx_gzh_token) {
+		String userIdStr="";
 		try {
-			String userIdStr = request.getParameter("userId");
+			logger.error("获取 wx_gzh_token："+wx_gzh_token);
+			if(wx_gzh_token!=""){
+				PageUserDto pageUser= userSer.getPageUserDto(wx_gzh_token);
+				if(pageUser!=null){
+				 userIdStr=pageUser.getId();
+				 request.setAttribute("pageUser", pageUser);
+				}
+				logger.error("获取 pageUser.getId："+userIdStr);
+			}
 			String status = EnumType.BookStatus_Finish + "," + EnumType.BookStatus_Update;
 			List<WxBook> wxBooks = this.wxBookService.getList(status, "ViewCount");
 			List<WxBookDto> wxBookDtos = toWxBookListDto(wxBooks);
@@ -68,9 +83,16 @@ public class WxBookController {
 
 	
 	@RequestMapping("/detail")
-	public String detailInfo(HttpServletRequest request) {
+	public String detailInfo(HttpServletRequest request,
+			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token) {
+		String userIdStr = "";
+		if (wx_gzh_token != "") {
+			PageUserDto pageUser = userSer.getPageUserDto(wx_gzh_token);
+			if (pageUser != null) {
+				userIdStr = pageUser.getId();
+			}
+		}
 		String bookIdStr = request.getParameter("id");
-		String userIdStr = request.getParameter("userId");
 		if (bookIdStr != null && !bookIdStr.isEmpty()) {
 			int bookId = Integer.parseInt(bookIdStr);
 			WxBook wxBook = this.wxBookService.selectByPrimaryKey(bookId);
@@ -80,8 +102,8 @@ public class WxBookController {
 				int userId = Integer.parseInt(userIdStr);
 				WxBookrack rack = bookrackService.getModelByBookId(userId, bookId);
 				request.setAttribute("bookrack", rack);
-			}else{
-				
+			} else {
+
 			}
 
 		}

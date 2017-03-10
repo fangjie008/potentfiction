@@ -9,9 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.tiexue.potentfiction.dto.PageUserDto;
 import com.tiexue.potentfiction.dto.ResultMsg;
 import com.tiexue.potentfiction.dto.WxChapterSubDto;
 import com.tiexue.potentfiction.entity.EnumType;
@@ -23,6 +25,7 @@ import com.tiexue.potentfiction.service.IUserConsService;
 import com.tiexue.potentfiction.service.IWxBookService;
 import com.tiexue.potentfiction.service.IWxChapterService;
 import com.tiexue.potentfiction.service.IWxChapterSubService;
+import com.tiexue.potentfiction.service.IWxUserService;
 
 
 @Controller
@@ -37,11 +40,22 @@ public class WxChapterSubController {
 	IWxBookService bookService;
 	@Resource
 	IUserConsService userConsService;
+	@Resource
+	IWxUserService userSer;
 
 	// 获取章节的内容信息
 	@RequestMapping("/index")
-	public String getContent(HttpServletRequest request,RedirectAttributes attr) throws UnsupportedEncodingException {
-		String userIdStr = request.getParameter("userId");
+	public String getContent(HttpServletRequest request, RedirectAttributes attr,
+			@CookieValue(value = "defaultbookrack", required = true, defaultValue = "") String rackCookie,
+			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token)
+			throws UnsupportedEncodingException {
+		String userIdStr = "";
+		if (wx_gzh_token != "") {
+			PageUserDto pageUser = userSer.getPageUserDto(wx_gzh_token);
+			if (pageUser != null) {
+				userIdStr = pageUser.getId();
+			}
+		}
 		String bookIdStr = request.getParameter("bookId");
 		String chapterIdStr = request.getParameter("chapterId");
 		String bookName = "";
@@ -86,7 +100,7 @@ public class WxChapterSubController {
 				logger.error(resultMsg.getMsg());
 			}
 			// 获取章节信息
-			WxChapterSubDto chapSubDto = getCahperDto(bookId,bookName, chapterId, chapterModel);
+			WxChapterSubDto chapSubDto = getCahperDto(bookId, bookName, chapterId, chapterModel);
 			request.setAttribute("wxChapterSub", chapSubDto);
 		}
 		return "wxChapterSub/index";
@@ -132,9 +146,16 @@ public class WxChapterSubController {
 
 	// 获取章节的内容信息
 	@RequestMapping("/defualt")
-	public String getContentByBookId(HttpServletRequest request, RedirectAttributes attr)
+	public String getContentByBookId(HttpServletRequest request, RedirectAttributes attr,
+			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token)
 			throws UnsupportedEncodingException {
-		String userIdStr = request.getParameter("userID");
+		String userIdStr = "";
+		if (wx_gzh_token != "") {
+			PageUserDto pageUser = userSer.getPageUserDto(wx_gzh_token);
+			if (pageUser != null) {
+				userIdStr = pageUser.getId();
+			}
+		}
 		String bookIdStr = request.getParameter("bookId");
 		String bookName = "";
 		int userId = 0;
@@ -171,7 +192,7 @@ public class WxChapterSubController {
 				}
 			}
 			// 获取章节信息
-			WxChapterSubDto chapSubDto = getCahperDto(bookId,bookName, chapterId, chapterModel);
+			WxChapterSubDto chapSubDto = getCahperDto(bookId, bookName, chapterId, chapterModel);
 			request.setAttribute("wxChapterSub", chapSubDto);
 		}
 		return "wxChapterSub/index";

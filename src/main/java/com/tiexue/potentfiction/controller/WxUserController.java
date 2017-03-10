@@ -8,14 +8,18 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.tiexue.potentfiction.dto.PageUserDto;
 import com.tiexue.potentfiction.dto.WxUserDto;
 import com.tiexue.potentfiction.entity.EnumType;
 import com.tiexue.potentfiction.entity.WxConstants;
 import com.tiexue.potentfiction.entity.WxUser;
 import com.tiexue.potentfiction.service.IWxUserService;
+import com.tiexue.potentfiction.util.CyptoUtils;
 import com.tiexue.potentfiction.util.DateUtil;
 
 import weixin.popular.api.SnsAPI;
@@ -26,15 +30,25 @@ import weixin.popular.bean.user.User;
 @RequestMapping("wxUser")
 public class WxUserController {
 
-	// 微信token
-	static SnsToken wxSnsToken = null;
-	static weixin.popular.bean.user.User wxSnsUser = null;
+	// 日志
+	private Logger logger = Logger.getLogger(WxUserController.class);
 
 	@Resource
 	IWxUserService userSer;
 
 	@RequestMapping("/content")
-	public String getModel(HttpServletRequest request, Integer userId) {
+	public String getModel(HttpServletRequest request,
+			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token) {
+		String userIdStr = "";
+		if (wx_gzh_token != "") {
+			PageUserDto pageUser = userSer.getPageUserDto(wx_gzh_token);
+			if (pageUser != null) {
+				userIdStr = pageUser.getId();
+			}
+		}
+		int userId=0;
+		if(userIdStr!=null&&!userIdStr.isEmpty())
+			userId=Integer.parseInt(userIdStr);
 		WxUser userModel = userSer.selectByPrimaryKey(userId);
 		WxUserDto userDtoModel = userDtoFill(userModel);
 		request.setAttribute("user", userDtoModel);
@@ -81,7 +95,7 @@ public class WxUserController {
 		return userDto;
 	}
 
-	/*
+	/**
 	 * 开始执行微信登录逻辑 OAuth2.0开始 页面跳转到
 	 * open.weixin.qq.com/connect/oauth2/authorize(指定回调地址) 回调地址收到code -->
 	 * 根据code换取access_token --> 根据access_token请求userinfo信息
@@ -95,31 +109,50 @@ public class WxUserController {
 		return "redirect:" + oauthUrl;
 	}
 
-	/*
+	/**
 	 * 微信公众号授权回调页面,微信会返回code和state 拿到Code和state以后我们发起调用请求access_token请求
 	 * 拿到access_token及openid后,我们发起请求, 请求微信的用户基础信息,包括昵称,性别等
 	 * 请求到用户信息后保存用户信息,用户转到登录前页面
 	 */
 	@RequestMapping("wxoauthcallback")
 	public String wxOAuthCallback(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String code = request.getParameter("code");
-		String state = request.getParameter("state");
-		if (!state.equalsIgnoreCase(WxConstants.WxOauthState)) {
-			throw new Exception("state error");
+		try {
+			// 微信token
+			SnsToken wxSnsToken = null;
+			User wxSnsUser = null;
+			String code = request.getParameter("code");
+			String state = request.getParameter("state");
+			if (!state.equalsIgnoreCase(WxConstants.WxOauthState)) {
+				throw new Exception("state error");
+			}
+			// 获取access_token及openid等信息
+			wxSnsToken = SnsAPI.oauth2AccessToken(WxConstants.WxAppId, WxConstants.WxAppSecret, code);
+			// 根据access_token及openid等信息请求用户信息
+			wxSnsUser = SnsAPI.userinfo(wxSnsToken.getAccess_token(), wxSnsToken.getOpenid(), WxConstants.WxSnsLang);
+			logger.error("开始保存用户登录数据");
+			WxUser resUxUser= userSer.saveLoginMsg(wxSnsToken, wxSnsUser);
+			if(resUxUser!=null&&resUxUser.getId()>0){
+				logger.error("开始生成cookie");
+				String wx_gzh_token=userSer.setLoginInCookie(resUxUser);
+				logger.error("cookie："+wx_gzh_token);
+				// todo:生成登录cookie写到客户端
+				Cookie token_cookie = new Cookie("wx_gzh_token", wx_gzh_token); // 创建一个Cookie对象，并将用户名保存到Cookie对象中
+				token_cookie.setMaxAge(5*365*24*60*60); // 设置Cookie的过期之前的时间，单位为秒
+				token_cookie.setPath("/");
+				response.addCookie(token_cookie); // 通过response的addCookie()方法将此Cookie对象
+			}else{
+				return "wxUser/login";
+			}
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			logger.error("登录报错："+e.getMessage());
+			return "wxUser/login";
 		}
-		// 获取access_token及openid等信息
-		wxSnsToken = SnsAPI.oauth2AccessToken(WxConstants.WxAppId, WxConstants.WxAppSecret, code);
-
-		// 根据access_token及openid等信息请求用户信息
-		wxSnsUser = SnsAPI.userinfo(wxSnsToken.getAccess_token(), wxSnsToken.getOpenid(), WxConstants.WxSnsLang);
-
-		// todo:生成登录cookie写到客户端,保存session
-		Cookie token_cookie = new Cookie("wx_gzh_token", URLEncoder.encode("i_am_login", "UTF-8") ); // 创建一个Cookie对象，并将用户名保存到Cookie对象中
-		token_cookie.setMaxAge(3600); // 设置Cookie的过期之前的时间，单位为秒
-		response.addCookie(token_cookie); // 通过response的addCookie()方法将此Cookie对象
 
 		// 接下来跳转到一个专门处理登录后逻辑的页面
-		return "redirect:wxloginhandle";
+		return "redirect:/wxbook/list";
 	}
 
 	/*
@@ -135,13 +168,13 @@ public class WxUserController {
 		// 这里是测试输出
 		try {
 			StringBuffer sb = new StringBuffer();
-			sb.append("YourOpenId:").append(wxSnsUser.getOpenid()).append(System.lineSeparator());
-			sb.append("YourName:").append(wxSnsUser.getNickname()).append(System.lineSeparator());
-			sb.append("YourCity:").append(wxSnsUser.getCity()).append(System.lineSeparator());
-			sb.append("YourCountry:").append(wxSnsUser.getCountry()).append(System.lineSeparator());
-			sb.append("YourHeadimgurl:").append(wxSnsUser.getHeadimgurl()).append(System.lineSeparator());
-			sb.append("YourSex:").append(wxSnsUser.getSex()).append(System.lineSeparator());
-			response.setHeader("Content-type", "text/html;charset=UTF-8");
+//			sb.append("YourOpenId:").append(wxSnsUser.getOpenid()).append(System.lineSeparator());
+//			sb.append("YourName:").append(wxSnsUser.getNickname()).append(System.lineSeparator());
+//			sb.append("YourCity:").append(wxSnsUser.getCity()).append(System.lineSeparator());
+//			sb.append("YourCountry:").append(wxSnsUser.getCountry()).append(System.lineSeparator());
+//			sb.append("YourHeadimgurl:").append(wxSnsUser.getHeadimgurl()).append(System.lineSeparator());
+//			sb.append("YourSex:").append(wxSnsUser.getSex()).append(System.lineSeparator());
+//			response.setHeader("Content-type", "text/html;charset=UTF-8");
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().println(sb.toString());
 		} catch (IOException e) {

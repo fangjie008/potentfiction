@@ -18,10 +18,17 @@
 </header>
 <dl class="user_area wrap">
 	<dt><span class="ico32 user"></span>
-	<a href="<%=path%>/wxUser/login">
+	<c:if test="${pageUser!=null&&pageUser.id>0}">
+	<a href="<%=path%>/wxUser/content">
+		<label>${pageUser.name}&nbsp;&nbsp;</label>
+		</a>
+	</c:if>
+	<c:if test="${pageUser==null||pageUser.id<=0}">
+	     <a href="<%=path%>/wxUser/login">
 		<label>登录</label>
 		</a>
-		</dt>
+	</c:if>
+	</dt>
 	<dd><a href="<%=path%>/wxBookrack/list""><span class="ico32 bookcase"></span>书架</a></dd>
 	<dd class="sp"></dd>
 	<dd><a href="<%=path%>/wxPay/pay"><span class="ico32 pay"></span>充值</a></dd>

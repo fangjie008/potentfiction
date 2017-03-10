@@ -8,10 +8,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tiexue.potentfiction.controller.WxBookController;
+import com.tiexue.potentfiction.dto.PageUserDto;
+import com.tiexue.potentfiction.entity.EnumType;
 import com.tiexue.potentfiction.entity.WxConsume;
 import com.tiexue.potentfiction.entity.WxUser;
 import com.tiexue.potentfiction.mapper.WxUserMapper;
 import com.tiexue.potentfiction.service.IWxUserService;
+import com.tiexue.potentfiction.util.CyptoUtils;
+import com.tiexue.potentfiction.util.DateUtil;
+
+import weixin.popular.bean.sns.SnsToken;
+import weixin.popular.bean.user.User;
 @Service("wxUserService")
 public class WxUserServiceImpl implements IWxUserService{
 	// 日志
@@ -75,7 +82,72 @@ public class WxUserServiceImpl implements IWxUserService{
 		return resUpdate;
 	}
 
+	@Override
+	public WxUser getModelByOpenId(String openId){
+		return userMapper.getModelByOpenId(openId);
+	}
 	
+	@Override
+	public WxUser saveLoginMsg(SnsToken user,User wxSnsUser){
+		if(user==null||wxSnsUser==null)
+			return null;
+	    WxUser wxUser;
+	    wxUser=getModelByOpenId(wxSnsUser.getOpenid());
+	    if(wxUser!=null&&wxUser.getId()>0){
+	    	wxUser.setWeixintoken(user.getAccess_token());
+	    	wxUser.setToken(user.getRefresh_token());
+	    	wxUser.setLastactivetime(DateUtil.fomatCurrentDate("yyyy-MM-dd HH:mm:ss"));
+	        updateByPrimaryKey(wxUser);
+	        return wxUser;
+	    }else{
+	    	wxUser=new WxUser();
+	    	wxUser.setAutopurchase("");
+	    	wxUser.setCity(wxSnsUser.getCity());
+	    	wxUser.setCoin(0);
+	    	wxUser.setPwd("");
+	    	wxUser.setCreatetime(DateUtil.fomatCurrentDate("yyyy-MM-dd HH:mm:ss"));
+	    	wxUser.setDeadline(DateUtil.fomatCurrentDate("yyyy-MM-dd HH:mm:ss"));
+	    	wxUser.setDevicecode("");
+	    	wxUser.setHeadericon(wxSnsUser.getHeadimgurl());
+	    	wxUser.setLastactivetime(DateUtil.fomatCurrentDate("yyyy-MM-dd HH:mm:ss"));
+	    	wxUser.setMobile("");
+	    	wxUser.setName(wxSnsUser.getNickname());
+	    	wxUser.setOpenid(wxSnsUser.getOpenid());
+	    	wxUser.setProvince(wxSnsUser.getProvince());
+	    	wxUser.setSex(wxSnsUser.getSex());
+	    	wxUser.setSignature("");
+	    	wxUser.setStatus(EnumType.UserStatus_Normal);
+	    	wxUser.setWeixintoken(user.getAccess_token());
+	    	wxUser.setToken(user.getRefresh_token());
+	    	wxUser.setUpdatetime(DateUtil.fomatCurrentDate("yyyy-MM-dd HH:mm:ss"));
+	    	wxUser.setUsertype(EnumType.UserType_Normal);
+	    	int wxUserId=insert(wxUser);
+	    	wxUser.setId(wxUserId);
+	        return wxUser;
+	    }
+	}
 	
+	public String setLoginInCookie(WxUser wxUser){
+		String wx_gzh_token=wxUser.getOpenid()+","+wxUser.getId()+","+wxUser.getName();
+		wx_gzh_token= CyptoUtils.encode(EnumType.Des_Key,wx_gzh_token);
+		return wx_gzh_token;
+	}
+	
+	@Override
+	public PageUserDto getPageUserDto(String wx_gzh_token){
+		PageUserDto pageUser=new PageUserDto();
+		if(wx_gzh_token==null||wx_gzh_token.isEmpty())
+			return null;
+		logger.error("解析前cookie："+wx_gzh_token);
+		wx_gzh_token=CyptoUtils.decode(EnumType.Des_Key,wx_gzh_token);
+		logger.error("解析后cookie："+wx_gzh_token);
+		String[] tokens=wx_gzh_token.split(",");
+		if(tokens.length>=3){
+			pageUser.setOpenid(tokens[0]);
+			pageUser.setId(tokens[1]);
+			pageUser.setName(tokens[2]);
+		}
+		return pageUser;
+	}
 	
 }

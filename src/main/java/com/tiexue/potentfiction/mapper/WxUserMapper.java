@@ -3,6 +3,7 @@ package com.tiexue.potentfiction.mapper;
 import com.tiexue.potentfiction.entity.WxUser;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -14,6 +15,11 @@ public interface WxUserMapper {
     })
     int deleteByPrimaryKey(Integer id);
 
+    /**
+     * 插入数据 并返回新增的ID
+     * @param record
+     * @return
+     */
     @Insert({
         "insert into wxuser (Id, Name, ",
         "HeaderIcon, Signature, ",
@@ -36,6 +42,7 @@ public interface WxUserMapper {
         "#{lastactivetime,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP}, ",
         "#{updatetime,jdbcType=TIMESTAMP}, #{autopurchase,jdbcType=LONGVARCHAR})"
     })
+    @Options(useGeneratedKeys = true, keyProperty = "wxuser.Id")
     int insert(WxUser record);
 
     int insertSelective(WxUser record);
@@ -103,4 +110,15 @@ public interface WxUserMapper {
         "where Id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(WxUser record);
+    
+    @Select({
+        "select",
+        "Id, Name, HeaderIcon, Signature, Pwd, Sex, City, Province, UserType, Coin, Deadline, ",
+        "DeviceCode, Status, Mobile, OpenId, WeixinToken, Token, LastActiveTime, CreateTime, ",
+        "UpdateTime, AutoPurchase",
+        "from wxuser",
+        "where OpenId = #{openId,jdbcType=VARCHAR}"
+    })
+    @ResultMap("ResultMapWithBLOBs")
+    WxUser getModelByOpenId(String openId);
 }

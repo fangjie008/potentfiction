@@ -72,13 +72,13 @@ $(function(){
 		}
 		var bookid=$("#bookid").val();
 		var bookname=$("#bookname").val();
-		var userid=getCookie("wx_userid");
-		if(userid==undefined||userid==""){
+		var wx_gzh_token=getCookie("wx_gzh_token");
+		if(wx_gzh_token==undefined||wx_gzh_token==""){
 			addbookrack(bookid,0);
 			$("#btn-addbookrack").css("disabled");
 			$("#btn-addbookrack").html("已添加");
 		}else{
-			var postData={'bookId':bookid,'bookName':bookname,'userId':userid}
+			var postData={'bookId':bookid,'bookName':bookname}
 			$.ajax({
 				url:"<%=path%>/wxBookrack/addBookrack",
 				data:postData,
