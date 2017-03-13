@@ -123,8 +123,8 @@ public class WxUserServiceImpl implements IWxUserService{
 	    	wxUser.setUsertype(EnumType.UserType_Normal);
 	    	
 	    	int wxUserId=insert(wxUser);
-	    	logger.error("保存登录信息后返回的Id："+wxUserId);
-	    	wxUser.setId(wxUserId);
+	    	//logger.error("保存登录信息后返回的Id："+wxUser.toString());
+	    	//wxUser.setId(wxUserId);
 	        return wxUser;
 	    }
 	}

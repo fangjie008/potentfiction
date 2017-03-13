@@ -123,6 +123,7 @@ public class WxUserController {
 			String code = request.getParameter("code");
 			String state = request.getParameter("state");
 			if (!state.equalsIgnoreCase(WxConstants.WxOauthState)) {
+				logger.error("登录异常：");
 				throw new Exception("state error");
 			}
 			// 获取access_token及openid等信息
@@ -132,6 +133,7 @@ public class WxUserController {
 			logger.error("开始保存用户登录数据");
 			WxUser resUxUser= userSer.saveLoginMsg(wxSnsToken, wxSnsUser);
 			if(resUxUser!=null&&resUxUser.getId()>0){
+				logger.error("新增的用户Id为"+resUxUser.getId());
 				logger.error("开始生成cookie");
 				String wx_gzh_token=userSer.setLoginInCookie(resUxUser);
 				logger.error("cookie："+wx_gzh_token);
@@ -141,14 +143,16 @@ public class WxUserController {
 				token_cookie.setPath("/");
 				response.addCookie(token_cookie); // 通过response的addCookie()方法将此Cookie对象
 			}else{
-				return "wxUser/login";
+				logger.error("用户数据保存失败");
+				return "redirect:wxUser/login";
 			}
 			
 		} catch (IOException e) {
+			logger.error("登录报错："+e.getMessage());
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			logger.error("登录报错："+e.getMessage());
-			return "wxUser/login";
+			
+			return "redirect:wxUser/login";
 		}
 
 		// 接下来跳转到一个专门处理登录后逻辑的页面
