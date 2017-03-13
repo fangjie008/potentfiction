@@ -120,9 +120,13 @@ public class WxUserServiceImpl implements IWxUserService{
 	    	wxUser.setWeixintoken(user.getAccess_token());
 	    	wxUser.setToken(user.getRefresh_token());
 	    	wxUser.setUpdatetime(DateUtil.fomatCurrentDate("yyyy-MM-dd HH:mm:ss"));
-	    	wxUser.setUsertype(EnumType.UserType_Normal);
-	    	
+	    	wxUser.setUsertype(EnumType.UserType_Normal);	
 	    	int wxUserId=insert(wxUser);
+	    	
+	    	if(wxUser.getId()==null){
+	    		logger.error("保存登录信息后返回的Id为null");
+	    		wxUser.setId(0);
+	    	}
 	    	//logger.error("保存登录信息后返回的Id："+wxUser.toString());
 	    	//wxUser.setId(wxUserId);
 	        return wxUser;

@@ -50,6 +50,8 @@ public class WxUserController {
 		if(userIdStr!=null&&!userIdStr.isEmpty())
 			userId=Integer.parseInt(userIdStr);
 		WxUser userModel = userSer.selectByPrimaryKey(userId);
+		if(userModel==null)
+			return "redirect:login";
 		WxUserDto userDtoModel = userDtoFill(userModel);
 		request.setAttribute("user", userDtoModel);
 		return "wxUser/index";
@@ -130,7 +132,6 @@ public class WxUserController {
 			wxSnsToken = SnsAPI.oauth2AccessToken(WxConstants.WxAppId, WxConstants.WxAppSecret, code);
 			// 根据access_token及openid等信息请求用户信息
 			wxSnsUser = SnsAPI.userinfo(wxSnsToken.getAccess_token(), wxSnsToken.getOpenid(), WxConstants.WxSnsLang);
-			logger.error("开始保存用户登录数据");
 			WxUser resUxUser= userSer.saveLoginMsg(wxSnsToken, wxSnsUser);
 			if(resUxUser!=null&&resUxUser.getId()>0){
 				logger.error("新增的用户Id为"+resUxUser.getId());
@@ -144,15 +145,15 @@ public class WxUserController {
 				response.addCookie(token_cookie); // 通过response的addCookie()方法将此Cookie对象
 			}else{
 				logger.error("用户数据保存失败");
-				return "redirect:wxUser/login";
+				return "redirect:login";
 			}
 			
-		} catch (IOException e) {
+		} catch (Exception e) {
 			logger.error("登录报错："+e.getMessage());
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			
-			return "redirect:wxUser/login";
+			return "redirect:login";
 		}
 
 		// 接下来跳转到一个专门处理登录后逻辑的页面

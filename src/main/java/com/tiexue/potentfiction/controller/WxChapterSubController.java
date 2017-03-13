@@ -86,12 +86,10 @@ public class WxChapterSubController {
 					case EnumType.ResultNum_Login:
 						return "wxUser/login";
 					case EnumType.ResultNum_Pay:
-						attr.addAttribute("userId", userId);
 						attr.addAttribute("chapterId", chapterId);
 						attr.addAttribute("bookId", bookId);
 						return "redirect:/WxPay/pay";
 					case EnumType.ResultNum_Cons:
-						attr.addAttribute("userId", userId);
 						attr.addAttribute("chapterId", chapterId);
 						attr.addAttribute("bookId", bookId);
 						return "redirect:/wxConsume/subscribe";

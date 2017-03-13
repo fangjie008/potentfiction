@@ -42,7 +42,7 @@ public interface WxUserMapper {
         "#{lastactivetime,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP}, ",
         "#{updatetime,jdbcType=TIMESTAMP}, #{autopurchase,jdbcType=LONGVARCHAR})"
     })
-    @Options(useGeneratedKeys = true, keyProperty = "Id")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(WxUser record);
 
     int insertSelective(WxUser record);

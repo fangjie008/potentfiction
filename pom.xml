@@ -20,8 +20,8 @@
 
 		<!-- Spring -->
 		<spring.version>4.2.3.RELEASE</spring.version>
-		<mybatis.spring.version>1.2.2</mybatis.spring.version>
-		<mybatis.version>3.2.8</mybatis.version>
+		<mybatis.spring.version>1.2.4</mybatis.spring.version>
+		<mybatis.version>3.3.1</mybatis.version>
 		<mysql.version>5.1.17</mysql.version>
 
 		<!-- Logging -->
