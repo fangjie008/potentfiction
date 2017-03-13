@@ -1,7 +1,5 @@
 package com.tiexue.potentfiction.mapper;
 
-import com.tiexue.potentfiction.entity.WxPay;
-
 import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
@@ -10,6 +8,8 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+
+import com.tiexue.potentfiction.entity.WxPay;
 
 public interface WxPayMapper {
     @Delete({
@@ -68,7 +68,7 @@ public interface WxPayMapper {
     })
     int updateByPrimaryKey(WxPay record);
     
-    @Select({"select Id,UserId,PayType,Amount,Count,CreateTime,Unit" 
+    @Select({"select ordernum,UserId,PayType,Amount,Count,CreateTime,Unit" 
 		," from wxpay"
 		," where UserId=#{userId} order by CreateTime desc LIMIT #{pageNo},#{pageSize}"})
   	List<WxPay> getListByPage(@Param("userId")int userId,@Param("pageNo")int pageNo,@Param("pageSize")int pageSize);

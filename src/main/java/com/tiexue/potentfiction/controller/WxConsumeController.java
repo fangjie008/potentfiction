@@ -7,11 +7,13 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alibaba.fastjson.JSONObject;
+import com.tiexue.potentfiction.dto.PageUserDto;
 import com.tiexue.potentfiction.dto.Pager;
 import com.tiexue.potentfiction.dto.WxConsumeDto;
 import com.tiexue.potentfiction.dto.WxPayDto;
@@ -44,8 +46,15 @@ public class WxConsumeController {
 	IUserConsService userConsService;
 	
 	@RequestMapping("/index")
-	public String getList(HttpServletRequest request){
-		String userIdStr = request.getParameter("userId");
+	public String getList(HttpServletRequest request,
+			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token) {
+		String userIdStr = "";
+		if (wx_gzh_token != "") {
+			PageUserDto pageUser = userService.getPageUserDto(wx_gzh_token);
+			if (pageUser != null) {
+				userIdStr = pageUser.getId();
+			}
+		}
 		String pageNoStr=request.getParameter("pageNo");
 		String pageSizeStr=request.getParameter("pageSize");
 		if (userIdStr!=null&&!userIdStr.isEmpty()) {
@@ -77,8 +86,15 @@ public class WxConsumeController {
 	 * @return
 	 */
 	@RequestMapping("subscribe")
-	public String getSubscribe(HttpServletRequest request) {
-		String userIdStr = request.getParameter("userId");
+	public String getSubscribe(HttpServletRequest request,
+			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token) {
+		String userIdStr = "";
+		if (wx_gzh_token != "") {
+			PageUserDto pageUser = userService.getPageUserDto(wx_gzh_token);
+			if (pageUser != null) {
+				userIdStr = pageUser.getId();
+			}
+		}
 		String bookIdStr = request.getParameter("bookId");
 		String chapterIdStr = request.getParameter("chapterId");
 		int chapterId = 0;
@@ -108,9 +124,16 @@ public class WxConsumeController {
 	 */
 	@RequestMapping("handleOrder")
 	@ResponseBody
-	public String handleOrder(HttpServletRequest request){
+	public String handleOrder(HttpServletRequest request,
+			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token) {
+		String userIdStr = "";
+		if (wx_gzh_token != "") {
+			PageUserDto pageUser = userService.getPageUserDto(wx_gzh_token);
+			if (pageUser != null) {
+				userIdStr = pageUser.getId();
+			}
+		}
 		JSONObject getObj=new JSONObject();
-		String userIdStr = request.getParameter("userId");
 		String bookIdStr = request.getParameter("bookId");
 		String chapterIdStr = request.getParameter("chapterId");
 		String autopayStr = request.getParameter("autopay");

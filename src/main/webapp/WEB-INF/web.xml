@@ -58,7 +58,7 @@
 
 	<!--  -->
 	<listener>
-		<listener-class>Listener</listener-class>
+		<listener-class>com.tiexue.potentfiction.listener.WxAppInitListener</listener-class>
 	</listener>
 
 </web-app>

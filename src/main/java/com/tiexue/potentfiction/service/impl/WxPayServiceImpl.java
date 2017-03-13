@@ -132,14 +132,20 @@ public class WxPayServiceImpl implements IWxPayService {
 
 		//原订单号
 		String out_trade_no = payNotify.getOut_trade_no();
+		//微信订单号
+		String wxOrderNo = payNotify.getTransaction_id();
 		
 		//todo:开始执行给用户添加小说币的方法,同时订单标记为处理成功状态--需要事务处理
+		
+		
 		
 		return true;
 	}
 
-	/*
+
+	/**
 	 * 生成订单编号 当前时间+随机字符串
+	 * @return
 	 */
 	private static String createOrderNum() {
 		String dateStr = DateUtil.date2StrDetail(new Date());

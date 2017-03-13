@@ -139,14 +139,14 @@ $("#btn-addbookrack").click(function(){
 	var bookname=$("#bookname").val();
 	var chapterid=$("#chapterid").val();
 	var chaptername=$("#chaptername").val();
-	var userid=getCookie("wx_userid");
-	if(userid==undefined||userid==""){
+	var wx_gzh_token=getCookie("wx_gzh_token");
+	if(wx_gzh_token==undefined||wx_gzh_token==""){
 		addbookrack(bookid,chapterid);
 		$("#btn-addbookrack").css("disabled");
 		$("#btn-addbookrack").html("已添加");
 		$("#collect").hide();
 	}else{
-		var postData={'bookId':bookid,'bookName':bookname,'chapterId':chapterid,'chapterName':chaptername,'userId':userid}
+		var postData={'bookId':bookid,'bookName':bookname,'chapterId':chapterid,'chapterName':chaptername}
 		$.ajax({
 			url:"<%=path%>/wxBookrack/updateBookrack",
 			data:postData,

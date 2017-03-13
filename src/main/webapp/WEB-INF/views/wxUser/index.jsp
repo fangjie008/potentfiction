@@ -37,12 +37,12 @@
 						class="txt">充值小说币</span><img
 						src="<%=path%>/static/image/user/arrow_r.png"
 						class="arrow_r"></a></li>
-				<li><a href="<%=path%>/wxPay/index?userId=3"><img
+				<li><a href="<%=path%>/wxPay/index"><img
 						src="<%=path%>/static/image/user/icon_payrecord.png" class="icon"><span
 						class="txt">充值记录</span><img
 						src="<%=path%>/static/image/user/arrow_r.png"
 						class="arrow_r"></a></li>
-				<li><a href="<%=path%>/wxConsume/index?userId=3"><img
+				<li><a href="<%=path%>/wxConsume/index"><img
 						src="<%=path%>/static/image/user/icon_order.png" class="icon"><span
 						class="txt">消费记录</span><img
 						src="<%=path%>/static/image/user/arrow_r.png"

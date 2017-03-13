@@ -1,6 +1,7 @@
 package com.tiexue.potentfiction.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.tiexue.potentfiction.dto.PageUserDto;
 import com.tiexue.potentfiction.dto.Pager;
 import com.tiexue.potentfiction.dto.WxPayDto;
 import com.tiexue.potentfiction.dto.WxUserDto;
@@ -52,8 +55,15 @@ public class WxPayController {
 
 	// 查询带分页的充值记录
 	@RequestMapping("/index")
-	public String getList(HttpServletRequest request) {
-		String userIdStr = request.getParameter("userId");
+	public String getList(HttpServletRequest request,
+			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token) {
+		String userIdStr = "";
+		if (wx_gzh_token != "") {
+			PageUserDto pageUser = userSer.getPageUserDto(wx_gzh_token);
+			if (pageUser != null) {
+				userIdStr = pageUser.getId();
+			}
+		}
 		String pageNoStr = request.getParameter("pageNo");
 		String pageSizeStr = request.getParameter("pageSize");
 		if (userIdStr != null && !userIdStr.isEmpty()) {
@@ -73,7 +83,6 @@ public class WxPayController {
 			Integer totalRecord = wxPayService.getCountByUserId(userId);
 			// 获取分页数据
 			Pager pagerModel = new Pager().getPager(pageNo, pageSize, totalRecord);
-			;
 			request.setAttribute("pager", pagerModel);
 
 			request.setAttribute("userId", userId);
@@ -84,9 +93,16 @@ public class WxPayController {
 
 	@RequestMapping(value = "getMoreList.do")
 	@ResponseBody
-	public String getMoreList(HttpServletRequest request) {
+	public String getMoreList(HttpServletRequest request,
+			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token) {
+		String userIdStr = "";
+		if (wx_gzh_token != "") {
+			PageUserDto pageUser = userSer.getPageUserDto(wx_gzh_token);
+			if (pageUser != null) {
+				userIdStr = pageUser.getId();
+			}
+		}
 		JSONObject getObj = new JSONObject();
-		String userIdStr = request.getParameter("userId");
 		String pageNoStr = request.getParameter("pageNo");
 		String pageSizeStr = request.getParameter("pageSize");
 		if (userIdStr != null && !userIdStr.isEmpty()) {
@@ -123,10 +139,17 @@ public class WxPayController {
 	 * @return
 	 */
 	@RequestMapping("/pay")
-	public String pay(HttpServletRequest request) {
+	public String pay(HttpServletRequest request,
+			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token) {
+		String userIdStr = "";
+		if (wx_gzh_token != "") {
+			PageUserDto pageUser = userSer.getPageUserDto(wx_gzh_token);
+			if (pageUser != null) {
+				userIdStr = pageUser.getId();
+			}
+		}
 
 		// todo:从cookie或者session中判断用户是否登录,未登录转到登录界面
-		String userIdStr = request.getParameter("userId");
 		if (userIdStr != null && !userIdStr.isEmpty()) {
 			int userId = Integer.parseInt(userIdStr);
 			WxUser userModel = userSer.selectByPrimaryKey(userId);
@@ -153,8 +176,8 @@ public class WxPayController {
 		// 先将逻辑全写在controller中,写完后拆分到对应service中
 		String moneyStr = request.getParameter("money");
 		String typeStr = request.getParameter("type");
-		String bookIdStr = request.getParameter("type");
-		String chapterIdStr = request.getParameter("type");
+		String bookIdStr = request.getParameter("bookId");
+		String chapterIdStr = request.getParameter("chapterId");
 		Integer money = Integer.parseInt(moneyStr);
 		Integer type = Integer.parseInt(typeStr);
 		Integer bookId = Integer.parseInt(bookIdStr);
@@ -224,7 +247,7 @@ public class WxPayController {
 	 */
 	@RequestMapping("payresult")
 	public String payResult(HttpServletRequest request) {
-		// 在这里处理支付成功的逻辑,跳转到原来阅读地址,或者到首页等
+		// todo:在这里处理支付成功的逻辑,跳转到原来阅读地址,或者到首页等
 
 		return "pay_result";
 	}
