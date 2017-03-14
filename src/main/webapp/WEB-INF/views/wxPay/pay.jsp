@@ -38,7 +38,7 @@
 		</ul>
 	</div>
 	<ul class="pay_money moneylist margin-top-10">
-		<li><span data-money="30" data-premium="100" data-type="1">30元(3000小说币)<br>
+		<li><span data-money="0.1" data-premium="100" data-type="1">0.1元(3000小说币)<br>
 			<label>送100小说豆</label></span></li>
 		<li><span data-money="50" data-premium="500" data-type="1">50元(5000小说币)<br>
 			<label>送500小说豆</label></span></li>

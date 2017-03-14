@@ -160,13 +160,13 @@ public class WxPayController {
 		String typeStr = request.getParameter("type");
 		String bookIdStr = request.getParameter("bookId");
 		String chapterIdStr = request.getParameter("chapterId");
-		Integer money = 0;
-		Integer coin=0;
+		double money = 0;
+		int coin=0;
 		Integer type = 0;
 		Integer bookId = 0;
 		Integer chapterId = 0;
 		if (moneyStr != null && !moneyStr.isEmpty())
-			money = Integer.parseInt(moneyStr);
+			money = Double.parseDouble(moneyStr);
 		if (coinStr != null && !coinStr.isEmpty())
 			coin = Integer.parseInt(coinStr);
 		if (typeStr != null && !typeStr.isEmpty())

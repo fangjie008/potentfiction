@@ -77,17 +77,17 @@ public class WxPayServiceImpl implements IWxPayService {
 	 * 统一下单 生成订单
 	 */
 	@Override
-	public UnifiedorderResult createUnifiedorder(WxUser wxUser, int type, int money,int coin, int bookId, int chapterId,
+	public UnifiedorderResult createUnifiedorder(WxUser wxUser, int type, double money,int coin, int bookId, int chapterId,
 			String remoteAdd) {
 		// 充值的币
 		if(type==1)
 		{
-		  coin = money * 100+coin;
+		  coin = (int)money * 100+coin;
 		}
 
 		// 生成我们的订单
 		WxPay wxPay = new WxPay();
-		wxPay.setAmount((double) money);
+		wxPay.setAmount(money);
 		wxPay.setBookid(bookId);
 		wxPay.setChapterid(chapterId);
 		wxPay.setCount(coin);
