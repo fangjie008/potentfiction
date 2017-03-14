@@ -2,6 +2,7 @@ package com.tiexue.potentfiction.controller;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.Date;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
@@ -54,6 +55,13 @@ public class WxUserController {
 			return "redirect:login";
 		WxUserDto userDtoModel = userDtoFill(userModel);
 		request.setAttribute("user", userDtoModel);
+		if(userModel!=null&&userDtoModel!=null){
+			Date dt=new Date();
+			if(userModel.getDeadline().getTime()>new Date().getTime()){
+				request.setAttribute("deadline",DateUtil.date2Str(userModel.getDeadline(), "yyyy-MM-dd"));
+			}
+				
+		}
 		return "wxUser/index";
 	}
 

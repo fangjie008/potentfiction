@@ -280,6 +280,8 @@ public class WxPayController {
 				payDto.setPaytypeName(EnumType.PayType.get(pay.getPaytype()));
 				payDto.setAmount(pay.getAmount());
 				payDto.setCount(pay.getCount());
+				payDto.setOrderstatus(pay.getOrderstatus());
+				payDto.setOrderstatusStr(EnumType.OrderStatus.get(pay.getOrderstatus()));
 				payDto.setCreatetime(DateUtil.date2Str(pay.getCreatetime(), "yyyy-MM-dd HH:mm:ss"));
 				payDto.setUnit(pay.getUnit());
 				payDto.setUnitName(EnumType.PayUnit.get(pay.getUnit()));

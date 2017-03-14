@@ -22,8 +22,12 @@
 						<span class="fn-right">${user.getId()}</span></li>
 					<li><span class=" badge normal">${user.getUsertypestr()}</span>
 					</li>
-					<li><span class=""><label class="orange">${user.getCoin() }</label>小说币<label
+
+					<li><span class="">小说币&nbsp;&nbsp;&nbsp;<label class="orange">${user.getCoin() }</label><label
 							class="orange"></label></span></li>
+							<c:if test="${deadline!=null&&!deadline.isEmpty()}">
+					<li><span class="">到期时间&nbsp;&nbsp;&nbsp;<label class="orange">${deadline }</label><label
+							class="orange"></label></span></li></c:if>
 				</ul>
 			</dd>
 		</dl>

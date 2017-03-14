@@ -69,7 +69,7 @@ public interface WxPayMapper {
     })
     int updateByPrimaryKey(WxPay record);
     
-    @Select({"select ordernum,UserId,PayType,Amount,Count,CreateTime,Unit" 
+    @Select({"select ordernum,UserId,PayType,Amount,Count,CreateTime,Unit,OrderStatus" 
 		," from wxpay"
 		," where UserId=#{userId} order by CreateTime desc LIMIT #{pageNo},#{pageSize}"})
   	List<WxPay> getListByPage(@Param("userId")int userId,@Param("pageNo")int pageNo,@Param("pageSize")int pageSize);

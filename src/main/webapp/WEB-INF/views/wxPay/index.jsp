@@ -14,18 +14,17 @@
 </header>
 <div class="mod_tab_content shelf">
 	<ul class="current my_orderlist" id="pay">
-        <li><span>金额</span><span>充值类型</span><span>小说币</span><span>时间</span></li>
+        <li><span>金额</span><span>小说币</span><span>状态</span><span>时间</span></li>
         <c:forEach items="${wxpaylist}" var="wxpay">
 	 	<li>
 	 	 <span>${wxpay.amount}</span>
-	 	 
-	 	 <span>${wxpay.paytypeName}</span>
 	 	 <c:if test="${wxpay.paytype==1 }">
 	 	 <span>${wxpay.count}</span>
 	 	 </c:if>
 	 	 <c:if test="${wxpay.paytype==2 }">
 	 	  <span>${wxpay.count}${wxpay.unitName}</span>
 	 	 </c:if>
+	 	 <span>${wxpay.orderstatusStr}</span>
 	 	 <span>${wxpay.createtime}</span>
 	 	</li>
 	 </c:forEach>

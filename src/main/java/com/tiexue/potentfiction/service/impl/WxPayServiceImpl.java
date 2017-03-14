@@ -1,5 +1,7 @@
 package com.tiexue.potentfiction.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -27,11 +29,12 @@ import weixin.popular.bean.paymch.UnifiedorderResult;
 
 @Service("wxPayService")
 public class WxPayServiceImpl implements IWxPayService {
-	private static Logger _logger=Logger.getLogger(WxPayServiceImpl.class);
+	private static Logger _logger = Logger.getLogger(WxPayServiceImpl.class);
 	@Resource
 	private WxPayMapper wxPayMapper;
 	@Resource
 	private WxUserMapper wxUserMapper;
+
 	@Override
 	public List<WxPay> getListByPage(int userId, int beginRow, int pageSize) {
 		return this.wxPayMapper.getListByPage(userId, beginRow, pageSize);
@@ -72,18 +75,15 @@ public class WxPayServiceImpl implements IWxPayService {
 		return wxPayMapper.updateByPrimaryKey(record);
 	}
 
-	
-	
 	/**
 	 * 统一下单 生成订单
 	 */
 	@Override
-	public UnifiedorderResult createUnifiedorder(WxUser wxUser, int type, int money,int coin, int bookId, int chapterId,
-			String remoteAdd) {
-		// 充值的币
-		if(type==1)
-		{
-		  coin = money+coin;
+	public UnifiedorderResult createUnifiedorder(WxUser wxUser, int type, int money, int coin, int bookId,
+			int chapterId, String remoteAdd) {
+		// type==1充值小说币 type==2 包年包月
+		if (type == 1) {
+			coin = money + coin;
 		}
 
 		// 生成我们的订单
@@ -102,8 +102,8 @@ public class WxPayServiceImpl implements IWxPayService {
 		wxPay.setWxordernum("");
 		wxPay.setCreatetime(DateUtil.fomatCurrentDate("yyyy-MM-dd HH:mm:ss"));
 		// todo:将订单数据插入数据库中
-        wxPayMapper.insert(wxPay);
-        
+		wxPayMapper.insert(wxPay);
+
 		// 组织统一下单参数
 		Unifiedorder unifiedorder = new Unifiedorder();
 		unifiedorder.setAppid(WxConstants.WxAppId);
@@ -119,14 +119,14 @@ public class WxPayServiceImpl implements IWxPayService {
 		unifiedorder.setOpenid(wxUser.getOpenid());
 
 		UnifiedorderResult orderResult = PayMchAPI.payUnifiedorder(unifiedorder, WxConstants.WxMch_Key);
-		if(orderResult==null)
-		  _logger.error("orderResult is null");
-		else{
+		if (orderResult == null)
+			_logger.error("orderResult is null");
+		else {
 			JSONObject getObj = new JSONObject();
-			getObj.put("orderResult",orderResult);
-			_logger.error("orderResult msg:"+getObj.toString());	
+			getObj.put("orderResult", orderResult);
+			_logger.error("orderResult msg:" + getObj.toString());
 		}
-		   
+
 		return orderResult;
 	}
 
@@ -164,7 +164,16 @@ public class WxPayServiceImpl implements IWxPayService {
 		    	return false;
 		    //获取用户信息
 		    WxUser wxUser= wxUserMapper.getModelByOpenId(openid);
-		    wxUser.setCoin(wxUser.getCoin()+wxPayRecord.getCount());
+		    // type==1充值小说币 type==2 包年包月
+			if(wxPayRecord.getPaytype()==1)
+			{
+			   wxUser.setCoin(wxUser.getCoin()+wxPayRecord.getCount());
+			}
+			else if(wxPayRecord.getPaytype()==2)
+			{
+			   wxUser.setDeadline(dateFormat(wxUser.getDeadline(),wxPayRecord.getCount()));;
+			}
+			wxUser.setUsertype(EnumType.UserType_VIP);
 		    int updateUser= wxUserMapper.updateByPrimaryKey(wxUser);
 		    //事务回滚
 		    if(updateUser<=0)
@@ -175,40 +184,40 @@ public class WxPayServiceImpl implements IWxPayService {
 			throw e;
 		}
 	}
-	
+
 	/**
 	 * 统一下单 生成订单
 	 */
 	@Override
 	@Transactional
-	public boolean testHandlePayNotify(String openid,String out_trade_no,String wxOrderNo) {
+	public boolean testHandlePayNotify(String openid, String out_trade_no, String wxOrderNo) {
 		try {
-			
-			//todo:开始执行给用户添加小说币的方法,同时订单标记为处理成功状态--需要事务处理
-			//获取订单信息
-			WxPay wxPayRecord= selectByPrimaryKey(out_trade_no);
+
+			// todo:开始执行给用户添加小说币的方法,同时订单标记为处理成功状态--需要事务处理
+			// 获取订单信息
+			WxPay wxPayRecord = selectByPrimaryKey(out_trade_no);
 			wxPayRecord.setOrderstatus(EnumType.OrderStatus_Success);
 			wxPayRecord.setWxordernum(wxOrderNo);
-		    int updateCount=updateByPrimaryKey(wxPayRecord);
-		    if(updateCount<=0)
-		    	return false;
-		    //获取用户信息
-		    WxUser wxUser= wxUserMapper.getModelByOpenId(openid);
-		    wxUser.setCoin(wxUser.getCoin()+wxPayRecord.getCount());
-		    int updateUser= wxUserMapper.updateByPrimaryKey(wxUser);
-		    //事务回滚
-		    if(updateUser<=0)
-		    	updateUser=1/updateUser;
+			int updateCount = updateByPrimaryKey(wxPayRecord);
+			if (updateCount <= 0)
+				return false;
+			// 获取用户信息
+			WxUser wxUser = wxUserMapper.getModelByOpenId(openid);
+			wxUser.setCoin(wxUser.getCoin() + wxPayRecord.getCount());
+			int updateUser = wxUserMapper.updateByPrimaryKey(wxUser);
+			// 事务回滚
+			if (updateUser <= 0)
+				updateUser = 1 / updateUser;
 			return true;
 		} catch (Exception e) {
-			_logger.error("支付出错pay error："+e.getMessage());
+			_logger.error("支付出错pay error：" + e.getMessage());
 			throw e;
 		}
 	}
 
-
 	/**
 	 * 生成订单编号 当前时间+随机字符串
+	 * 
 	 * @return
 	 */
 	private static String createOrderNum() {
@@ -217,4 +226,18 @@ public class WxPayServiceImpl implements IWxPayService {
 		return dateStr + randStr;
 	}
 
+	/**
+	 * 日期加减月份
+	 * 
+	 * @param date
+	 * @param month
+	 * @return
+	 */
+	private static Date dateFormat(Date date, int month) {
+		Calendar cl = Calendar.getInstance();
+		cl.setTime(date);
+		cl.add(Calendar.MONTH, month);
+		date = cl.getTime();
+		return date;
+	}
 }

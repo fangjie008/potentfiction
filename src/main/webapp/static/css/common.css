@@ -1491,7 +1491,7 @@ div.my{
 div.my dl{
 	position: relative;
 	overflow: auto;
-        height:76px;
+ /*    height:76px; */
 }
 div.my dl > dt{
 	position: absolute;

@@ -26,7 +26,7 @@
 	<div class="mod_content gray c1 ">
 		<h1 style="border: none">选择充值渠道</h1>
 		<ul class="channellist channellistnew" style="width: 100%;">
-			<a href="<%=path%>/wxPay/errorpay">
+			<a href="#">
 				<li class="paychannel" style="width: 100%"><span
 					class="current btn-paychannel" data-channel="13"> <img
 						src="<%=path%>/static/image/user/weixin.png" alt=""
@@ -52,10 +52,10 @@
 		<h1 style="padding-left: 10px; margin-top: 10px;">
 			<font color="red">↓↓包年更划算，全站作品免费看🔥</font>
 		</h1>
-		<li><span class="" data-money="365" data-premium="12"
+		<li><span class="" data-money="2" data-premium="12"
 			data-type="2">365元（包年）<br>
 			<label>全站作品免费看</label></span></li>
-		<li><span data-money="298" data-premium="6" data-type="2">298元（半年）<br>
+		<li><span data-money="1" data-premium="6" data-type="2">298元（半年）<br>
 			<label>全站作品免费看</label></span></li>
 	</ul>
 	<div class="mod_content c1 gray">
