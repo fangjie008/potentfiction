@@ -9,6 +9,8 @@
 </head>
 
 <body>
+<input type="hidden" id="bookid" name="bookid" value="${bookid }">
+<input type="hidden" id="chapterid" name="chapterid" value="${chapterid }">
 	<header class="nav wrap">
 		<a class="ico52 back" href="javascript:history.go(-1);"></a>充值小说币<a
 			href="<%=path%>/" class="ico52 home"></a>
@@ -50,10 +52,10 @@
 		<h1 style="padding-left: 10px; margin-top: 10px;">
 			<font color="red">↓↓包年更划算，全站作品免费看🔥</font>
 		</h1>
-		<li><span class="" data-money="365" data-premium="month12"
-			data-type="3">365元（包年）<br>
+		<li><span class="" data-money="365" data-premium="12"
+			data-type="2">365元（包年）<br>
 			<label>全站作品免费看</label></span></li>
-		<li><span data-money="298" data-premium="month6" data-type="2">298元（半年）<br>
+		<li><span data-money="298" data-premium="6" data-type="2">298元（半年）<br>
 			<label>全站作品免费看</label></span></li>
 	</ul>
 	<div class="mod_content c1 gray">
@@ -65,12 +67,14 @@
 			<li>充值阅读权限仅限本站使用</li>
 			<li>充值小说币为虚拟物品，不支持退款！</li>
 			<li>若充值遇到问题，<a
-				href="http://xsm.meixiangdao.com/main/feedback.html">点此留言</a> 或查看 <a
-				href="http://xsm.meixiangdao.com/main/help.html">帮助中心</a></li>
+				href="#">点此留言</a> 或查看 <a
+				href="#">帮助中心</a></li>
 		</ul>
 	</div>
 	<script>
 		$(".pay_money li").click(function(){
+			var bookid=$("#bookid").val();
+			var chapterid=$("#chapterid").val();
 			var span = $(this).find("span");
 			var money = span.attr("data-money");
 			var premium = span.attr("data-premium");
@@ -85,7 +89,8 @@
 			form.append($("<input>",{'type':'hidden','name':'money','value':money})); 
 			form.append($("<input>",{'type':'hidden','name':'premium','value':premium})); 
 			form.append($("<input>",{'type':'hidden','name':'type','value':type})); 
-
+			form.append($("<input>",{'type':'hidden','name':'bookid','value':bookid})); 
+			form.append($("<input>",{'type':'hidden','name':'chapterid','value':chapterid})); 
 			form.submit();
 		});
 	</script>

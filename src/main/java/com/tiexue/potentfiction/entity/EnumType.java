@@ -92,15 +92,18 @@ public class EnumType {
     };
     
     //订单支付状态
-    public static final int OrderStatus_Success=1;
-    public static final int OrderStatus_Error=1;
+    public static final int OrderStatus_WaitPay=1;
+    public static final int OrderStatus_Error=2;
+    public static final int OrderStatus_Success=3;
     /**
      * 订单支付状态
      */
     public static Map<Integer,String> OrderStatus=new HashMap<Integer,String>(){
     	{
-    		put(OrderStatus_Success,"支付成功");
+    		put(OrderStatus_WaitPay,"待支付");
     		put(OrderStatus_Error,"支付失败");
+    		put(OrderStatus_Success,"支付成功");
+    		
     	}
     };
     

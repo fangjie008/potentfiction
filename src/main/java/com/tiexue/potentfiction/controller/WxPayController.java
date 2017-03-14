@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -91,55 +91,14 @@ public class WxPayController {
 		return "/wxPay/index";
 	}
 
-	@RequestMapping(value = "getMoreList.do")
-	@ResponseBody
-	public String getMoreList(HttpServletRequest request,
-			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token) {
-		String userIdStr = "";
-		if (wx_gzh_token != "") {
-			PageUserDto pageUser = userSer.getPageUserDto(wx_gzh_token);
-			if (pageUser != null) {
-				userIdStr = pageUser.getId();
-			}
-		}
-		JSONObject getObj = new JSONObject();
-		String pageNoStr = request.getParameter("pageNo");
-		String pageSizeStr = request.getParameter("pageSize");
-		if (userIdStr != null && !userIdStr.isEmpty()) {
-			int userId = Integer.parseInt(userIdStr);
-			int pageNo = 0;
-			if (pageNoStr != null && !pageNoStr.isEmpty()) {
-				pageNo = Integer.parseInt(pageNoStr);
-			}
-			int pageSize = 10;
-			if (pageSizeStr != null && !pageSizeStr.isEmpty()) {
-				pageSize = Integer.parseInt(pageSizeStr);
-			}
-			List<WxPay> wxPays = wxPayService.getListByPage(userId, pageNo, pageSize);
-			if (wxPays == null) {
-				getObj.put("ok", false);
-				getObj.put("msg", "没有数据");
-			} else {
-				getObj.put("OK", true);
-				getObj.put("msg", "成功获取数据");
-				getObj.put("WxPayData", wxPays);
-			}
-		} else {
-			getObj.put("ok", false);
-			getObj.put("msg", "参数错误");
-		}
-
-		return getObj.toString();
-	}
-
 	/**
 	 * 充值 转到这个页面的时候,可能是来自用户直接点击充值,也可能是来自用户阅读中充值 这里需要记录来自哪里,如果来自阅读中我们需要输出cookie
 	 * 
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping("/pay")
-	public String pay(HttpServletRequest request,
+	@RequestMapping("pay")
+	public String pay(HttpServletRequest request, HttpServletResponse response,
 			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token) {
 		String userIdStr = "";
 		if (wx_gzh_token != "") {
@@ -153,42 +112,75 @@ public class WxPayController {
 		if (userIdStr != null && !userIdStr.isEmpty()) {
 			int userId = Integer.parseInt(userIdStr);
 			WxUser userModel = userSer.selectByPrimaryKey(userId);
+			if(userModel==null)
+				return "redirect:/wxUser/login";
 			WxUserDto userDto = userDtoFill(userModel);
 			request.setAttribute("user", userDto);
+		}else{
+				return "redirect:/wxUser/login";
 		}
-
 		// todo:如果充值来源于阅读中,我们需要将阅读信息保存到cookie中
 		String bookid = request.getParameter("bookid");
 		String chapterid = request.getParameter("chapterid");
-
+		request.setAttribute("bookid", bookid);
+		request.setAttribute("chapterid", chapterid);
 		return "/wxPay/pay";
 	}
 
-	/*
+	/**
 	 * 1.用户选择充值渠道,方式,金额后,转到这里 2.首先拿到充值渠道,方式,金额,然后组织相关的参数--生成订单,将订单插入数据库中
 	 * 3.参数组织好后请求微信统一下单接口,得到预付单id 4.拿到预付单id之后,再次组织参数(包含签名),将相关参数传递给前端页面
 	 * 5.前端页面拿到参数后,发起H5充值js请求 6.等待接受微信充值成功回调--将相应小说币增加到用户数据 7.返回到cookie保存的充值前界面
 	 */
 	@RequestMapping("ipay_now")
-	public String ipay_now(HttpServletRequest request, HttpServletResponse response) {
-		// todo:判断是否登录,未登录转到登录接口
+	public String ipay_now(HttpServletRequest request, HttpServletResponse response,
+			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token) {
 
+		// todo:从用户登录信息获取用户openid
+		WxUser user = null;
+		// todo:判断是否登录,未登录转到登录接口
+		String userIdStr = "";
+		if (wx_gzh_token != "") {
+			PageUserDto pageUser = userSer.getPageUserDto(wx_gzh_token);
+			if (pageUser != null) {
+				userIdStr = pageUser.getId();
+			}
+		}
+		if (userIdStr != null && !userIdStr.isEmpty()) {
+			int userId = Integer.parseInt(userIdStr);
+			user = userSer.selectByPrimaryKey(userId);
+			if (user == null)
+				return "redirect:/wxUser/login";
+		} else {
+			return "redirect:/wxUser/login";
+		}
 		// 先将逻辑全写在controller中,写完后拆分到对应service中
 		String moneyStr = request.getParameter("money");
+		String coinStr = request.getParameter("premium");
 		String typeStr = request.getParameter("type");
 		String bookIdStr = request.getParameter("bookId");
 		String chapterIdStr = request.getParameter("chapterId");
-		Integer money = Integer.parseInt(moneyStr);
-		Integer type = Integer.parseInt(typeStr);
-		Integer bookId = Integer.parseInt(bookIdStr);
-		Integer chapterId = Integer.parseInt(chapterIdStr);
-
-		// todo:从用户登录信息获取用户openid
-		WxUser user = new WxUser();
-
+		Integer money = 0;
+		Integer coin=0;
+		Integer type = 0;
+		Integer bookId = 0;
+		Integer chapterId = 0;
+		if (moneyStr != null && !moneyStr.isEmpty())
+			money = Integer.parseInt(moneyStr);
+		if (coinStr != null && !coinStr.isEmpty())
+			coin = Integer.parseInt(coinStr);
+		if (typeStr != null && !typeStr.isEmpty())
+			type = Integer.parseInt(typeStr);
+		if (bookIdStr != null && !bookIdStr.isEmpty())
+			bookId = Integer.parseInt(bookIdStr);
+		if (chapterIdStr != null && !chapterIdStr.isEmpty())
+			chapterId = Integer.parseInt(chapterIdStr);
+		//测试
+		//boolean result = wxPayService.testHandlePayNotify("oWG6Rs8dC4cpoiRX2NgPR1ZAbcRE", "20170314103402080EF510265", "test456");
+		
 		// 调用统一下单接口
 		String remoteIpAdd = request.getRemoteAddr();
-		UnifiedorderResult unifiedorderResult = wxPayService.createUnifiedorder(user, type, money, bookId, chapterId,
+		UnifiedorderResult unifiedorderResult = wxPayService.createUnifiedorder(user, type, money,coin, bookId, chapterId,
 				remoteIpAdd);
 
 		String json = PayUtil.generateMchPayJsRequestJson(unifiedorderResult.getPrepay_id(), WxConstants.WxAppId,
@@ -196,15 +188,14 @@ public class WxPayController {
 
 		// 将json 传到jsp 页面
 		request.setAttribute("json", json);
-
 		// 转到支付发起js页面
-		return "ipay_now";
+		return "/wxPay/ipay_now";
 	}
 
 	// 重复通知过滤
 	private static ExpireKey expireKey = new DefaultExpireKey();
 
-	/*
+	/**
 	 * 微信支付成功,回调此接口
 	 * 
 	 */
@@ -249,7 +240,7 @@ public class WxPayController {
 	public String payResult(HttpServletRequest request) {
 		// todo:在这里处理支付成功的逻辑,跳转到原来阅读地址,或者到首页等
 
-		return "pay_result";
+		return "/wxPay/pay_result";
 	}
 
 	/**

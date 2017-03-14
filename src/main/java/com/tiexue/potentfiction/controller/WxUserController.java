@@ -60,10 +60,10 @@ public class WxUserController {
 	// 转到用户登录界面,记录来源refer,将refer保存到cookie里面,用于登录后的返回
 	@RequestMapping("/login")
 	public String login(HttpServletRequest request, HttpServletResponse response) {
-		String refer = request.getHeader("Refer");
+		String refer = request.getHeader("Referer");
 		if (null != refer && !refer.isEmpty()) {
 			Cookie _refCookie = new Cookie("_ref", refer); // 创建一个Cookie对象，并将用户名保存到Cookie对象中
-			_refCookie.setMaxAge(3600); // 设置Cookie的过期之前的时间，单位为秒
+			_refCookie.setMaxAge(15*60); // 设置Cookie的过期之前的时间，单位为秒
 			response.addCookie(_refCookie); // 通过response的addCookie()方法将此Cookie对象保存到客户端的Cookie中
 		}
 		return "wxUser/login";
@@ -157,7 +157,7 @@ public class WxUserController {
 		}
 
 		// 接下来跳转到一个专门处理登录后逻辑的页面
-		return "redirect:/wxbook/list";
+		return "redirect:wxloginhandle";
 	}
 
 	/*
@@ -165,27 +165,23 @@ public class WxUserController {
 	 * 
 	 */
 	@RequestMapping("wxloginhandle")
-	public void wxLoginHandle(HttpServletRequest request, HttpServletResponse response) {
-		// todo:判断是否登录,理论上到这里都是登录后的
-
-		// todo:跳转到登录前页面
-
-		// 这里是测试输出
+	public String wxLoginHandle(HttpServletRequest request, HttpServletResponse response,
+			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token,
+			@CookieValue(value = "_ref", required = true, defaultValue = "") String ref) {
 		try {
-			StringBuffer sb = new StringBuffer();
-//			sb.append("YourOpenId:").append(wxSnsUser.getOpenid()).append(System.lineSeparator());
-//			sb.append("YourName:").append(wxSnsUser.getNickname()).append(System.lineSeparator());
-//			sb.append("YourCity:").append(wxSnsUser.getCity()).append(System.lineSeparator());
-//			sb.append("YourCountry:").append(wxSnsUser.getCountry()).append(System.lineSeparator());
-//			sb.append("YourHeadimgurl:").append(wxSnsUser.getHeadimgurl()).append(System.lineSeparator());
-//			sb.append("YourSex:").append(wxSnsUser.getSex()).append(System.lineSeparator());
-//			response.setHeader("Content-type", "text/html;charset=UTF-8");
-			response.setCharacterEncoding("UTF-8");
-			response.getWriter().println(sb.toString());
-		} catch (IOException e) {
+			// todo:判断是否登录,理论上到这里都是登录后的
+			// todo:跳转到登录前页面
+			if (ref != "") {
+				return "redirect:"+ref;
+			}
+			return "redirect:/wxbook/list";
+		} catch (Exception e) {
+			logger.error("登录报错：" + e.getMessage());
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return "redirect:login";
 		}
+		
 	}
 
 }
