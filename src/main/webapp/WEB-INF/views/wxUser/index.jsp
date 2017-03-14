@@ -68,21 +68,6 @@
 		<p class="solid"></p>
 		<div class="">
 			<ul class="class_list">
-				<li><a href="#"><img
-						src="<%=path%>/static/image/user/icon_feedback1.png" class="icon"><span
-						class="txt">绑定手机</span><img
-						src="<%=path%>/static/image/user/arrow_r.png"
-						class="arrow_r"></a></li>
-				<li><a href="#"><img
-						src="<%=path%>/static/image/user/icon_setup.png" class="icon"><span
-						class="txt">修改密码</span><img
-						src="<%=path%>/static/image/user/arrow_r.png"
-						class="arrow_r"></a></li>
-				<li><a href="#"><img
-						src="<%=path%>/static/image/user/icon_help.png" class="icon"><span
-						class="txt">退出登录</span><img
-						src="<%=path%>/static/image/user/arrow_r.png"
-						class="arrow_r"></a></li>
 			</ul>
 		</div>
 		<p class="solid"></p>

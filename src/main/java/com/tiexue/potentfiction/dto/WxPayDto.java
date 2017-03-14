@@ -9,7 +9,7 @@ public class WxPayDto {
 		//充值类型名称
 		private String paytypeName; 
 		//充值金额
-		private Double amount;
+		private Integer amount;
 		//小说币
 		private Integer Count;   
 		//充值时间
@@ -37,10 +37,10 @@ public class WxPayDto {
 		public void setPaytypeName(String paytypeName) {
 			this.paytypeName = paytypeName;
 		}
-		public Double getAmount() {
+		public Integer getAmount() {
 			return amount;
 		}
-		public void setAmount(Double amount) {
+		public void setAmount(Integer amount) {
 			this.amount = amount;
 		}
 		public Integer getCount() {

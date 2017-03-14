@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSONObject;
 import com.tiexue.potentfiction.entity.EnumType;
 import com.tiexue.potentfiction.entity.WxConstants;
 import com.tiexue.potentfiction.entity.WxPay;
@@ -77,12 +78,12 @@ public class WxPayServiceImpl implements IWxPayService {
 	 * 统一下单 生成订单
 	 */
 	@Override
-	public UnifiedorderResult createUnifiedorder(WxUser wxUser, int type, double money,int coin, int bookId, int chapterId,
+	public UnifiedorderResult createUnifiedorder(WxUser wxUser, int type, int money,int coin, int bookId, int chapterId,
 			String remoteAdd) {
 		// 充值的币
 		if(type==1)
 		{
-		  coin = (int)money * 100+coin;
+		  coin = money+coin;
 		}
 
 		// 生成我们的订单
@@ -118,7 +119,14 @@ public class WxPayServiceImpl implements IWxPayService {
 		unifiedorder.setOpenid(wxUser.getOpenid());
 
 		UnifiedorderResult orderResult = PayMchAPI.payUnifiedorder(unifiedorder, WxConstants.WxMch_Key);
-
+		if(orderResult==null)
+		  _logger.error("orderResult is null");
+		else{
+			JSONObject getObj = new JSONObject();
+			getObj.put("orderResult",orderResult);
+			_logger.error("orderResult msg:"+getObj.toString());	
+		}
+		   
 		return orderResult;
 	}
 

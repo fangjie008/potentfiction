@@ -21,7 +21,7 @@ public class WxPay {
 
     private Integer paytype;
 
-    private Double amount;
+    private Integer amount;
 
     private Integer count;
 
@@ -101,11 +101,11 @@ public class WxPay {
         this.paytype = paytype;
     }
 
-    public Double getAmount() {
+    public Integer getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(Integer amount) {
         this.amount = amount;
     }
 

@@ -124,6 +124,12 @@ public class WxPayController {
 		String chapterid = request.getParameter("chapterid");
 		request.setAttribute("bookid", bookid);
 		request.setAttribute("chapterid", chapterid);
+		String refer = request.getHeader("Referer");
+		if (null != refer && !refer.isEmpty()) {
+			Cookie _refCookie = new Cookie("_refpay", refer); // 创建一个Cookie对象，并将用户名保存到Cookie对象中
+			_refCookie.setMaxAge(15*60); // 设置Cookie的过期之前的时间，单位为秒
+			response.addCookie(_refCookie); // 通过response的addCookie()方法将此Cookie对象保存到客户端的Cookie中
+		}
 		return "/wxPay/pay";
 	}
 
@@ -160,13 +166,13 @@ public class WxPayController {
 		String typeStr = request.getParameter("type");
 		String bookIdStr = request.getParameter("bookId");
 		String chapterIdStr = request.getParameter("chapterId");
-		double money = 0;
+		int money = 0;
 		int coin=0;
 		Integer type = 0;
 		Integer bookId = 0;
 		Integer chapterId = 0;
 		if (moneyStr != null && !moneyStr.isEmpty())
-			money = Double.parseDouble(moneyStr);
+			money = Integer.parseInt(moneyStr);
 		if (coinStr != null && !coinStr.isEmpty())
 			coin = Integer.parseInt(coinStr);
 		if (typeStr != null && !typeStr.isEmpty())
@@ -185,7 +191,7 @@ public class WxPayController {
 
 		String json = PayUtil.generateMchPayJsRequestJson(unifiedorderResult.getPrepay_id(), WxConstants.WxAppId,
 				WxConstants.WxMch_Key);
-
+		logger.error("json:"+json);
 		// 将json 传到jsp 页面
 		request.setAttribute("json", json);
 		// 转到支付发起js页面
@@ -233,14 +239,24 @@ public class WxPayController {
 		}
 	}
 
-	/*
+	/**
 	 * 支付结果跳转页面
 	 */
 	@RequestMapping("payresult")
-	public String payResult(HttpServletRequest request) {
-		// todo:在这里处理支付成功的逻辑,跳转到原来阅读地址,或者到首页等
-
-		return "/wxPay/pay_result";
+	public String payResult(HttpServletRequest request,
+			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token,
+			@CookieValue(value = "_refpay", required = true, defaultValue = "") String ref) {
+		try {
+			// todo:在这里处理支付成功的逻辑,跳转到原来阅读地址,或者到首页等
+			if (ref != "") {
+				return "redirect:" + ref;
+			}
+			return "redirect:/wxbook/list";
+		} catch (Exception e) {
+			logger.error("支付成功后跳转报错：" + e.getMessage());
+			e.printStackTrace();
+			return "redirect:pay_result";
+		}
 	}
 
 	/**

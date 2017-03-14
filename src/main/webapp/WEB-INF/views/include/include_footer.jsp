@@ -11,6 +11,6 @@ String basePathFooter = request.getScheme()+"://"+request.getServerName()+":"+re
 	<span class="sp"></span><a href="#">帮助</a> 
 	</p>
 	<p style="line-height: 22px;"> 
-	<span class="small">©2016 小说迷 </span> <span class="small">
-	京ICP备16027282号-1</span> </p>
+	<span class="small">©2016 五彩小说城</span> <span class="small">
+	京ICP备16021213号-1</span> </p>
 </footer>

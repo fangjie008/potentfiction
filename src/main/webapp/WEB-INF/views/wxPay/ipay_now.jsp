@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -8,20 +9,18 @@
 
 <script type="text/javascript">
 	//json 数据
-	var x_json = $
-	{
-		json
-	};
-	function pay() {
+	var x_json=${json};
+	function onBridgeReady() {
 		WeixinJSBridge.invoke('getBrandWCPayRequest', x_json, function(res) {
 			if (res.err_msg == 'get_brand_wcpay_request:ok') {
 				//支付成功，可以做跳转到支付成功的提示页面
 				alert("支付成功");
 				//todo:跳转到支付成功展示页面
-				window.location.href="pay_result"; 
+				window.location.href="payresult"; 
 			} else {
 				//支付失败
 				alert(res.err_msg);
+				window.location.href="errorpay"; 
 			}
 		});
 	}

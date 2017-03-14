@@ -1,12 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<%@ include file="/WEB-INF/views/include/include_base.jsp"%>
+<title>支付失败</title>
 </head>
+
 <body>
-	充值成功,快去看书吧
+<header class="nav wrap"> 
+ <a class="ico52 back" href="javascript:history.go(-1);"></a>微信支付<a href="<%=path%>/" class="ico52 home"></a>
+</header>
+<div class="wrap">
+	<p class="panel margin-top-10">充值成功</p>
+	 <a class="btn block" href="<%=path%>/wxPay/pay">再次充值</a> 
+	 <a class="btn block" href="<%=path%>/">返回看书</a> 
+	 </div>
+<%@ include file="/WEB-INF/views/include/include_footer.jsp"%>
 </body>
 </html>

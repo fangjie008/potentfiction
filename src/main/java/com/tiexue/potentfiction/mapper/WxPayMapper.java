@@ -31,7 +31,7 @@ public interface WxPayMapper {
         "#{openid,jdbcType=VARCHAR}, #{bookid,jdbcType=INTEGER}, ",
         "#{chapterid,jdbcType=INTEGER}, #{orderstatus,jdbcType=INTEGER}, ",
         "#{wxordernum,jdbcType=VARCHAR}, #{paychannel,jdbcType=INTEGER}, ",
-        "#{paytype,jdbcType=INTEGER}, #{amount,jdbcType=DOUBLE}, ",
+        "#{paytype,jdbcType=INTEGER}, #{amount,jdbcType=INTEGER}, ",
         "#{count,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, ",
         "#{unit,jdbcType=INTEGER})"
     })
@@ -61,7 +61,7 @@ public interface WxPayMapper {
           "WxOrderNum = #{wxordernum,jdbcType=VARCHAR},",
           "PayChannel = #{paychannel,jdbcType=INTEGER},",
           "PayType = #{paytype,jdbcType=INTEGER},",
-          "Amount = #{amount,jdbcType=DOUBLE},",
+          "Amount = #{amount,jdbcType=INTEGER},",
           "Count = #{count,jdbcType=INTEGER},",
           "CreateTime = #{createtime,jdbcType=TIMESTAMP},",
           "Unit = #{unit,jdbcType=INTEGER}",

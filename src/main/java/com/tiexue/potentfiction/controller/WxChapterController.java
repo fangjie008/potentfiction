@@ -32,7 +32,7 @@ public class WxChapterController {
 	//获取章节列表信息
 	@RequestMapping("/index")
 	public String getList(HttpServletRequest request) {
-		int pageSize=3;
+		int pageSize=20;
 		String bookIdStr = request.getParameter("bookId");
 		String pageNoStr = request.getParameter("pageNo");
 		String jumpPage = request.getParameter("jumpPage");
