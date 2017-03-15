@@ -161,7 +161,7 @@ public class WxUserController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			
-			return "redirect:login";
+			return "redirect:/wxbook/list";
 		}
 
 		// 接下来跳转到一个专门处理登录后逻辑的页面
@@ -179,7 +179,10 @@ public class WxUserController {
 		try {
 			// todo:判断是否登录,理论上到这里都是登录后的
 			// todo:跳转到登录前页面
-			if (ref != "") {
+			if (ref!=""&&!ref.isEmpty()) {
+				if(ref.contains("wxUser/login")){
+					return "redirect:/wxbook/list";
+				}
 				return "redirect:"+ref;
 			}
 			return "redirect:/wxbook/list";
@@ -187,7 +190,7 @@ public class WxUserController {
 			logger.error("登录报错：" + e.getMessage());
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "redirect:login";
+			return "redirect:/wxbook/list";
 		}
 		
 	}
