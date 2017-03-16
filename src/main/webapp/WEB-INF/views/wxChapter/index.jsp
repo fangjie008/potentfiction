@@ -154,7 +154,7 @@
 			<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
 		</c:if>
 		<c:forEach items="${wxChapters}" var="chapters">
-			<li><a class="chapter"
+			<li><a class="chapter" onclick="addbookrack('${wxBook.id}','${chapters.id}')"
 				href="<%=path%>/wxChapterSub/index?bookId=${wxBook.id}&chapterId=${chapters.id}">
 					${chapters.title} </a> <c:if test="${chapters.getChaptertype()==0}">
 					<span class="fn-right c999">免费</span>
@@ -197,6 +197,7 @@
 	</div>
 	<%@ include file="/WEB-INF/views/include/include_footer.jsp"%>
 </body>
+<script type="text/javascript" src="<%=path %>/static/js/public.js"></script>
 <script type="text/javascript">
 	function jumpPage() {
 		var jumpPage = $("#jump_page").val();

@@ -38,7 +38,7 @@
 		</ul>
 	</div>
 	<ul class="pay_money moneylist margin-top-10">
-		<li><span data-money="1" data-premium="100" data-type="1">0.01元(3000小说币)<br>
+		<li><span data-money="3000" data-premium="100" data-type="1">30元(3000小说币)<br>
 			<label>送100小说豆</label></span></li>
 		<li><span data-money="5000" data-premium="500" data-type="1">50元(5000小说币)<br>
 			<label>送500小说豆</label></span></li>
@@ -52,10 +52,10 @@
 		<h1 style="padding-left: 10px; margin-top: 10px;">
 			<font color="red">↓↓包年更划算，全站作品免费看🔥</font>
 		</h1>
-		<li><span class="" data-money="2" data-premium="12"
+		<li><span class="" data-money="36500" data-premium="12"
 			data-type="2">365元（包年）<br>
 			<label>全站作品免费看</label></span></li>
-		<li><span data-money="1" data-premium="6" data-type="2">298元（半年）<br>
+		<li><span data-money="29800" data-premium="6" data-type="2">298元（半年）<br>
 			<label>全站作品免费看</label></span></li>
 	</ul>
 	<div class="mod_content c1 gray">

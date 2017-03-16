@@ -43,7 +43,7 @@
 		《${bookrack.bookname}》 ${bookrack.chaptertitle}</a>
 		</c:if>
 		<c:if test="${bookrack.bookid>0&&(bookrack.chapterid==null||bookrack.chapterid<=0)}">
-		<label>免费阅读:</label>
+		<label>继续阅读:</label>
 		<a  href="<%=path %>/wxChapterSub/defualt?bookId=${bookrack.bookid}">
 		《${bookrack.bookname}》</a>
 		</c:if>
@@ -61,7 +61,7 @@
 		<c:forEach items="${wxBooks}" var="books">
 	      <li>
 	        
-	      	<a href="<%=path%>/wxbook/detail?id=${books.id}"> 
+	      	<a onclick="addbookrack('${books.id}','0')" href="<%=path%>/wxbook/detail?id=${books.id}"> 
 	      	<img class="fn-left lazy" src="${books.coverImgs}" dataimg="${books.coverImgs}" alt="${books.name}">
 			<div>
 				<p>${books.name}</p>
@@ -75,5 +75,6 @@
 <div class="mod_block"></div>
 <%@ include file="/WEB-INF/views/include/include_footer.jsp"%>
 </body>
+<script type="text/javascript" src="<%=path %>/static/js/public.js"></script>
 </html>
 

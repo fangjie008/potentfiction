@@ -68,12 +68,12 @@ public class WxBookController {
 			List<WxBookDto> wxBookDtos = toWxBookListDto(wxBooks);
 			request.setAttribute("wxBooks", wxBookDtos);
 			WxBookrack rack=new WxBookrack();
-			if (userIdStr != null && !userIdStr.isEmpty()) {
-				int userId = Integer.parseInt(userIdStr);
-			    rack = bookrackService.getModelByUserId(userId);
-			}else{
+//			if (userIdStr != null && !userIdStr.isEmpty()) {
+//				int userId = Integer.parseInt(userIdStr);
+//			    rack = bookrackService.getModelByUserId(userId);
+//			}else{
 				rack=getBookrackByCookie(rackCookie);
-			}
+//			}
 			request.setAttribute("bookrack", rack);
 		} catch (Exception e) {
 			logger.error("首页获取数据异常"+e.getMessage());

@@ -50,7 +50,7 @@ public interface WxChapterMapper {
         "Id, BookId, SortOrder, Title, ChapterType, Pirce,ContentLen ",
         "from wxchapter",
         "where BookId = #{bookId,jdbcType=INTEGER} and Status=#{status}",
-        " order by SortOrder LIMIT #{pageNo},#{pageSize}"})
+        " order by SortOrder asc,Id asc  LIMIT #{pageNo},#{pageSize}"})
     @ResultMap("ResultListMap")
     List<WxChapter> selectByBookId(@Param("bookId")Integer bookId,@Param("status")Integer status,@Param("pageNo")Integer pageNo,@Param("pageSize")Integer pageSize);
 
@@ -83,7 +83,7 @@ public interface WxChapterMapper {
         "Id, BookId, SortOrder, Title, ChapterType, Pirce,ContentLen ",
         "from wxchapter",
         "where bookId=#{bookId} and Status=#{status}",
-        " order by SortOrder asc LIMIT 0,1 "})
+        " order by SortOrder asc,Id asc  LIMIT 0,1 "})
     @ResultMap("ResultListMap")
     WxChapter getFirstChapter(@Param("bookId")Integer bookId,@Param("status")Integer status);
     
@@ -92,7 +92,7 @@ public interface WxChapterMapper {
         "Id, BookId, SortOrder, Title, ChapterType, Pirce,ContentLen ",
         "from wxchapter",
         "where bookId=#{bookId} and id < #{chapterId,jdbcType=INTEGER} and Status=#{status}",
-        " order by SortOrder desc LIMIT 0,1 "})
+        " order by SortOrder desc,Id desc  LIMIT 0,1 "})
     @ResultMap("ResultListMap")
     WxChapter getPreChapter(@Param("bookId")Integer bookId,@Param("chapterId")Integer chapterId,@Param("status")Integer status);
     
@@ -101,7 +101,7 @@ public interface WxChapterMapper {
         "Id, BookId, SortOrder, Title, ChapterType, Pirce,ContentLen ",
         "from wxchapter",
         "where bookId=#{bookId} and id > #{chapterId,jdbcType=INTEGER} and Status=#{status}",
-        " order by SortOrder asc LIMIT 0,1 "})
+        " order by SortOrder asc,Id asc    LIMIT 0,1 "})
     @ResultMap("ResultListMap")
     WxChapter getNextChapter(@Param("bookId")Integer bookId,@Param("chapterId")Integer chapterId,@Param("status")Integer status);
     
@@ -110,7 +110,7 @@ public interface WxChapterMapper {
         "Id, BookId, SortOrder, Title, ChapterType, Pirce,ContentLen ",
         "from wxchapter",
         "where bookId=#{bookId} and Status=#{status}",
-        " order by SortOrder desc LIMIT 0,1 "})
+        " order by SortOrder desc,Id desc   LIMIT 0,1 "})
     @ResultMap("ResultListMap")
     WxChapter getLastChapter(@Param("bookId")Integer bookId,@Param("status")Integer status);
 }

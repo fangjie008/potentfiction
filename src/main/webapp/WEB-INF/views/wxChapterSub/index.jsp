@@ -37,7 +37,7 @@
 			<li class="mulu"><a class="btn white block"
 				href="<%=path %>/wxChapter/index?bookId=${wxChapterSub.bookId}&pageNo=0">目录</a></li>
 			<li class="pn"><c:if test="${wxChapterSub.nextId>0 }">
-					<a class="chapter_next btn block" data-cid="${wxChapterSub.nextId}"
+					<a  onclick="addbookrack('${wxChapterSub.bookId}','${wxChapterSub.nextId}')"  class="chapter_next btn block" data-cid="${wxChapterSub.nextId}"
 						href="<%=path %>/wxChapterSub/index?bookId=${wxChapterSub.bookId}&chapterId=${wxChapterSub.nextId}">下一章</a>
 				</c:if> <c:if test="${wxChapterSub.nextId<=0 }">
 					<a class="chapter_next btn block" href="#" disabled="disabled">下一章</a>
@@ -88,7 +88,7 @@
 						class="ico40 option"></i>设置
 				</a></li>
 			<li class="pn"><c:if test="${wxChapterSub.nextId>0 }">
-					<a class="chapter_next" data-cid="${wxChapterSub.nextId}"
+					<a class="chapter_next" onclick="addbookrack('${wxChapterSub.bookId}','${wxChapterSub.nextId}')" data-cid="${wxChapterSub.nextId}"
 						href="<%=path %>/wxChapterSub/index?bookId=${wxChapterSub.bookId}&chapterId=${wxChapterSub.nextId}">下章 <i
 						class="ico40 fastnext"></i></a>
 				</c:if> <c:if test="${wxChapterSub.nextId<=0 }">
