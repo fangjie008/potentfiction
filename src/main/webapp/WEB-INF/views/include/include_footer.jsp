@@ -13,4 +13,8 @@ String basePathFooter = request.getScheme()+"://"+request.getServerName()+":"+re
 	<p style="line-height: 22px;"> 
 	<span class="small">©2016 五彩小说城</span> <span class="small">
 	京ICP备16021213号-1</span> </p>
+	<script>
+		var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    	document.write(unescape("%3Cspan id='cnzz_stat_icon_1261313497'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "w.cnzz.com/q_stat.php%3Fid%3D1261313497' type='text/javascript'%3E%3C/script%3E"));
+    </script>
 </footer>
