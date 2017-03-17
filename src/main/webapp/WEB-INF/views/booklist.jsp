@@ -73,9 +73,9 @@
 	</ul>
 </div>
 <div class="mod_block"></div>
-<div>
+<!-- <div>
 <a href="#" onclick="testaddcookie()">测试登录</a>
-</div>
+</div> -->
 <%@ include file="/WEB-INF/views/include/include_footer.jsp"%>
 </body>
 <script type="text/javascript" src="<%=path %>/static/js/public.js"></script>
