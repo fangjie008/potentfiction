@@ -1,9 +1,12 @@
 package com.tiexue.potentfiction.service.impl;
 
+
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.tiexue.potentfiction.dto.WxBookrackDto;
@@ -13,7 +16,7 @@ import com.tiexue.potentfiction.service.IWxBookrackService;
 
 @Service("wxBookrack")
 public class WxBookrackServiceImpl implements IWxBookrackService {
-
+	private static Logger _logger = Logger.getLogger(WxBookrackServiceImpl.class);
 	@Resource
 	WxBookrackMapper bookrackMapper;
 
@@ -62,5 +65,43 @@ public class WxBookrackServiceImpl implements IWxBookrackService {
 	public List<WxBookrackDto> getListByUserId(Integer userId, Integer size) {
 		return bookrackMapper.getListByUserId(userId, size);
 	}
-
+	@Override
+	public boolean saveBookrack(int userId,int bookId,String bookName,Integer chapterId,String chapterTitle){
+		try {
+			if(bookName==null||bookName.isEmpty())
+				bookName="";
+			if(chapterId==null)
+				chapterId=0;
+			if(chapterTitle==null||chapterTitle.isEmpty())
+				chapterTitle="";
+			 WxBookrack rack= getModelByBookId(userId,bookId);
+			 if(rack==null){
+				 rack=new WxBookrack();
+				 rack.setUserid(userId);
+				 rack.setBookid(bookId);
+				 rack.setBookname(bookName);
+				 rack.setChapterid(chapterId);
+				 rack.setChaptertitle(chapterTitle);
+				 rack.setCreatetime(new Date());
+				 rack.setLocation(0);
+				 rack.setUserid(userId);
+				 return insert(rack)>0?true:false;
+			 }else{
+				 rack.setCreatetime(new Date());
+				 if(bookName!="")
+					 rack.setBookname(bookName);
+				 if(chapterId!=0)
+					 rack.setChapterid(chapterId);
+				 if(chapterTitle!="")
+					 rack.setChaptertitle(chapterTitle);
+				 return updateByPrimaryKey(rack)>0?true:false;
+			 }
+		} catch (Exception e) {
+			_logger.error("保存书架失败！"+e.getMessage());
+		}
+		return false;
+		
+		 
+	}
+	
 }

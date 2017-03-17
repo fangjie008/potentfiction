@@ -23,6 +23,7 @@ import com.tiexue.potentfiction.entity.WxChapterSub;
 
 import com.tiexue.potentfiction.service.IUserConsService;
 import com.tiexue.potentfiction.service.IWxBookService;
+import com.tiexue.potentfiction.service.IWxBookrackService;
 import com.tiexue.potentfiction.service.IWxChapterService;
 import com.tiexue.potentfiction.service.IWxChapterSubService;
 import com.tiexue.potentfiction.service.IWxUserService;
@@ -42,8 +43,17 @@ public class WxChapterSubController {
 	IUserConsService userConsService;
 	@Resource
 	IWxUserService userSer;
-
-	// 获取章节的内容信息
+	@Resource
+	IWxBookrackService bookrackService;
+	/**
+	 * 获取免费章节的内容信息
+	 * @param request
+	 * @param attr
+	 * @param rackCookie
+	 * @param wx_gzh_token
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
 	@RequestMapping("/index")
 	public String getContent(HttpServletRequest request, RedirectAttributes attr,
 			@CookieValue(value = "defaultbookrack", required = true, defaultValue = "") String rackCookie,
@@ -59,10 +69,12 @@ public class WxChapterSubController {
 		String bookIdStr = request.getParameter("bookId");
 		String chapterIdStr = request.getParameter("chapterId");
 		String bookName = "";
+		String chapterTitle="";
 		int userId = 0;
+		int bookId = 0;
+		int chapterId = 0;
 		if (chapterIdStr != null && !chapterIdStr.isEmpty()) {
-			int chapterId = Integer.parseInt(chapterIdStr);
-			int bookId = 0;
+		    chapterId = Integer.parseInt(chapterIdStr);
 			if (bookIdStr != null && !bookIdStr.isEmpty()) {
 				bookId = Integer.parseInt(bookIdStr);
 			}
@@ -78,6 +90,8 @@ public class WxChapterSubController {
 			WxChapter chapterModel = chapterService.selectByPrimaryKey(chapterId, EnumType.ChapterStatus_OnLine);
 			if (chapterModel == null)
 				return "wxChapterSub/index";
+			else
+				chapterTitle=chapterModel.getTitle();
 			// 付费章节操作
 			if (chapterModel.getChaptertype() == 1) {
 				ResultMsg resultMsg = userConsService.consDeal(userId, bookId, bookName, chapterModel);
@@ -101,46 +115,91 @@ public class WxChapterSubController {
 			WxChapterSubDto chapSubDto = getCahperDto(bookId, bookName, chapterId, chapterModel);
 			request.setAttribute("wxChapterSub", chapSubDto);
 		}
+		//保存书架
+        if(bookId>0&&userId>0){
+        	saveBookrack(bookId,userId,bookName,chapterId,chapterTitle);
+        }
 		return "wxChapterSub/index";
 	}
 	
 	
-	// // 付费后获取内容信息
-	// @RequestMapping("/afterCons")
-	// public String getContentAfterCons(HttpServletRequest
-	// request,RedirectAttributes attr) throws UnsupportedEncodingException {
-	// String userIdStr = request.getParameter("userId");
-	// String bookIdStr = request.getParameter("bookId");
-	// String chapterIdStr = request.getParameter("chapterId");
-	// String bookName = "";
-	// int userId = 0;
-	// if (chapterIdStr != null && !chapterIdStr.isEmpty()) {
-	// int chapterId = Integer.parseInt(chapterIdStr);
-	// int bookId = 0;
-	// if (bookIdStr != null && !bookIdStr.isEmpty()) {
-	// bookId = Integer.parseInt(bookIdStr);
-	// }
-	// if (userIdStr != null && !userIdStr.isEmpty()) {
-	// userId = Integer.parseInt(userIdStr);
-	// }
-	// // 获取图书信息
-	// WxBook book = bookService.selectByPrimaryKey(bookId);
-	// if (book != null) {
-	// bookName = book.getName();
-	// }
-	// // 章节数据
-	// WxChapter chapterModel = chapterService.selectByPrimaryKey(chapterId,
-	// EnumType.ChapterStatus_OnLine);
-	// if (chapterModel == null)
-	// return "wxChapterSub/index";
-	// // 获取章节信息
-	// WxChapterSubDto chapSubDto = getCahperDto(bookName, chapterId,
-	// chapterModel);
-	// request.setAttribute("wxChapterSub", chapSubDto);
-	// }
-	// return "wxChapterSub/index";
-	// }
-	//
+	 /**
+	  * 获取付费章节内容信息
+	  * @param request
+	  * @param attr
+	  * @param rackCookie
+	  * @param wx_gzh_token
+	  * @return
+	  * @throws UnsupportedEncodingException
+	  */
+	 @RequestMapping("/vip")
+	 public String getVipContent(HttpServletRequest request, RedirectAttributes attr,
+				@CookieValue(value = "defaultbookrack", required = true, defaultValue = "") String rackCookie,
+				@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token)
+				throws UnsupportedEncodingException {
+			String userIdStr = "";
+			if (wx_gzh_token != "") {
+				PageUserDto pageUser = userSer.getPageUserDto(wx_gzh_token);
+				if (pageUser != null) {
+					userIdStr = pageUser.getId();
+				}
+			}
+			String bookIdStr = request.getParameter("bookId");
+			String chapterIdStr = request.getParameter("chapterId");
+			String bookName = "";
+			String chapterTitle="";
+			int userId = 0;
+			int bookId = 0;
+			int chapterId = 0;
+			if (chapterIdStr != null && !chapterIdStr.isEmpty()) {
+			    chapterId = Integer.parseInt(chapterIdStr);
+				if (bookIdStr != null && !bookIdStr.isEmpty()) {
+					bookId = Integer.parseInt(bookIdStr);
+				}
+				if (userIdStr != null && !userIdStr.isEmpty()) {
+					userId = Integer.parseInt(userIdStr);
+				}
+				// 获取图书信息
+				WxBook book = bookService.selectByPrimaryKey(bookId);
+				if (book != null) {
+					bookName = book.getName();
+				}
+				// 章节数据
+				WxChapter chapterModel = chapterService.selectByPrimaryKey(chapterId, EnumType.ChapterStatus_OnLine);
+				if (chapterModel == null)
+					return "wxChapterSub/index";
+				else
+					chapterTitle=chapterModel.getTitle();
+				// 付费章节操作
+				if (chapterModel.getChaptertype() == 1) {
+					ResultMsg resultMsg = userConsService.consDeal(userId, bookId, bookName, chapterModel);
+					if (!resultMsg.getStatus()) {
+						switch (resultMsg.getNum()) {
+						case EnumType.ResultNum_Login:
+							return "redirect:/wxUser/login";
+						case EnumType.ResultNum_Pay:
+							attr.addAttribute("chapterId", chapterId);
+							attr.addAttribute("bookId", bookId);
+							return "redirect:/wxPay/pay";
+						case EnumType.ResultNum_Cons:
+							attr.addAttribute("chapterId", chapterId);
+							attr.addAttribute("bookId", bookId);
+							return "redirect:/wxConsume/subscribe";
+						}
+					}
+					logger.error(resultMsg.getMsg());
+				}
+				// 获取章节信息
+				WxChapterSubDto chapSubDto = getCahperDto(bookId, bookName, chapterId, chapterModel);
+				request.setAttribute("wxChapterSub", chapSubDto);
+			}
+			//保存书架
+	        if(bookId>0&&userId>0){
+	        	saveBookrack(bookId,userId,bookName,chapterId,chapterTitle);
+	        }
+			return "wxChapterSub/index";
+		}
+	
 
 	// 获取章节的内容信息
 	@RequestMapping("/defualt")
@@ -207,6 +266,8 @@ public class WxChapterSubController {
 	private WxChapterSubDto getCahperDto(int bookId,String bookName, int chapterId,WxChapter chapterModel) {
 		int preId = 0;
 		int nextId = 0;
+		int preType = 0;
+		int nextType = 0;
 		// 章节内容数据
 		WxChapterSub chapSub = chapterSubSer.selectByChapterId(chapterId);
 		// 上一章数据
@@ -215,11 +276,13 @@ public class WxChapterSubController {
 		WxChapter nextChap = chapterService.getNextChapter(bookId,chapterId, EnumType.ChapterStatus_OnLine);
 		if (preChap != null) {
 			preId = preChap.getId();
+			preType=preChap.getChaptertype();
 		}
 		if (nextChap != null) {
 			nextId = nextChap.getId();
+			nextType=nextChap.getChaptertype();
 		}
-		WxChapterSubDto chapSubDto = wxChapterSubDtoFill(chapSub, chapterModel, preId, nextId);
+		WxChapterSubDto chapSubDto = wxChapterSubDtoFill(chapSub, chapterModel, preId, nextId,preType,nextType);
 		chapSubDto.setBookName(bookName);
 		return chapSubDto;
 	}
@@ -228,7 +291,7 @@ public class WxChapterSubController {
 	
 
 	
-	private WxChapterSubDto wxChapterSubDtoFill(WxChapterSub chapSub,WxChapter chapterModel,int preId,int nextId){
+	private WxChapterSubDto wxChapterSubDtoFill(WxChapterSub chapSub,WxChapter chapterModel,int preId,int nextId,int preType,int nextType){
 		WxChapterSubDto chapSubDto=new WxChapterSubDto();
 		if(chapterModel!=null){
 			
@@ -241,8 +304,19 @@ public class WxChapterSubController {
 		}
 		chapSubDto.setPreId(preId);
 		chapSubDto.setNextId(nextId);
+		chapSubDto.setPreType(preType);
+		chapSubDto.setNextType(nextType);
 		return chapSubDto;
 	}
 
+	
+	/**
+	 * 用户阅读小说时直接加到书架中
+	 * @param bookId
+	 * @param userId
+	 */
+	private void saveBookrack(int bookId,int userId,String bookName,int chapterId,String chapterTitle){
+		bookrackService.saveBookrack(userId, bookId, bookName, chapterId, chapterTitle);
+	}
 
 }

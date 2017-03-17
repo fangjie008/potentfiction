@@ -2,7 +2,9 @@ package com.tiexue.potentfiction.controller;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
@@ -14,11 +16,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.alibaba.fastjson.JSON;
 import com.tiexue.potentfiction.dto.PageUserDto;
+import com.tiexue.potentfiction.dto.WxBookrackDto;
 import com.tiexue.potentfiction.dto.WxUserDto;
+import com.tiexue.potentfiction.dto.bookrackCookieDto;
 import com.tiexue.potentfiction.entity.EnumType;
+import com.tiexue.potentfiction.entity.WxBook;
+import com.tiexue.potentfiction.entity.WxChapter;
 import com.tiexue.potentfiction.entity.WxConstants;
 import com.tiexue.potentfiction.entity.WxUser;
+import com.tiexue.potentfiction.service.IWxBookService;
+import com.tiexue.potentfiction.service.IWxBookrackService;
+import com.tiexue.potentfiction.service.IWxChapterService;
 import com.tiexue.potentfiction.service.IWxUserService;
 import com.tiexue.potentfiction.util.CyptoUtils;
 import com.tiexue.potentfiction.util.DateUtil;
@@ -36,7 +46,14 @@ public class WxUserController {
 
 	@Resource
 	IWxUserService userSer;
-
+	@Resource
+	IWxBookrackService bookrackService;
+	@Resource
+	IWxBookService bookService;
+	//获取章节信息的服务
+	@Resource
+	IWxChapterService wxChapterService;
+	
 	@RequestMapping("/content")
 	public String getModel(HttpServletRequest request,
 			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token) {
@@ -125,13 +142,16 @@ public class WxUserController {
 	 * 请求到用户信息后保存用户信息,用户转到登录前页面
 	 */
 	@RequestMapping("wxoauthcallback")
-	public String wxOAuthCallback(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String wxOAuthCallback(HttpServletRequest request, HttpServletResponse response,
+			@CookieValue(value = "defaultbookrack", required = true, defaultValue = "") String rackCookie) throws Exception {
 		try {
+
 			// 微信token
 			SnsToken wxSnsToken = null;
 			User wxSnsUser = null;
 			String code = request.getParameter("code");
 			String state = request.getParameter("state");
+			int userId=0;
 			if (!state.equalsIgnoreCase(WxConstants.WxOauthState)) {
 				logger.error("登录异常：");
 				throw new Exception("state error");
@@ -142,10 +162,8 @@ public class WxUserController {
 			wxSnsUser = SnsAPI.userinfo(wxSnsToken.getAccess_token(), wxSnsToken.getOpenid(), WxConstants.WxSnsLang);
 			WxUser resUxUser= userSer.saveLoginMsg(wxSnsToken, wxSnsUser);
 			if(resUxUser!=null&&resUxUser.getId()>0){
-				logger.error("新增的用户Id为"+resUxUser.getId());
-				logger.error("开始生成cookie");
+				userId=resUxUser.getId();
 				String wx_gzh_token=userSer.setLoginInCookie(resUxUser);
-				logger.error("cookie："+wx_gzh_token);
 				// todo:生成登录cookie写到客户端
 				Cookie token_cookie = new Cookie("wx_gzh_token", wx_gzh_token); // 创建一个Cookie对象，并将用户名保存到Cookie对象中
 				token_cookie.setMaxAge(5*365*24*60*60); // 设置Cookie的过期之前的时间，单位为秒
@@ -155,7 +173,9 @@ public class WxUserController {
 				logger.error("用户数据保存失败");
 				return "redirect:login";
 			}
-			
+			//同步书架信息
+			if(userId>0&&!rackCookie.isEmpty())
+				saveBookrack(userId,rackCookie);
 		} catch (Exception e) {
 			logger.error("登录报错："+e.getMessage());
 			// TODO Auto-generated catch block
@@ -194,5 +214,52 @@ public class WxUserController {
 		}
 		
 	}
+	
+	/**
+	 * 用户登录后把登录之前缓存在cookie中的书架保存到数据库中
+	 * @param bookId
+	 * @param userId
+	 */
+	private void saveBookrack(int userId,String rackCookie){
+		try {
+			int addNum=0;
+			List<bookrackCookieDto> cookies = JSON.parseArray(rackCookie, bookrackCookieDto.class);
+			if (cookies != null && cookies.size() > 0) {
+				for (int i = cookies.size() - 1; i >= 0; i--) {
+					addNum++;
+					int bookId=0;
+					int chapterId=0;
+					String bookName="";
+					String chapterTitle="";
+					// 最多取20条记录
+					if (addNum>= 20)
+						break;
+					WxBook book = bookService.selectByPrimaryKey(cookies.get(i).getBookid());
+					if(book!=null){
+						bookName=book.getName();
+						bookId=book.getId();
+						}
+					if (cookies.get(i).getChapterid() > 0) {
+						WxChapter curChap = wxChapterService.selectByPrimaryKey(cookies.get(i).getChapterid(),
+								EnumType.ChapterStatus_OnLine);
+						if(curChap!=null){
+							chapterId=curChap.getId();
+							chapterTitle=curChap.getTitle();
+							}
+					}
+					if(userId>0&&bookId>0)
+						bookrackService.saveBookrack(userId, bookId, bookName, chapterId, chapterTitle);
+					
+				}
+			}
+			logger.error("登录后同步"+addNum+"条书架记录");
+		} catch (Exception e) {
+			logger.error("登录后同步书架记录出错"+e.getMessage());
+		}
+		
+		
+		
+	}
+
 
 }

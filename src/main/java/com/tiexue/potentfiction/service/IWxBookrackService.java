@@ -37,5 +37,15 @@ public interface IWxBookrackService {
 	     * @return
 	     */
 	    WxBookrack getModelByUserId(Integer userId);
+	    /**
+	     * 保存书架
+	     * @param userId
+	     * @param bookId
+	     * @param bookName
+	     * @param chapterId
+	     * @param chapterTitle
+	     * @return
+	     */
+	    boolean saveBookrack(int userId,int bookId,String bookName,Integer chapterId,String chapterTitle);
 
 }

@@ -154,11 +154,18 @@
 			<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
 		</c:if>
 		<c:forEach items="${wxChapters}" var="chapters">
-			<li><a class="chapter" onclick="addbookrack('${wxBook.id}','${chapters.id}')"
+			<li><c:if test="${chapters.getChaptertype()==0}">
+			    <a class="chapter" onclick="addbookrack('${wxBook.id}','${chapters.id}')"
 				href="<%=path%>/wxChapterSub/index?bookId=${wxBook.id}&chapterId=${chapters.id}">
-					${chapters.title} </a> <c:if test="${chapters.getChaptertype()==0}">
+					${chapters.title} </a>
 					<span class="fn-right c999">免费</span>
-				</c:if></li>
+				</c:if>
+				<c:if test="${chapters.getChaptertype()!=0}">
+			    <a class="chapter" onclick="addbookrack('${wxBook.id}','${chapters.id}')"
+				href="<%=path%>/wxChapterSub/vip?bookId=${wxBook.id}&chapterId=${chapters.id}">
+					${chapters.title} </a>
+				</c:if>
+		    </li>
 		</c:forEach>
 
 	</ul>

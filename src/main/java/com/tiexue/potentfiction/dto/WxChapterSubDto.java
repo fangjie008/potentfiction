@@ -15,7 +15,10 @@ public class WxChapterSubDto {
     private Integer nextId;
     //书名
     private String bookName;
-    
+    //上一章章节类型
+    private Integer preType;
+    //下一章章节类型
+    private Integer nextType;
 	public Integer getId() {
 		return id;
 	}
@@ -58,6 +61,19 @@ public class WxChapterSubDto {
 	public void setBookName(String bookName) {
 		this.bookName = bookName;
 	}
+	public Integer getPreType() {
+		return preType;
+	}
+	public void setPreType(Integer preType) {
+		this.preType = preType;
+	}
+	public Integer getNextType() {
+		return nextType;
+	}
+	public void setNextType(Integer nextType) {
+		this.nextType = nextType;
+	}
+	
     
     
 }

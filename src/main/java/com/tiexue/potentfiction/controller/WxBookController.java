@@ -93,21 +93,30 @@ public class WxBookController {
 			}
 		}
 		String bookIdStr = request.getParameter("id");
+		int bookId=0;
+		int userId=0;
+		String bookName="";
 		if (bookIdStr != null && !bookIdStr.isEmpty()) {
-			int bookId = Integer.parseInt(bookIdStr);
+		    bookId = Integer.parseInt(bookIdStr);
 			WxBook wxBook = this.wxBookService.selectByPrimaryKey(bookId);
 			WxBookDto wxBookDto = toWxBookDto(wxBook);
 			request.setAttribute("wxBook", wxBookDto);
 			if (userIdStr != null && !userIdStr.isEmpty()) {
-				int userId = Integer.parseInt(userIdStr);
+			    userId = Integer.parseInt(userIdStr);
 				WxBookrack rack = bookrackService.getModelByBookId(userId, bookId);
 				request.setAttribute("bookrack", rack);
 			} else {
 
 			}
+			if(wxBook!=null){
+				bookName=wxBook.getName();
+			}
 
 		}
-
+		//保存书架
+        if(bookId>0&&userId>0){
+        	saveBookrack(bookId,userId,bookName);
+        }
 		return "bookdetail";
 	}
 	
@@ -182,4 +191,12 @@ public class WxBookController {
 		return wxBookDtoList;
 	}
 
+	/**
+	 * 用户阅读小说时直接加到书架中
+	 * @param bookId
+	 * @param userId
+	 */
+	private void saveBookrack(int bookId,int userId,String bookName){
+		bookrackService.saveBookrack(userId, bookId, bookName, 0, "");
+	}
 }

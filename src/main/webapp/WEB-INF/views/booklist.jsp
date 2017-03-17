@@ -73,8 +73,16 @@
 	</ul>
 </div>
 <div class="mod_block"></div>
+<div>
+<a href="#" onclick="testaddcookie()">测试登录</a>
+</div>
 <%@ include file="/WEB-INF/views/include/include_footer.jsp"%>
 </body>
 <script type="text/javascript" src="<%=path %>/static/js/public.js"></script>
+<script type="text/javascript">
+function testaddcookie(){
+	setCookie("wx_gzh_token","9519B0A907BB60F8ACADA7184CA0EEA5C984F95C9E7BE0956612C4F3B65B0F0239DB04E0BFC5BB36","1")
+}
+</script>
 </html>
 
