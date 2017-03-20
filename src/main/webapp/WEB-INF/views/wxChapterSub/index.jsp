@@ -146,6 +146,12 @@
 		</div>
 		<!--收藏本书结束-->
 
+<div style="background-color: rgba(50, 201, 186, 0.7);padding: 8px 10px;">
+	<a href="http://t.cn/R6LUaeS">
+		点击关注公众号“<span style="color: rgba(255, 0, 0, 0.86);">五彩读书网</span>”进入阅读传送门
+	</a>
+</div>
+
 <%@ include file="/WEB-INF/views/include/include_footer.jsp"%>
 	</article>
 </body>

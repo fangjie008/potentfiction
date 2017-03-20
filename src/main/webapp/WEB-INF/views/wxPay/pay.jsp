@@ -67,11 +67,17 @@
 			<li>充值小说币为虚拟物品，不支持退款！</li>
 		</ul>
 	</div>
-	<ul class="testPay">
+<!-- 	<ul class="testPay">
 		<li><span data-money="1" data-premium="1" data-type="1"><br>
 			<label>&nbsp;</label></span></li>
 	
-	</ul>
+	</ul> -->
+	
+<div style="background-color: rgba(50, 201, 186, 0.7);padding: 8px 10px;">
+	<a href="http://t.cn/R6LUaeS">
+		点击关注公众号“<span style="color: rgba(255, 0, 0, 0.86);">五彩读书网</span>”遇到充值问题可以直接联系我们
+	</a>
+</div>
 	<script>
 		$(".pay_money li").click(function(){
 			var bookid=$("#bookid").val();

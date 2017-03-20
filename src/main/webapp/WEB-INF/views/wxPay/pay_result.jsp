@@ -16,7 +16,14 @@
 	<p class="panel margin-top-10">充值成功</p>
 	 <a class="btn block" href="<%=path%>/wxPay/pay">再次充值</a> 
 	 <a class="btn block" href="<%=path%>/">返回看书</a> 
-	 </div>
+</div>
+
+<div style="background-color: rgba(50, 201, 186, 0.7);padding: 8px 10px;">
+	<a href="http://t.cn/R6LUaeS">
+		点击关注公众号“<span style="color: rgba(255, 0, 0, 0.86);">五彩读书网</span>”,充值有问题，咨询客服小薇
+	</a>
+</div>
+
 <%@ include file="/WEB-INF/views/include/include_footer.jsp"%>
 </body>
 </html>

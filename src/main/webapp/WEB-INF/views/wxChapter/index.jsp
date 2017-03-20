@@ -202,6 +202,12 @@
 			style="height: 35px; line-height: 35px" type="button" name="jumpto"
 			value="跳转">
 	</div>
+	
+<div style="background-color: rgba(50, 201, 186, 0.7);padding: 8px 10px;">
+	<a href="http://t.cn/R6LUaeS">
+		点击关注公众号“<span style="color: rgba(255, 0, 0, 0.86);">五彩读书网</span>”进入阅读传送门
+	</a>
+</div>
 	<%@ include file="/WEB-INF/views/include/include_footer.jsp"%>
 </body>
 <script type="text/javascript" src="<%=path %>/static/js/public.js"></script>
