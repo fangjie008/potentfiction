@@ -14,7 +14,7 @@
 </header>
 <div class="mod_tab_content shelf">
 	<ul class="current my_orderlist" id="pay">
-        <li><span>金额</span><span>小说币</span><span>状态</span><span>时间</span></li>
+        <li><span>金额(元)</span><span>小说币</span><span>状态</span><span>时间</span></li>
         <c:forEach items="${wxpaylist}" var="wxpay">
 	 	<li>
 	 	 <span>${wxpay.amount}</span>

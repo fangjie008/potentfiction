@@ -1,5 +1,6 @@
 package com.tiexue.potentfiction.mapper;
 
+import com.tiexue.potentfiction.dto.WxBookrackDto;
 import com.tiexue.potentfiction.entity.WxBook;
 
 import java.util.List;
@@ -60,10 +61,10 @@ public interface WxBookMapper {
         "ViewCount, CommentCount, DingCount, CaiCount, ShareCount, ContentLen, CreateTime, ",
         "UpdateTime",
         "from wxbook",
-        "where Status in (${status}) order by #{orderStr} desc "
+        "where Status in (${status}) order by #{orderStr} desc  LIMIT 0,#{size} "
     })
     @ResultMap("BaseResultMap")
-    List<WxBook> getList(@Param("status")String status,@Param("orderStr")String orderStr);
+    List<WxBook> getList(@Param("status")String status,@Param("orderStr")String orderStr,@Param("size")Integer size);
 
     int updateByPrimaryKeySelective(WxBook record);
 

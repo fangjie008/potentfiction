@@ -164,8 +164,8 @@ public class WxPayController {
 		String moneyStr = request.getParameter("money");
 		String coinStr = request.getParameter("premium");
 		String typeStr = request.getParameter("type");
-		String bookIdStr = request.getParameter("bookId");
-		String chapterIdStr = request.getParameter("chapterId");
+		String bookIdStr = request.getParameter("bookid");
+		String chapterIdStr = request.getParameter("chapterid");
 		int money = 0;
 		int coin=0;
 		Integer type = 0;
@@ -278,7 +278,10 @@ public class WxPayController {
 				payDto.setOrdernum(pay.getOrdernum());
 				payDto.setPaytype(pay.getPaytype());
 				payDto.setPaytypeName(EnumType.PayType.get(pay.getPaytype()));
-				payDto.setAmount(pay.getAmount());
+				if(pay.getAmount()!=null){
+					double amount=pay.getAmount()*0.01;
+					payDto.setAmount(Double.toString(amount));
+				}
 				payDto.setCount(pay.getCount());
 				payDto.setOrderstatus(pay.getOrderstatus());
 				payDto.setOrderstatusStr(EnumType.OrderStatus.get(pay.getOrderstatus()));

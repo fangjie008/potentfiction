@@ -34,7 +34,7 @@ public class WxBookDto {
 	// 分享
 	private Integer shareCount;
 	// 长度
-	private Integer contentLen;
+	private String contentLen;
 	// 创建时间
 	private String createTime;
 	// 更新时间
@@ -160,11 +160,11 @@ public class WxBookDto {
 		this.shareCount = shareCount;
 	}
 
-	public Integer getContentLen() {
+	public String getContentLen() {
 		return this.contentLen;
 	}
 
-	public void setContentLen(Integer contentLen) {
+	public void setContentLen(String contentLen) {
 		this.contentLen = contentLen;
 	}
 

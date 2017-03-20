@@ -202,6 +202,22 @@ public class WxBookrackController {
 					}
 				}
 			}
+			//未登录 cookie中也没有保存书架 则从数据库中获取默认的几本书
+			if(racks==null||racks.isEmpty())
+			{
+				String status = EnumType.BookStatus_Finish + "," + EnumType.BookStatus_Update;
+				List<WxBook> books=bookService.getList(status, "CreateTime",3);
+				if(books!=null){
+					for (WxBook wxBook : books) {
+						WxChapter curChap = null;
+						WxChapter lastChap = null;
+					    curChap = wxChapterService.getFirstChapter(wxBook.getId(),EnumType.ChapterStatus_OnLine);
+						lastChap = wxChapterService.getLastChapter(wxBook.getId(),
+								EnumType.ChapterStatus_OnLine);
+						racks.add(bookrackDtoFill(wxBook, curChap, lastChap));
+					}
+				}
+			}
 			request.setAttribute("bookracks", racks);
 		} catch (Exception e) {
 			logger.error("获取书架信息失败:" + e.getMessage());

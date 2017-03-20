@@ -96,7 +96,7 @@ public class UserConsServiceImpl implements IUserConsService {
 	}
 	
 	
-	public boolean consumeRecord(int userId, int bookId, int chapterId,boolean autoPay) {
+	public boolean consumeRecord(int userId, int bookId, int chapterId, boolean autoPay) {
 		// 用户信息
 		WxUser userModel = userSerImpl.selectByPrimaryKey(userId);
 		// 获取图书信息
@@ -119,14 +119,14 @@ public class UserConsServiceImpl implements IUserConsService {
 		// 更新小说币
 		userModel.setCoin(userModel.getCoin() - chapterModel.getPirce());
 		userModel.setUpdatetime(new Date());
-		//自动付费
-		if(autoPay)
-		{
-			String bookIds=userModel.getAutopurchase();
-			if(bookIds!=null&&!bookIds.isEmpty()){
-				bookIds+=','+bookId;
-			}else{
-				bookIds=bookId+"";
+		// 自动付费
+		if (autoPay) {
+			String bookIds = userModel.getAutopurchase();
+			if (bookIds != null && !bookIds.isEmpty()) {
+				if (!existBookId(bookIds, bookId))
+					bookIds = bookIds + ',' + bookId;
+			} else {
+				bookIds = bookId + "";
 			}
 			userModel.setAutopurchase(bookIds);
 		}
@@ -135,6 +135,9 @@ public class UserConsServiceImpl implements IUserConsService {
 		return dealRes;
 
 	}
+	
+	
+	
 	
 	/**
 	 * 验证用户阅读的小说是否自动付费
@@ -159,4 +162,24 @@ public class UserConsServiceImpl implements IUserConsService {
 		return result;
 	}
 
+	
+	/**
+	 * 检查bookid是否存在
+	 * @param bookIdStr
+	 * @param bookId
+	 * @return
+	 */
+	private Boolean existBookId(String bookIdStr,Integer bookId){
+		Boolean result=false;
+			String[] bookIds=bookIdStr.split(",");
+			if(bookIds!=null&&bookIds.length>0){
+				for (String id : bookIds) {
+					if(id.equals(bookId.toString())){
+						result=true;
+						break;
+					}
+				}
+			}
+		return result;
+	}
 }

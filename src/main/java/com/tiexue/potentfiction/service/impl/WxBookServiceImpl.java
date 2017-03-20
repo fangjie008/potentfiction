@@ -37,8 +37,8 @@ public class WxBookServiceImpl implements IWxBookService {
 		return this.wxBookMapper.selectByPrimaryKey(id);
 	}
 	@Override
-	public List<WxBook> getList(String status, String orderStr) {
-		return this.wxBookMapper.getList(status, orderStr);
+	public List<WxBook> getList(String status, String orderStr,Integer size) {
+		return this.wxBookMapper.getList(status, orderStr,size);
 	}
 	@Override
 	public int updateByPrimaryKeySelective(WxBook record) {

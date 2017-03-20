@@ -157,6 +157,10 @@ public class WxPayServiceImpl implements IWxPayService {
 			//todo:开始执行给用户添加小说币的方法,同时订单标记为处理成功状态--需要事务处理
 			//获取订单信息
 			WxPay wxPayRecord= selectByPrimaryKey(out_trade_no);
+			if(wxPayRecord==null)
+				return false;
+			if(wxPayRecord.getOrderstatus()==EnumType.OrderStatus_Success)
+				return true;
 			wxPayRecord.setOrderstatus(EnumType.OrderStatus_Success);
 			wxPayRecord.setWxordernum(wxOrderNo);
 		    int updateCount=updateByPrimaryKey(wxPayRecord);

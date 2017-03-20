@@ -46,13 +46,13 @@
 				href="<%=path %>/wxChapter/index?bookId=${wxChapterSub.bookId}&pageNo=0">目录</a></li>
 			<li class="pn">
 			<c:if test="${wxChapterSub.nextId>0 }">
-			     <c:if test="${wxChapterSub.nextType==0}">
+			     <c:if test="${wxChapterSub.nextType!=0}">
 			      <a  onclick="addbookrack('${wxChapterSub.bookId}','${wxChapterSub.nextId}')"  class="chapter_next btn block" data-cid="${wxChapterSub.nextId}"
-						href="<%=path %>/wxChapterSub/index?bookId=${wxChapterSub.bookId}&chapterId=${wxChapterSub.nextId}">下一章</a>
-				 </c:if>
-				 <c:if test="${wxChapterSub.nextType!=0}">
-			       <a  onclick="addbookrack('${wxChapterSub.bookId}','${wxChapterSub.nextId}')"  class="chapter_next btn block" data-cid="${wxChapterSub.nextId}"
 						href="<%=path %>/wxChapterSub/vip?bookId=${wxChapterSub.bookId}&chapterId=${wxChapterSub.nextId}">下一章</a>
+				 </c:if>
+				 <c:if test="${wxChapterSub.nextType==0}">
+			       <a  onclick="addbookrack('${wxChapterSub.bookId}','${wxChapterSub.nextId}')"  class="chapter_next btn block" data-cid="${wxChapterSub.nextId}"
+						href="<%=path %>/wxChapterSub/index?bookId=${wxChapterSub.bookId}&chapterId=${wxChapterSub.nextId}">下一章</a>
 				 </c:if>
 			</c:if> 
 				<c:if test="${wxChapterSub.nextId<=0 }">

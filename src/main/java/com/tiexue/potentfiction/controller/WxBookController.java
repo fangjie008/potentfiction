@@ -64,7 +64,7 @@ public class WxBookController {
 				logger.error("获取 pageUser.getId："+userIdStr);
 			}
 			String status = EnumType.BookStatus_Finish + "," + EnumType.BookStatus_Update;
-			List<WxBook> wxBooks = this.wxBookService.getList(status, "ViewCount");
+			List<WxBook> wxBooks = this.wxBookService.getList(status, "ViewCount",20);
 			List<WxBookDto> wxBookDtos = toWxBookListDto(wxBooks);
 			request.setAttribute("wxBooks", wxBookDtos);
 			WxBookrack rack=new WxBookrack();
@@ -165,7 +165,16 @@ public class WxBookController {
 			wxBookDto.setCoverImgs(wxBook.getCoverimgs());
 			wxBookDto.setTag(wxBook.getTag());
 			wxBookDto.setStatus(EnumType.BookStatus.get(wxBook.getStatus()));
-			wxBookDto.setContentLen(wxBook.getContentlen());
+			if(wxBook.getContentlen()!=null){
+				if(wxBook.getContentlen()>10000){
+					String conlen=(wxBook.getContentlen()/10000+wxBook.getContentlen()%10000*0.0001)+"万";
+					wxBookDto.setContentLen(conlen);
+				}
+				else{
+					wxBookDto.setContentLen(wxBook.getContentlen()+"");
+				}
+			}
+			
 			wxBookDto.setIntr(wxBook.getIntr());
 		}
 		return wxBookDto;
@@ -181,7 +190,15 @@ public class WxBookController {
 				wxBookDto.setTag(book.getTag());
 				wxBookDto.setCoverImgs(book.getCoverimgs());
 				wxBookDto.setStatus(EnumType.BookStatus.get(book.getStatus()));
-				wxBookDto.setContentLen(book.getContentlen());
+				if(book.getContentlen()!=null){
+					if(book.getContentlen()>10000){
+						String conlen=(book.getContentlen()/10000+book.getContentlen()%10000*0.0001)+"万";
+						wxBookDto.setContentLen(conlen);
+					}
+					else{
+						wxBookDto.setContentLen(book.getContentlen()+"");
+					}
+				}
 				wxBookDto.setIntr(book.getIntr());
 				wxBookDtoList.add(wxBookDto);
 			}

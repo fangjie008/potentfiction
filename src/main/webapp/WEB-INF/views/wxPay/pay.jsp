@@ -67,8 +67,36 @@
 			<li>充值小说币为虚拟物品，不支持退款！</li>
 		</ul>
 	</div>
+	<ul class="testPay">
+		<li><span data-money="1" data-premium="1" data-type="1"><br>
+			<label>&nbsp;</label></span></li>
+	
+	</ul>
 	<script>
 		$(".pay_money li").click(function(){
+			var bookid=$("#bookid").val();
+			var chapterid=$("#chapterid").val();
+			var span = $(this).find("span");
+			var money = span.attr("data-money");
+			var premium = span.attr("data-premium");
+			var type = span.attr("data-type");
+			
+			var form = $("<form></form>",{ 
+				'method':'post', 
+				'action':'ipay_now', 
+				'style':'display:none' 
+				}).appendTo($("body")); 
+			
+			form.append($("<input>",{'type':'hidden','name':'money','value':money})); 
+			form.append($("<input>",{'type':'hidden','name':'premium','value':premium})); 
+			form.append($("<input>",{'type':'hidden','name':'type','value':type})); 
+			form.append($("<input>",{'type':'hidden','name':'bookid','value':bookid})); 
+			form.append($("<input>",{'type':'hidden','name':'chapterid','value':chapterid})); 
+			form.submit();
+		});
+		
+		
+		$(".testPay li").click(function(){
 			var bookid=$("#bookid").val();
 			var chapterid=$("#chapterid").val();
 			var span = $(this).find("span");

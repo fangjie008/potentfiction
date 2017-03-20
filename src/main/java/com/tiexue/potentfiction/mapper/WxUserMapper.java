@@ -106,7 +106,8 @@ public interface WxUserMapper {
           "Token = #{token,jdbcType=VARCHAR},",
           "LastActiveTime = #{lastactivetime,jdbcType=TIMESTAMP},",
           "CreateTime = #{createtime,jdbcType=TIMESTAMP},",
-          "UpdateTime = #{updatetime,jdbcType=TIMESTAMP}",
+          "UpdateTime = #{updatetime,jdbcType=TIMESTAMP},",
+          "AutoPurchase = #{autopurchase,jdbcType=LONGVARCHAR}",
         "where Id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(WxUser record);
