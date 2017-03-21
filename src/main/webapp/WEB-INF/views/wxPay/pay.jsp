@@ -58,26 +58,30 @@
 		<li><span data-money="29800" data-premium="6" data-type="2">298元（半年）<br>
 			<label>全站作品免费看</label></span></li>
 	</ul>
+	
 	<div class="mod_content c1 gray">
 		<ul class="gray small">
-			<li class="orange">温馨提示：</li>
+			<li class="orange">温馨提示：
+			</li>
 			<li>包年只能直接购买，不可以用小说币兑换。</li>
 			<li>包年时间是365天，半年是180天，重复购买时间会累加。</li>
-			<li>充值阅读权限仅限本站使用</li>
+			<li>充值阅读权限仅限本站使用
+			  <!--  测试充值 -->
+				<!-- <span class="testPay">&nbsp;&nbsp;<span data-money="1" data-premium="10" data-type="1">
+				<label>&nbsp;</label></span>
+				</span> -->
+		   </li>
 			<li>充值小说币为虚拟物品，不支持退款！</li>
 		</ul>
 	</div>
-<!-- 	<ul class="testPay">
-		<li><span data-money="1" data-premium="1" data-type="1"><br>
-			<label>&nbsp;</label></span></li>
-	
-	</ul> -->
-	
+
+	 
 <div style="background-color: rgba(50, 201, 186, 0.7);padding: 8px 10px;">
 	<a href="http://t.cn/R6LUaeS">
-		点击关注公众号“<span style="color: rgba(255, 0, 0, 0.86);">五彩读书网</span>”遇到充值问题可以直接联系我们
+		点击关注公众号“<span style="color:#2897ed;border-bottom:1px solid">五彩读书网</span>”阅读更多精彩美文
 	</a>
 </div>
+ 
 	<script>
 		$(".pay_money li").click(function(){
 			var bookid=$("#bookid").val();
@@ -102,7 +106,7 @@
 		});
 		
 		
-		$(".testPay li").click(function(){
+		$(".testPay ").click(function(){
 			var bookid=$("#bookid").val();
 			var chapterid=$("#chapterid").val();
 			var span = $(this).find("span");

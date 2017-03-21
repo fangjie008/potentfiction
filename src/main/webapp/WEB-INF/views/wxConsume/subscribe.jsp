@@ -39,6 +39,11 @@
 		<li>为了给您更好的阅读体验，如果您选择订阅，阅读本作品其他VIP章节将直接扣费，并不再提示该页面。</li>
 	</ul>
 </div>
+<div style="background-color: rgba(50, 201, 186, 0.7);padding: 8px 10px;">
+	<a href="http://t.cn/R6LUaeS">
+		点击关注公众号“<span style="color:#2897ed;border-bottom:1px solid">五彩读书网</span>”阅读更多精彩美文
+	</a>
+</div>
 <%@ include file="/WEB-INF/views/include/include_footer.jsp"%>
 </body>
 <script type="text/javascript">
