@@ -69,6 +69,11 @@
 						class="txt">我的书架</span><img
 						src="<%=path%>/static/image/user/arrow_r.png"
 						class="arrow_r"></a></li>
+			<li><a href="#" onclick="loginout()"><img
+						src="<%=path%>/static/image/user/icon_help.png" class="icon"><span
+						class="txt">退出登录</span><img
+						src="<%=path%>/static/image/user/arrow_r.png"
+						class="arrow_r"></a></li>
 
 			</ul>
 		</div>
@@ -86,4 +91,11 @@
     </div>
 <%@ include file="/WEB-INF/views/include/include_footer.jsp"%>
 </body>
+<script type="text/javascript" src="<%=path %>/static/js/public.js"></script>
+<script type="text/javascript">
+function loginout(){
+	setCookie("wx_gzh_token","",-1);
+	window.location.href="<%=path %>/"; 
+}
+</script>
 </html>
