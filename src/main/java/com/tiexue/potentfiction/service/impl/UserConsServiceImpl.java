@@ -54,7 +54,7 @@ public class UserConsServiceImpl implements IUserConsService {
 			resultMsg.setMsg("包年用户");
 			return resultMsg;
 		}
-		// 是否自动付费
+		// 不是自动付费
 		if (!getAutoPurchase(userModel, bookId)) {
 			resultMsg.setStatus(false);
 			resultMsg.setMsg("跳转到扣费页面");
@@ -64,9 +64,12 @@ public class UserConsServiceImpl implements IUserConsService {
 
 		// 余额不足
 		if (userModel.getCoin() < chapterModel.getPirce()) {
+//			resultMsg.setStatus(false);
+//			resultMsg.setMsg("跳转到充值页面");
+//			resultMsg.setNum(EnumType.ResultNum_Pay);
 			resultMsg.setStatus(false);
-			resultMsg.setMsg("跳转到充值页面");
-			resultMsg.setNum(EnumType.ResultNum_Pay);
+			resultMsg.setMsg("跳转到扣费页面");
+			resultMsg.setNum(EnumType.ResultNum_Cons);
 			return resultMsg;
 		} else {
 			// 添加消费信息
