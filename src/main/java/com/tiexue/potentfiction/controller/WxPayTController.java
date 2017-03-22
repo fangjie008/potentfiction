@@ -249,6 +249,7 @@ public class WxPayTController {
 		try {
 			// todo:在这里处理支付成功的逻辑,跳转到原来阅读地址,或者到首页等
 			if (ref != "") {
+				logger.error("pay _refpay:"+ref);
 				return "redirect:" + ref;
 			}
 			return "redirect:/wxbook/list";

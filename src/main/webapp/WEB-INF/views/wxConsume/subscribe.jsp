@@ -26,8 +26,8 @@
             <li class="gray">账户：${user.name}</li>
             <li class="gray"><input id="autopay" name="autopay" type="checkbox" value="" readonly="readonly"  checked="checked" >自动购买，下一章不再提醒。</li>
             <li>
-            <c:if test="${user.coin<chapter.pirce }"><a class="btn block" href="<%=path%>/wxPay/pay?bookid=${chapter.bookid}&chapterid=${chapter.id}"><font color="white">余额不足？其他充值»</font></a></c:if>
-            <c:if test="${user.coin>=chapter.pirce }"><a id="consume_id" class="btn block" href="#" onclick="onconsume()"><font color="white">支付</font></a></c:if>
+            <c:if test="${user.coin<chapter.pirce }"><a class="btn block" href="<%=path%>/wxPay/pay?bookid=${chapter.bookid}&chapterid=${chapter.id}"><font color="white">余额不足？花点小钱充值»</font></a></c:if>
+            <c:if test="${user.coin>=chapter.pirce }"><a id="consume_id" class="btn block" href="#" onclick="onconsume()"><font color="white">订阅</font></a></c:if>
             </li>
                                 
                 
