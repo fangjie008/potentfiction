@@ -27,7 +27,7 @@ public class WxChapter {
     private Date updatetime;
     //备注
     private String remark;
-
+    private String uniqueflag;
     public Integer getId() {
         return id;
     }
@@ -123,4 +123,13 @@ public class WxChapter {
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
     }
+
+	public String getUniqueflag() {
+		return uniqueflag;
+	}
+
+	public void setUniqueflag(String uniqueflag) {
+		this.uniqueflag = uniqueflag;
+	}
+    
 }

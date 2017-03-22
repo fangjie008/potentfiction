@@ -28,7 +28,7 @@ public interface WxBookMapper {
         "CommentCount, DingCount, ",
         "CaiCount, ShareCount, ",
         "ContentLen, CreateTime, ",
-        "UpdateTime)",
+        "UpdateTime,UniqueFlag,CollectionId)",
         "values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, ",
         "#{intr,jdbcType=VARCHAR}, #{publisherid,jdbcType=INTEGER}, ",
         "#{publishername,jdbcType=VARCHAR}, #{coverimgs,jdbcType=VARCHAR}, ",
@@ -37,7 +37,7 @@ public interface WxBookMapper {
         "#{commentcount,jdbcType=INTEGER}, #{dingcount,jdbcType=INTEGER}, ",
         "#{caicount,jdbcType=INTEGER}, #{sharecount,jdbcType=INTEGER}, ",
         "#{contentlen,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, ",
-        "#{updatetime,jdbcType=TIMESTAMP})"
+        "#{updatetime,jdbcType=TIMESTAMP},#{uniqueflag,jdbcType=VARCHAR},#{collectionid,jdbcType=INTEGER})"
     })
     int insert(WxBook record);
 
@@ -47,7 +47,7 @@ public interface WxBookMapper {
         "select",
         "Id, Name, Intr, PublisherId, PublisherName, CoverImgs, Tag, Mark, Sort, Status, ",
         "ViewCount, CommentCount, DingCount, CaiCount, ShareCount, ContentLen, CreateTime, ",
-        "UpdateTime",
+        "UpdateTime,UniqueFlag,CollectionId",
         "from wxbook",
         "where Id = #{id}"
     })
@@ -59,7 +59,7 @@ public interface WxBookMapper {
         "select",
         "Id, Name, Intr, PublisherId, PublisherName, CoverImgs, Tag, Mark, Sort, Status, ",
         "ViewCount, CommentCount, DingCount, CaiCount, ShareCount, ContentLen, CreateTime, ",
-        "UpdateTime",
+        "UpdateTime,UniqueFlag,CollectionId",
         "from wxbook",
         "where Status in (${status}) order by #{orderStr} desc  LIMIT 0,#{size} "
     })
@@ -86,7 +86,9 @@ public interface WxBookMapper {
           "ShareCount = #{sharecount,jdbcType=INTEGER},",
           "ContentLen = #{contentlen,jdbcType=INTEGER},",
           "CreateTime = #{createtime,jdbcType=TIMESTAMP},",
-          "UpdateTime = #{updatetime,jdbcType=TIMESTAMP}",
+          "UpdateTime = #{updatetime,jdbcType=TIMESTAMP},",
+          "UniqueFlag = #{uniqueflag,jdbcType=VARCHAR},",
+          "CollectionId = #{collectionid,jdbcType=INTEGER}",
         "where Id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(WxBook record);

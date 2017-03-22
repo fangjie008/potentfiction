@@ -38,6 +38,10 @@ public class WxBook {
     private Date createtime;
 
     private Date updatetime;
+    
+    private String uniqueflag;
+    
+    private int collectionid;
 
     public Integer getId() {
         return id;
@@ -182,4 +186,21 @@ public class WxBook {
     public void setUpdatetime(Date updatetime) {
         this.updatetime = updatetime;
     }
+
+	public String getUniqueflag() {
+		return uniqueflag;
+	}
+
+	public void setUniqueflag(String uniqueflag) {
+		this.uniqueflag = uniqueflag;
+	}
+
+	public int getCollectionid() {
+		return collectionid;
+	}
+
+	public void setCollectionid(int collectionid) {
+		this.collectionid = collectionid;
+	}
+    
 }

@@ -14,6 +14,7 @@
     <result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
     <result column="UpdateTime" property="updatetime" jdbcType="TIMESTAMP" />
     <result column="Remark" property="remark" jdbcType="VARCHAR" />
+    <result column="UniqueFlag" jdbcType="VARCHAR" property="uniqueflag" />
   </resultMap>
   <resultMap id="ResultListMap" type="com.tiexue.potentfiction.entity.WxChapter" >
     <id column="Id" property="id" jdbcType="INTEGER" />
@@ -26,7 +27,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     Id, BookId, Intro, SortOrder, Title, ChapterType, Pirce, Status, ContentLen, CreateTime, 
-    UpdateTime, Remark
+    UpdateTime, Remark,UniqueFlag
   </sql>
   <insert id="insertSelective" parameterType="com.tiexue.potentfiction.entity.WxChapter" >
     insert into wxchapter
@@ -67,6 +68,9 @@
       <if test="remark != null" >
         Remark,
       </if>
+      <if test="uniqueflag != null" >
+        UniqueFlag,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -105,6 +109,12 @@
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
       </if>
+       <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+       <if test="uniqueflag != null">
+        #{uniqueflag,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.tiexue.potentfiction.entity.WxChapter" >
@@ -142,6 +152,9 @@
       </if>
       <if test="remark != null" >
         Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+       <if test="uniqueflag != null">
+        UniqueFlag = #{uniqueflag,jdbcType=VARCHAR},
       </if>
     </set>
     where Id = #{id,jdbcType=INTEGER}

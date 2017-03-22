@@ -24,13 +24,13 @@ public interface WxChapterMapper {
         "Title, ChapterType, ",
         "Pirce, Status, ContentLen, ",
         "CreateTime, UpdateTime, ",
-        "Remark)",
+        "Remark,UniqueFlag)",
         "values (#{id,jdbcType=INTEGER}, #{bookid,jdbcType=INTEGER}, ",
         "#{intro,jdbcType=VARCHAR}, #{sortorder,jdbcType=INTEGER}, ",
         "#{title,jdbcType=VARCHAR}, #{chaptertype,jdbcType=INTEGER}, ",
         "#{pirce,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{contentlen,jdbcType=INTEGER}, ",
         "#{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, ",
-        "#{remark,jdbcType=VARCHAR})"
+        "#{remark,jdbcType=VARCHAR},#{uniqueflag,jdbcType=VARCHAR})"
     })
     int insert(WxChapter record);
 
@@ -39,7 +39,7 @@ public interface WxChapterMapper {
     @Select({
         "select",
         "Id, BookId, Intro, SortOrder, Title, ChapterType, Pirce, Status, ContentLen, ",
-        "CreateTime, UpdateTime, Remark",
+        "CreateTime, UpdateTime, Remark,UniqueFlag",
         "from wxchapter",
         "where Id = #{id,jdbcType=INTEGER} and Status=#{status}"
     })
@@ -68,7 +68,8 @@ public interface WxChapterMapper {
           "ContentLen = #{contentlen,jdbcType=INTEGER},",
           "CreateTime = #{createtime,jdbcType=TIMESTAMP},",
           "UpdateTime = #{updatetime,jdbcType=TIMESTAMP},",
-          "Remark = #{remark,jdbcType=VARCHAR}",
+          "Remark = #{remark,jdbcType=VARCHAR},",
+          "UniqueFlag = #{uniqueflag,jdbcType=VARCHAR},",
         "where Id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(WxChapter record);
