@@ -133,6 +133,13 @@
 				</c:if></li>
 			</ul>
 		</div>
+		
+		<div style="background-color: rgba(50, 201, 186, 0.7);padding: 8px 10px;">
+	<a href="http://t.cn/R6LUaeS">
+		点击关注公众号“<span style="color:#2897ed;border-bottom:1px solid">五彩读书网</span>”方便下次继续阅读
+	</a>
+</div>
+		
 		<!--收藏本书开始-->
 		<div class="alertbk alertbk-fav" id="collect">
 		   <input type="hidden" id="bookid" name="bookid" value="${wxChapterSub.bookId}">
@@ -146,11 +153,7 @@
 		</div>
 		<!--收藏本书结束-->
 
-<div style="background-color: rgba(50, 201, 186, 0.7);padding: 8px 10px;">
-	<a href="http://t.cn/R6LUaeS">
-		点击关注公众号“<span style="color:#2897ed;border-bottom:1px solid">五彩读书网</span>”阅读更多精彩美文
-	</a>
-</div>
+
 
 <%@ include file="/WEB-INF/views/include/include_footer.jsp"%>
 	</article>
