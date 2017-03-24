@@ -111,7 +111,7 @@ public class WxUserServiceImpl implements IWxUserService{
 	    	wxUser.setHeadericon(wxSnsUser.getHeadimgurl());
 	    	wxUser.setLastactivetime(DateUtil.fomatCurrentDate("yyyy-MM-dd HH:mm:ss"));
 	    	wxUser.setMobile("");
-	    	wxUser.setName(wxSnsUser.getNickname());
+	    	wxUser.setName(wxSnsUser.getNickname().replaceAll("[\\x{10000}-\\x{10FFFF}]", ""));
 	    	wxUser.setOpenid(wxSnsUser.getOpenid());
 	    	wxUser.setProvince(wxSnsUser.getProvince());
 	    	wxUser.setSex(wxSnsUser.getSex());

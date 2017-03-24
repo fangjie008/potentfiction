@@ -145,12 +145,13 @@ public class WxUserController {
 	public String wxOAuthCallback(HttpServletRequest request, HttpServletResponse response,
 			@CookieValue(value = "defaultbookrack", required = true, defaultValue = "") String rackCookie) throws Exception {
 		try {
-
 			// 微信token
 			SnsToken wxSnsToken = null;
 			User wxSnsUser = null;
 			String code = request.getParameter("code");
 			String state = request.getParameter("state");
+			logger.error("login code "+code);
+			logger.error("login state "+state);
 			int userId=0;
 			if (!state.equalsIgnoreCase(WxConstants.WxOauthState)) {
 				logger.error("登录异常：");
@@ -173,6 +174,7 @@ public class WxUserController {
 				logger.error("用户数据保存失败");
 				return "redirect:login";
 			}
+			logger.error("login  success ");
 			//同步书架信息
 			if(userId>0&&!rackCookie.isEmpty())
 				saveBookrack(userId,rackCookie);
