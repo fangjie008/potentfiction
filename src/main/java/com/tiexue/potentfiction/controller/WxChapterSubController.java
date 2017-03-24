@@ -73,6 +73,7 @@ public class WxChapterSubController {
 		int userId = 0;
 		int bookId = 0;
 		int chapterId = 0;
+		String tag="";
 		if (chapterIdStr != null && !chapterIdStr.isEmpty()) {
 		    chapterId = Integer.parseInt(chapterIdStr);
 			if (bookIdStr != null && !bookIdStr.isEmpty()) {
@@ -85,6 +86,7 @@ public class WxChapterSubController {
 			WxBook book = bookService.selectByPrimaryKey(bookId);
 			if (book != null) {
 				bookName = book.getName();
+				tag=book.getTag();
 			}
 			// 章节数据
 			WxChapter chapterModel = chapterService.selectByPrimaryKey(chapterId, EnumType.ChapterStatus_OnLine);
@@ -112,7 +114,7 @@ public class WxChapterSubController {
 				logger.error(resultMsg.getMsg());
 			}
 			// 获取章节信息
-			WxChapterSubDto chapSubDto = getCahperDto(bookId, bookName, chapterId, chapterModel);
+			WxChapterSubDto chapSubDto = getCahperDto(bookId, bookName, chapterId, chapterModel,tag);
 			request.setAttribute("wxChapterSub", chapSubDto);
 		}
 		//保存书架
@@ -151,6 +153,7 @@ public class WxChapterSubController {
 			int userId = 0;
 			int bookId = 0;
 			int chapterId = 0;
+			String tag="";
 			if (chapterIdStr != null && !chapterIdStr.isEmpty()) {
 			    chapterId = Integer.parseInt(chapterIdStr);
 				if (bookIdStr != null && !bookIdStr.isEmpty()) {
@@ -163,6 +166,7 @@ public class WxChapterSubController {
 				WxBook book = bookService.selectByPrimaryKey(bookId);
 				if (book != null) {
 					bookName = book.getName();
+					tag=book.getTag();
 				}
 				// 章节数据
 				WxChapter chapterModel = chapterService.selectByPrimaryKey(chapterId, EnumType.ChapterStatus_OnLine);
@@ -190,7 +194,7 @@ public class WxChapterSubController {
 					logger.error(resultMsg.getMsg());
 				}
 				// 获取章节信息
-				WxChapterSubDto chapSubDto = getCahperDto(bookId, bookName, chapterId, chapterModel);
+				WxChapterSubDto chapSubDto = getCahperDto(bookId, bookName, chapterId, chapterModel,tag);
 				request.setAttribute("wxChapterSub", chapSubDto);
 			}
 			//保存书架
@@ -216,6 +220,7 @@ public class WxChapterSubController {
 		String bookIdStr = request.getParameter("bookId");
 		String bookName = "";
 		int userId = 0;
+		String tag="";
 		if (bookIdStr != null && !bookIdStr.isEmpty()) {
 			int bookId = Integer.parseInt(bookIdStr);
 			int chapterId = 0;
@@ -223,6 +228,7 @@ public class WxChapterSubController {
 			WxBook book = bookService.selectByPrimaryKey(bookId);
 			if (book != null) {
 				bookName = book.getName();
+				tag=book.getTag();
 			}
 			if (userIdStr != null && !userIdStr.isEmpty()) {
 				userId = Integer.parseInt(userIdStr);
@@ -249,7 +255,7 @@ public class WxChapterSubController {
 				}
 			}
 			// 获取章节信息
-			WxChapterSubDto chapSubDto = getCahperDto(bookId, bookName, chapterId, chapterModel);
+			WxChapterSubDto chapSubDto = getCahperDto(bookId, bookName, chapterId, chapterModel,tag);
 			request.setAttribute("wxChapterSub", chapSubDto);
 		}
 		return "wxChapterSub/index";
@@ -263,7 +269,7 @@ public class WxChapterSubController {
 	 * @param chapterModel
 	 * @return
 	 */
-	private WxChapterSubDto getCahperDto(int bookId,String bookName, int chapterId,WxChapter chapterModel) {
+	private WxChapterSubDto getCahperDto(int bookId,String bookName, int chapterId,WxChapter chapterModel,String tag) {
 		int preId = 0;
 		int nextId = 0;
 		int preType = 0;
@@ -282,7 +288,7 @@ public class WxChapterSubController {
 			nextId = nextChap.getId();
 			nextType=nextChap.getChaptertype();
 		}
-		WxChapterSubDto chapSubDto = wxChapterSubDtoFill(chapSub, chapterModel, preId, nextId,preType,nextType);
+		WxChapterSubDto chapSubDto = wxChapterSubDtoFill(chapSub, chapterModel, preId, nextId,preType,nextType,tag);
 		chapSubDto.setBookName(bookName);
 		return chapSubDto;
 	}
@@ -291,7 +297,7 @@ public class WxChapterSubController {
 	
 
 	
-	private WxChapterSubDto wxChapterSubDtoFill(WxChapterSub chapSub,WxChapter chapterModel,int preId,int nextId,int preType,int nextType){
+	private WxChapterSubDto wxChapterSubDtoFill(WxChapterSub chapSub,WxChapter chapterModel,int preId,int nextId,int preType,int nextType,String tag){
 		WxChapterSubDto chapSubDto=new WxChapterSubDto();
 		if(chapterModel!=null){
 			
@@ -300,7 +306,11 @@ public class WxChapterSubController {
 		}
 		if(chapSub!=null){
 			chapSubDto.setId(chapSub.getId());
-			chapSubDto.setContent(chapSub.getContent());
+			String content= chapSub.getContent();
+			if(tag!=null&&tag.contains("军事")){
+				content=addP(content);
+			}
+			chapSubDto.setContent(content);
 		}
 		chapSubDto.setPreId(preId);
 		chapSubDto.setNextId(nextId);
@@ -309,6 +319,24 @@ public class WxChapterSubController {
 		return chapSubDto;
 	}
 
+	/**
+	 * 格式化内容
+	 */
+	private static String addP(String str)
+    {
+        if (str==null||str.isEmpty())
+        {
+            return "";
+        }
+        else
+        {
+            str = str.replace("\r\n　　", "\r\n");
+            str = str.replace("\r", "");
+            return "<p>" + str.replace("\n", "</p>\n<p>") + "</p>";
+
+        }
+    }
+	
 	
 	/**
 	 * 用户阅读小说时直接加到书架中
