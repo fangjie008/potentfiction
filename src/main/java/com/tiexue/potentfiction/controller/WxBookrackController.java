@@ -179,6 +179,8 @@ public class WxBookrackController {
 							if (cookies.get(i).getChapterid() > 0) {
 								curChap = wxChapterService.selectByPrimaryKey(cookies.get(i).getChapterid(),
 										EnumType.ChapterStatus_OnLine);
+							}else{
+								curChap = wxChapterService.getFirstChapter(cookies.get(i).getBookid(),EnumType.ChapterStatus_OnLine);
 							}
 							racks.add(bookrackDtoFill(book, curChap, lastChap));
 						}
@@ -197,6 +199,15 @@ public class WxBookrackController {
 							rackDto.setLastchapterid(chap.getId());
 							rackDto.setLastchaptertitle(chap.getTitle());
 							rackDto.setLastsortorder(chap.getSortorder());
+						}
+						
+						if(rackDto.getChapterid()==null||rackDto.getChapterid()<=0){
+							WxChapter curChap = wxChapterService.getFirstChapter(rackDto.getChapterid(),EnumType.ChapterStatus_OnLine);
+							if(curChap!=null){
+								rackDto.setChapterid(curChap.getId());
+								rackDto.setChaptertitle(curChap.getTitle());
+								rackDto.setSortorder(curChap.getSortorder());
+							}
 						}
 
 					}

@@ -31,12 +31,12 @@
                     <p class="small nowrap">最后更新：<label>${racks.lastchaptertitle}</label></p>
                     <c:if test="${racks.chapterid==null||racks.chapterid<=0}">
                       <a href="<%=path %>/wxChapterSub/defualt?bookId=${racks.getBookid()}">
-                    <p class="small nowrap">阅读进度：<label class="ccode">0/${racks.lastsortorder} 章节<br>继续阅读</label></p>
+                    <p class="small nowrap">阅读进度：<label class="ccode">${racks.chaptertitle}<br>继续阅读</label></p>
                     </a>
                     </c:if>
                    <c:if test="${racks.chapterid>0}">
                       <a href="<%=path %>/wxChapterSub/index?bookId=${racks.getBookid()}&chapterId=${racks.chapterid}">
-                    <p class="small nowrap">阅读进度：<label class="ccode">${racks.sortorder}/${racks.lastsortorder} 章节<br>继续阅读</label></p>
+                    <p class="small nowrap">阅读进度：<label class="ccode">${racks.chaptertitle}<br>继续阅读</label></p>
                     </a>
                     </c:if>
 		      	 </div>
@@ -48,7 +48,7 @@
         	</ul>
 </div>
 <div style="background-color: rgba(50, 201, 186, 0.7);padding: 8px 10px;">
-	<a href="http://t.cn/R6LUaeS">
+	<a style="color:white" href="http://t.cn/R6LUaeS">
 		点击关注公众号“<span style="color:#2897ed;border-bottom:1px solid">五彩读书网</span>”方便下次继续阅读
 	</a>
 </div>
