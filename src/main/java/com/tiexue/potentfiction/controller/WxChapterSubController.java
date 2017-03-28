@@ -332,7 +332,7 @@ public class WxChapterSubController {
         {
             str = str.replace("\r\n　　", "\r\n");
             str = str.replace("\r", "");
-            return "<p>" + str.replace("\n", "</p>\n<p>") + "</p>";
+            return "<p style='text-indent: 2em;'>" + str.replace("\n", "</p>\n<p style='text-indent: 2em;'>") + "</p>";
 
         }
     }

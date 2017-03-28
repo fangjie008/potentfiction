@@ -167,12 +167,7 @@ public class WxPayServiceImpl implements IWxPayService {
 			if(wxPayRecord.getOrderstatus()==EnumType.OrderStatus_Success)
 				return true;
 			
-			wxPayRecord.setOrderstatus(EnumType.OrderStatus_Success);
-			wxPayRecord.setWxordernum(wxOrderNo);
-		    int updateCount=updateByPrimaryKey(wxPayRecord);
-		    if(updateCount<=0)
-		    	return false;
-		    //获取用户信息
+			//获取用户信息
 		    WxUser wxUser= wxUserMapper.getModelByOpenId(openid);
 		    //首次充值加倍
 		    boolean isfristPay=false;
@@ -180,6 +175,17 @@ public class WxPayServiceImpl implements IWxPayService {
 		    if(payCount<=0){
 		    	isfristPay=true;
 		    }
+		    Integer payCoin=wxPayRecord.getCount();
+		    if(isfristPay){
+		    	payCoin=payCoin*2;
+		    }
+			wxPayRecord.setOrderstatus(EnumType.OrderStatus_Success);
+			wxPayRecord.setWxordernum(wxOrderNo);
+			wxPayRecord.setCount(payCoin);
+		    int updateCount=updateByPrimaryKey(wxPayRecord);
+		    if(updateCount<=0)
+		    	return false;
+		    
 		    // type==1充值小说币 type==2 包年包月
 			if(wxPayRecord.getPaytype()==1)
 			{
