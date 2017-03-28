@@ -21,7 +21,7 @@
 					<li><span class="nick blue fn-left fn-text-overflow">${user.getName()}</span>
 						<span class="fn-right">${user.getId()}</span></li>
 					<c:if test="${deadline!=null&&!deadline.isEmpty()}">
-					<li><span class="badge hot">包月VIP (${deadline})</span>
+					<li><span class="badge hot">包年VIP (${deadline})</span>
 					</li>
 					</c:if>
 					<c:if test="${deadline==null||deadline.isEmpty()}">
