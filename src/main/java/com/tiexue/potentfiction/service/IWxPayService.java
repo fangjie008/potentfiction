@@ -22,6 +22,14 @@ public interface IWxPayService {
 
 	    int updateByPrimaryKey(WxPay record);
 	    
+	    /**
+	     * 获取用户充值成功的次数
+	     * @param userId
+	     * @param orderStatus
+	     * @return
+	     */
+	    int getPayCountByUserId(int userId,int orderStatus,String orderNum);
+	    
 		/**
 		 * 根据userId获取支付记录
 		 * @param userId

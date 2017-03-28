@@ -182,7 +182,7 @@ public class WxPayTController {
 		if (chapterIdStr != null && !chapterIdStr.isEmpty())
 			chapterId = Integer.parseInt(chapterIdStr);
 		//测试
-		//boolean result = wxPayService.testHandlePayNotify("oWG6Rs8dC4cpoiRX2NgPR1ZAbcRE", "20170314103402080EF510265", "test456");
+		//boolean result = wxPayService.testHandlePayNotify("oWG6Rs8dC4cpoiRX2NgPR1ZAbcRE", "2017032110571472645E9584E", "test456");
 		
 		// 调用统一下单接口
 		String remoteIpAdd = request.getRemoteAddr();

@@ -4,6 +4,7 @@ import com.tiexue.potentfiction.entity.WxUser;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -122,4 +123,12 @@ public interface WxUserMapper {
     })
     @ResultMap("ResultMapWithBLOBs")
     WxUser getModelByOpenId(String openId);
+    
+    @Update({
+        "update wxuser",
+        "set ",
+          "Coin =Coin+#{coin,jdbcType=INTEGER} ",
+        "where Id = #{id,jdbcType=INTEGER}"
+    })
+    int updateCoin(@Param("id")Integer id,@Param("coin")Integer coin);
 }

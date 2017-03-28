@@ -4,7 +4,9 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -321,23 +323,40 @@ public class DateUtil {
 			return null;
 		}
 	}
-    /*
-     * 校验日期
-     */
-//	public static String checkDate(String endTime){
-//		boolean flage =false;
-//		String regex = "^((((1[6-9]|[2-9]\d)\d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]\d|3[01]))|(((1[6-9]|[2-9]\d)\d{2})-(0?[13456789]|1[012])-(0?[1-9]|[12]\d|30))|(((1[6-9]|[2-9]\d)\d{2})-0?2-(0?[1-9]|1\d|2[0-8]))|(((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))-0?2-29-))(\s(([01]\d{1})|(2[0123])):([0-5]\d):([0-5]\d))?$";
-//        Pattern pattern = Pattern.compile(regex);  
-//        Matcher match = pattern.matcher(endTime);
-//        if(match.matches()){
-//        	long now = System.currentTimeMillis();
-//        	long end = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(endTime).getTime();//根据字符串time得到毫秒数。
-//        	if (end>now) {
-//				flage=true;
-//			}
-//        }
-//        return 
-//	}
+	/*
+	 * 校验日期
+	 */
+	// public static String checkDate(String endTime){
+	// boolean flage =false;
+	// String regex =
+	// "^((((1[6-9]|[2-9]\d)\d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]\d|3[01]))|(((1[6-9]|[2-9]\d)\d{2})-(0?[13456789]|1[012])-(0?[1-9]|[12]\d|30))|(((1[6-9]|[2-9]\d)\d{2})-0?2-(0?[1-9]|1\d|2[0-8]))|(((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))-0?2-29-))(\s(([01]\d{1})|(2[0123])):([0-5]\d):([0-5]\d))?$";
+	// Pattern pattern = Pattern.compile(regex);
+	// Matcher match = pattern.matcher(endTime);
+	// if(match.matches()){
+	// long now = System.currentTimeMillis();
+	// long end = new SimpleDateFormat("yyyy-MM-dd
+	// hh:mm:ss").parse(endTime).getTime();//根据字符串time得到毫秒数。
+	// if (end>now) {
+	// flage=true;
+	// }
+	// }
+	// return
+	// }
+
+	/**
+	 * 日期加day天
+	 * @param date
+	 * @param day
+	 * @return
+	 */
+	public static Date AddDays(Date date, int day) {
+		Calendar calendar = new GregorianCalendar();
+		calendar.setTime(date);
+		calendar.add(calendar.DATE, day);// 把日期往后增加一天.整数往后推,负数往前移动
+		date = calendar.getTime(); // 这个时间就是日期往后推一天的结果
+		return date;
+	}
+
 	public static void main(String[] args) throws Exception {
 		System.out.println(getCurrentTime());
 	}

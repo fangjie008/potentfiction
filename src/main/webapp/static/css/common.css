@@ -1874,3 +1874,14 @@ span.current.btn-paychannel{
     border-bottom: 1px #e4e4e4 solid; 
     height: 60px;
 }
+
+
+.wxprecoin{
+	background: url(../image/coin.png) transparent no-repeat;
+	background-size: 20px auto;
+	width: 20px;
+	height: 20px;
+	display: inline-block;
+	vertical-align: text-bottom;
+	text-align: center;
+}

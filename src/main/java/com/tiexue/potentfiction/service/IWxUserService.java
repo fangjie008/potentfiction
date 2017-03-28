@@ -1,9 +1,6 @@
 package com.tiexue.potentfiction.service;
 
 
-
-
-
 import com.tiexue.potentfiction.dto.PageUserDto;
 import com.tiexue.potentfiction.entity.WxConsume;
 import com.tiexue.potentfiction.entity.WxUser;
@@ -28,6 +25,8 @@ public interface IWxUserService {
     int updateByPrimaryKeyWithBLOBs(WxUser record);
 
     int updateByPrimaryKey(WxUser record);
+    
+    int updateCoin(Integer id,Integer coin);
     
     /**
      * 更新小说币 添加消费记录

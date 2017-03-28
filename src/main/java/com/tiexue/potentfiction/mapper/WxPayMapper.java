@@ -76,4 +76,7 @@ public interface WxPayMapper {
   	
     @Select({"select count(1) from wxpay where UserId =#{userId} "})
   	Integer getCountByUserId(int userId);
+    
+    @Select({"select count(1) from wxpay where UserId =#{userId} and OrderStatus=#{orderStatus} and OrderNum<>'${orderNum}' "})
+    int getPayCountByUserId(@Param("userId")int userId,@Param("orderStatus")int orderStatus,@Param("orderNum")String orderNum);
 }

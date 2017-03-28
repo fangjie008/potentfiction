@@ -62,6 +62,12 @@ public class WxUserServiceImpl implements IWxUserService{
 	public int updateByPrimaryKey(WxUser record) {
 		return userMapper.updateByPrimaryKeyWithBLOBs(record);
 	}
+	
+	
+	@Override
+	public int updateCoin(Integer id,Integer coin){
+		return userMapper.updateCoin(id, coin);
+	}
 
 	/**
 	 * 更新操作 

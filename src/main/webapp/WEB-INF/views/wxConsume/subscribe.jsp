@@ -36,6 +36,7 @@
 <div class="mod_content c1">
 	<ul class="gray small">
 		<li class="orange">温馨提示：</li>
+		<li style="color:red;font-size:14px;">首次充值还有加倍奖励！！！</li>
 		<li>为了给您更好的阅读体验，如果您选择订阅，阅读本作品其他VIP章节将直接扣费，并不再提示该页面。</li>
 	</ul>
 </div>

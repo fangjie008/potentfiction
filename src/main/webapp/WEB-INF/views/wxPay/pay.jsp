@@ -60,6 +60,11 @@
 	</ul>
 	
 	<div class="mod_content c1 gray">
+	<ul class="gray small">
+			<li style="color:red;font-size:20px;">首充优惠活动：
+			</li>
+			<li>用户第一次充值可获得小说币<span style="color:red;font-size:16px;">加倍</span>的奖励。即:充值10元即可获得2100小说币。以此类推。包年或半年也享受加倍奖励。即:包年可得两年会员。</li>
+		</ul>
 		<ul class="gray small">
 			<li class="orange">温馨提示：
 			</li>
