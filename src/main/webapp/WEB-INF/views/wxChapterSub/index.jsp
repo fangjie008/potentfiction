@@ -138,9 +138,11 @@
 	<a style="color:white" href="http://t.cn/R6LUaeS">
 		点击关注公众号“<span style="color:#2897ed;border-bottom:1px solid">五彩读书网</span>”方便下次继续阅读
 	</a>
+	
+
 </div>
 		
-		<!--收藏本书开始-->
+	<%-- 	<!--收藏本书开始-->
 		<div class="alertbk alertbk-fav" id="collect">
 		   <input type="hidden" id="bookid" name="bookid" value="${wxChapterSub.bookId}">
 		   <input type="hidden" id="bookname" name="bookname" value="${wxChapterSub.bookName}">
@@ -150,10 +152,11 @@
 				<span>请加收藏，方便下次阅读</span> 
 				<a id="btn-addbookrack" class="okbtn add-fav" 	dden="ok" data-bid="14438">确定</a>
 			</center>
-		</div>
+		</div> --%>
 		<!--收藏本书结束-->
-
-
+	<div style="text-align:center;">
+    	<img style="width:242.5px;heigth:120.5px;" src="<%=path %>/static/image/QRCodeWuCai.png">
+	</div> 
 
 <%@ include file="/WEB-INF/views/include/include_footer.jsp"%>
 	</article>

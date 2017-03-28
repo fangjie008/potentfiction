@@ -32,6 +32,8 @@
 	<dd><a href="<%=path%>/wxBookrack/list""><span class="ico32 bookcase"></span>书架</a></dd>
 	<dd class="sp"></dd>
 	<dd><a href="<%=path%>/wxPay/pay"><span class="ico32 pay"></span>充值</a></dd>
+	<%-- <dd class="sp"></dd>
+	<dd><a href="<%=path%>/wxPay/getcoin"><span class="ico32 pay"></span>领币</a></dd> --%>
 </dl>
 <div class="mod_title mod_lastread">
 	<h1>
