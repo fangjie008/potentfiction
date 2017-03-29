@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alibaba.fastjson.JSON;
 import com.tiexue.potentfiction.dto.PageUserDto;
@@ -64,6 +65,7 @@ public class WxUserController {
 				userIdStr = pageUser.getId();
 			}
 		}
+		String fm = request.getParameter("fm");
 		int userId=0;
 		if(userIdStr!=null&&!userIdStr.isEmpty())
 			userId=Integer.parseInt(userIdStr);
@@ -79,6 +81,7 @@ public class WxUserController {
 			}
 				
 		}
+		request.setAttribute("fromurl", fm);
 		return "wxUser/index";
 	}
 
@@ -86,11 +89,13 @@ public class WxUserController {
 	@RequestMapping("/login")
 	public String login(HttpServletRequest request, HttpServletResponse response) {
 		String refer = request.getHeader("Referer");
+		String fm = request.getParameter("fm");
 		if (null != refer && !refer.isEmpty()) {
 			Cookie _refCookie = new Cookie("_ref", refer); // 创建一个Cookie对象，并将用户名保存到Cookie对象中
 			_refCookie.setMaxAge(15*60); // 设置Cookie的过期之前的时间，单位为秒
 			response.addCookie(_refCookie); // 通过response的addCookie()方法将此Cookie对象保存到客户端的Cookie中
 		}
+		request.setAttribute("fromurl", fm);
 		return "wxUser/login";
 	}
 
@@ -130,9 +135,11 @@ public class WxUserController {
 	 * 将用户登录信息写入cookie及session,判断cookie中的_ref页面跳转回登录前网址,完成登录流程
 	 */
 	@RequestMapping("/wxlogindo")
-	public String wxLoginDo(HttpServletRequest request, HttpServletResponse response) {
+	public String wxLoginDo(HttpServletRequest request, HttpServletResponse response, RedirectAttributes attr) {
+		String fm = request.getParameter("fm");
 		String oauthUrl = SnsAPI.connectOauth2Authorize(WxConstants.WxAppId, WxConstants.WxRedirectUrl, true,
 				WxConstants.WxOauthState);
+		attr.addAttribute("fm", fm);
 		return "redirect:" + oauthUrl;
 	}
 
@@ -142,7 +149,7 @@ public class WxUserController {
 	 * 请求到用户信息后保存用户信息,用户转到登录前页面
 	 */
 	@RequestMapping("wxoauthcallback")
-	public String wxOAuthCallback(HttpServletRequest request, HttpServletResponse response,
+	public String wxOAuthCallback(HttpServletRequest request, HttpServletResponse response,RedirectAttributes attr, 
 			@CookieValue(value = "defaultbookrack", required = true, defaultValue = "") String rackCookie) throws Exception {
 		try {
 			// 微信token
@@ -150,6 +157,8 @@ public class WxUserController {
 			User wxSnsUser = null;
 			String code = request.getParameter("code");
 			String state = request.getParameter("state");
+			String fm = request.getParameter("fm");
+			attr.addAttribute("fm", fm);
 			logger.error("login code "+code);
 			logger.error("login state "+state);
 			int userId=0;
@@ -195,10 +204,12 @@ public class WxUserController {
 	 * 
 	 */
 	@RequestMapping("wxloginhandle")
-	public String wxLoginHandle(HttpServletRequest request, HttpServletResponse response,
+	public String wxLoginHandle(HttpServletRequest request, HttpServletResponse response,RedirectAttributes attr,
 			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token,
 			@CookieValue(value = "_ref", required = true, defaultValue = "") String ref) {
 		try {
+			String fm = request.getParameter("fm");
+			attr.addAttribute("fm", fm);
 			// todo:判断是否登录,理论上到这里都是登录后的
 			// todo:跳转到登录前页面
 			if (ref!=""&&!ref.isEmpty()) {

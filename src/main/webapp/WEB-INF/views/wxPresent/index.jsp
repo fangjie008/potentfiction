@@ -11,7 +11,7 @@
 
 <body>
 <header class="nav wrap"> 
- <a class="ico52 back" href="javascript:history.go(-1);"></a>签到送币<a href="<%=path%>/" class="ico52 home"></a>
+ <a class="ico52 back" href="javascript:history.go(-1);"></a>签到送币<a href="<%=path%>/?fm=${fromurl}" class="ico52 home"></a>
 </header>
 <div class="wrap" >
 		<div class="mod_content c1 gray">
@@ -36,10 +36,10 @@
 	</c:if>
 	<c:if test="${userId<=0}">
 	 <p class="panel margin-top-10" style="text-align: center;color: red;font-size: 16px;">请先登录再领小说币！</p>
-	  <a class="btn block" href="<%=path%>/wxUser/login">登录</a> 
+	  <a class="btn block" href="<%=path%>/wxUser/login?fm=${fromurl}">登录</a> 
 	</c:if>
-	<a class="btn block" href="<%=path%>/wxUser/content">个人中心</a> 
-	<a class="btn block" href="<%=path%>/">返回看书</a> 
+	<a class="btn block" href="<%=path%>/wxUser/content?fm=${fromurl}">个人中心</a> 
+	<a class="btn block" href="<%=path%>/?fm=${fromurl}">返回看书</a> 
 	
 	 </div>
 <%@ include file="/WEB-INF/views/include/include_footer.jsp"%>

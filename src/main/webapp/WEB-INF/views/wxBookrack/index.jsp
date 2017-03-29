@@ -9,7 +9,7 @@
 
 <body>
 <header class="nav wrap">
-	<a class="ico52 back" href="javascript:history.go(-1);"></a>我的书架<a href="<%=path%>/" class="ico52 home"></a>
+	<a class="ico52 back" href="javascript:history.go(-1);"></a>我的书架<a href="<%=path%>/?fm=${fromurl}" class="ico52 home"></a>
 </header>
 <div class="panel-bar">
 <ul class="btn_area fn-clear">
@@ -22,7 +22,7 @@
 	
 	<c:forEach items="${bookracks}" var="racks">
 			  <li id="${racks.getBookid() }">
-		        <a href="<%=path%>/wxbook/detail?id=${racks.getBookid()}">
+		        <a href="<%=path%>/wxbook/detail?id=${racks.getBookid()}&fm=${fromurl}">
 		      	<img  class="fn-left lazy" alt="" src="${racks.getCoverimgs()}">
 		      	</a>
 		      	<a  class="jxread" href="<%=path%>/wxbook/detail?id=${racks.getBookid()}">
@@ -30,12 +30,12 @@
 		      	    <p class="nowrap">${racks.getBookname()}</p>
                     <p class="small nowrap">最后更新：<label>${racks.lastchaptertitle}</label></p>
                     <c:if test="${racks.chapterid==null||racks.chapterid<=0}">
-                      <a href="<%=path %>/wxChapterSub/defualt?bookId=${racks.getBookid()}">
+                      <a href="<%=path %>/wxChapterSub/defualt?bookId=${racks.getBookid()}&fm=${fromurl}">
                     <p class="small nowrap">阅读进度：<label class="ccode">${racks.chaptertitle}<br>继续阅读</label></p>
                     </a>
                     </c:if>
                    <c:if test="${racks.chapterid>0}">
-                      <a href="<%=path %>/wxChapterSub/index?bookId=${racks.getBookid()}&chapterId=${racks.chapterid}">
+                      <a href="<%=path %>/wxChapterSub/index?bookId=${racks.getBookid()}&chapterId=${racks.chapterid}&fm=${fromurl}">
                     <p class="small nowrap">阅读进度：<label class="ccode">${racks.chaptertitle}<br>继续阅读</label></p>
                     </a>
                     </c:if>

@@ -5,8 +5,8 @@ String basePathFooter = request.getScheme()+"://"+request.getServerName()+":"+re
 %>
 <footer>
 	<p style="line-height: 20px"> 
-	<a href="<%=pathFooter%>/">首页</a><span class="sp"></span>
-	<a href="<%=pathFooter%>/wxBookrack/list?userId=3" title="书架">书架</a>
+	<a href="<%=pathFooter%>/?fm=${fromurl}">首页</a><span class="sp"></span>
+	<a href="<%=pathFooter%>/wxBookrack/list/?fm=${fromurl}" title="书架">书架</a>
 	<span class="sp"></span><a href="#">客服</a>
 	<span class="sp"></span><a href="#">帮助</a> 
 	</p>

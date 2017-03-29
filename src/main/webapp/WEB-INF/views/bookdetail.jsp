@@ -10,7 +10,7 @@
 </head>
 <body>
 <header class="nav wrap">
-	<a class="ico52 back" href="javascript:history.go(-1);"></a>书籍信息<a href="<%=path%>/" class="ico52 home"></a>
+	<a class="ico52 back" href="javascript:history.go(-1);"></a>书籍信息<a href="<%=path%>/?fm=${fromurl}" class="ico52 home"></a>
 </header>
 <div class="book_title wrap">${wxBook.getName()}</div>
 <input type="hidden" id="bookid" name="bookid" value="${wxBook.getId()}">
@@ -29,10 +29,10 @@
 	<ul class="btn_area fn-clear">
 		<li>
 		<c:if test="${bookrack.chapterid>0}">
-		<a class="btn block start_read" href="<%=path %>/wxChapterSub/index?bookId=${wxBook.getId()}&chapterId=${bookrack.chapterid}">继续阅读</a>
+		<a class="btn block start_read" href="<%=path %>/wxChapterSub/index?bookId=${wxBook.getId()}&chapterId=${bookrack.chapterid}&fm=${fromurl}">继续阅读</a>
 		</c:if>
 		<c:if test="${bookrack==null||bookrack.chapterid<=0}">
-		<a class="btn block start_read" href="<%=path %>/wxChapterSub/defualt?bookId=${wxBook.getId()}">免费阅读</a>
+		<a class="btn block start_read" href="<%=path %>/wxChapterSub/defualt?bookId=${wxBook.getId()}&fm=${fromurl}">免费阅读</a>
 		</c:if>
 		</li>
 		<li>
@@ -47,7 +47,7 @@
 		
 		</li>
 	</ul>
-        <a href="<%=path %>/wxChapter/index?bookId=${wxBook.getId()}" class="btn block white">全部章节目录</a>
+        <a href="<%=path %>/wxChapter/index?bookId=${wxBook.getId()}&fm=${fromurl}" class="btn block white">全部章节目录</a>
 	<ul class="continue_read fn-clear fn-hide">
 		<li class="orange">上次读到：<span></span></li>
 		<li><a class="fn-left" href="#">本章»</a><a class="fn-right" href="#">下章»</a></li>

@@ -113,9 +113,9 @@
 </head>
 <body>
 	<header class="nav wrap">
-		<a class="ico52" href="<%=path%>/wxbook/detail?id=${bookId}"></a>
+		<a class="ico52" href="<%=path%>/wxbook/detail?id=${bookId}&fm=${fromurl}"></a>
 		<div class="header-center">${wxBook.name}</div>
-		<a href="<%=path%>/" class="ico52 home"></a>
+		<a href="<%=path%>/?fm=${fromurl}" class="ico52 home"></a>
 	</header>
 	<div id="zjlb">
 		<div class="fenye">
@@ -156,13 +156,13 @@
 		<c:forEach items="${wxChapters}" var="chapters">
 			<li><c:if test="${chapters.getChaptertype()==0}">
 			    <a class="chapter" onclick="addbookrack('${wxBook.id}','${chapters.id}')"
-				href="<%=path%>/wxChapterSub/index?bookId=${wxBook.id}&chapterId=${chapters.id}">
+				href="<%=path%>/wxChapterSub/index?bookId=${wxBook.id}&chapterId=${chapters.id}&fm=${fromurl}">
 					${chapters.title} </a>
 					<span class="fn-right c999">免费</span>
 				</c:if>
 				<c:if test="${chapters.getChaptertype()!=0}">
 			    <a class="chapter" onclick="addbookrack('${wxBook.id}','${chapters.id}')"
-				href="<%=path%>/wxChapterSub/vip?bookId=${wxBook.id}&chapterId=${chapters.id}">
+				href="<%=path%>/wxChapterSub/vip?bookId=${wxBook.id}&chapterId=${chapters.id}&fm=${fromurl}">
 					${chapters.title} </a>
 				</c:if>
 		    </li>
@@ -176,25 +176,25 @@
 			href="<%=path %>/wxChapter/index?bookId=${bookId}&pageNo=0">第一页</a></li>
 		<li class="four"><c:if test="${pager.prePage>=0 }">
 				<a class="btn white prev"
-					href="<%=path %>/wxChapter/index?bookId=${bookId}&pageNo=${pager.prePage }">上一页</a>
+					href="<%=path %>/wxChapter/index?bookId=${bookId}&pageNo=${pager.prePage }&fm=${fromurl}">上一页</a>
 			</c:if> <c:if test="${pager.prePage<0 }">
 				<a class="btn white prev" href="#" disabled="disabled">上一页</a>
 			</c:if></li>
 		<li class="four"><c:if test="${pager.nextPage>0 }">
 				<a class="btn white next"
-					href="<%=path %>/wxChapter/index?bookId=${bookId}&pageNo=${pager.nextPage }">下一页</a>
+					href="<%=path %>/wxChapter/index?bookId=${bookId}&pageNo=${pager.nextPage }&fm=${fromurl}">下一页</a>
 			</c:if> <c:if test="${pager.nextPage<=0 }">
 				<a class="btn white next" href="#" disabled="disabled">上一页</a>
 			</c:if></li>
 		<li class="four"><a class="btn white end"
-			href="<%=path %>/wxChapter/index?bookId=${bookId}&pageNo=${pager.lastPageNo }">最末页</a></li>
+			href="<%=path %>/wxChapter/index?bookId=${bookId}&pageNo=${pager.lastPageNo }&fm=${fromurl}">最末页</a></li>
 	</ul>
 	<div
 		style="background: none repeat scroll 0 0 #F9F8F8; padding-left: 10px; padding-bottom: 10px">
 		跳转至 <input type="hidden" id="totalPage" value="${pager.totalPage }">
 		<input type="hidden" id="pageSize" value="${pager.pageSize }">
 		<input type="hidden" id="preUrl"
-			value="<%=path %>/wxChapter/index?bookId=${bookId}&pageNo=">
+			value="<%=path %>/wxChapter/index?bookId=${bookId}&pageNo=&fm=${fromurl}">
 		<input id="jump_page"
 			style="width: 40px; border: none; border-bottom: 1px solid #ccc; text-align: center"
 			type="text" name="p" value="${jumpPage }">页 <input

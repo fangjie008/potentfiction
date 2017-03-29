@@ -10,12 +10,12 @@
 
 <body>
 <header class="nav wrap"> 
- <a class="ico52 back" href="javascript:history.go(-1);"></a>微信支付<a href="<%=path%>/" class="ico52 home"></a>
+ <a class="ico52 back" href="javascript:history.go(-1);"></a>微信支付<a href="<%=path%>/?fm=${fromurl}" class="ico52 home"></a>
 </header>
 <div class="wrap">
 	<p class="panel margin-top-10">充值成功</p>
-	 <a class="btn block" href="<%=path%>/wxPay/pay">再次充值</a> 
-	 <a class="btn block" href="<%=path%>/">返回看书</a> 
+	 <a class="btn block" href="<%=path%>/wxPay/pay?fm=${fromurl}">再次充值</a> 
+	 <a class="btn block" href="<%=path%>/?fm=${fromurl}">返回看书</a> 
 </div>
 
 <div style="background-color: rgba(50, 201, 186, 0.7);padding: 8px 10px;">

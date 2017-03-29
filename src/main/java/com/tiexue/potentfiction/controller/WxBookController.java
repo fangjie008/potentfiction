@@ -54,6 +54,7 @@ public class WxBookController {
 			,@CookieValue(value ="wx_gzh_token",required = true, defaultValue = "")String wx_gzh_token) {
 		String userIdStr="";
 		try {
+			String fm = request.getParameter("fm");
 			logger.error("获取 wx_gzh_token："+wx_gzh_token);
 			if(wx_gzh_token!=""){
 				PageUserDto pageUser= userSer.getPageUserDto(wx_gzh_token);
@@ -75,6 +76,7 @@ public class WxBookController {
 				rack=getBookrackByCookie(rackCookie);
 			}
 			request.setAttribute("bookrack", rack);
+			request.setAttribute("fromurl", fm);
 		} catch (Exception e) {
 			logger.error("首页获取数据异常"+e.getMessage());
 		}
@@ -86,6 +88,7 @@ public class WxBookController {
 	public String detailInfo(HttpServletRequest request,
 			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token) {
 		String userIdStr = "";
+		String fm = request.getParameter("fm");
 		if (wx_gzh_token != "") {
 			PageUserDto pageUser = userSer.getPageUserDto(wx_gzh_token);
 			if (pageUser != null) {
@@ -113,6 +116,7 @@ public class WxBookController {
 			}
 
 		}
+		request.setAttribute("fromurl", fm);
 		//保存书架
         if(bookId>0&&userId>0){
         	saveBookrack(bookId,userId,bookName);

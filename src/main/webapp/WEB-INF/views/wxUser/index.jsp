@@ -8,8 +8,9 @@
 <title>用户中心</title>
 </head>
 <body>
+<input type="hidden" id="fromurl" name="fromurl" value="${fromurl }">
 	<header class="nav wrap">
-		<a class="ico52 back" href="javascript:history.go(-1);"></a>个人中心<a href="<%=path%>/" class="ico52 home"></a>
+		<a class="ico52 back" href="javascript:history.go(-1);"></a>个人中心<a href="<%=path%>/?fm=${fromurl}" class="ico52 home"></a>
 	</header>
 	<div class="panel my">
 		<dl>
@@ -39,17 +40,17 @@
 		<p class="solid"></p>
 		<div class="">
 			<ul class="class_list">
-				<li><a href="<%=path%>/wxPay/pay"><img
+				<li><a href="<%=path%>/wxPay/pay?fm=${fromurl}"><img
 						src="<%=path%>/static/image/user/icon_pay.png" class="icon"><span
 						class="txt">充值小说币</span><img
 						src="<%=path%>/static/image/user/arrow_r.png"
 						class="arrow_r"></a></li>
-				<li><a href="<%=path%>/wxPay/index"><img
+				<li><a href="<%=path%>/wxPay/index/?fm=${fromurl}"><img
 						src="<%=path%>/static/image/user/icon_payrecord.png" class="icon"><span
 						class="txt">充值记录</span><img
 						src="<%=path%>/static/image/user/arrow_r.png"
 						class="arrow_r"></a></li>
-				<li><a href="<%=path%>/wxConsume/index"><img
+				<li><a href="<%=path%>/wxConsume/index/?fm=${fromurl}"><img
 						src="<%=path%>/static/image/user/icon_order.png" class="icon"><span
 						class="txt">消费记录</span><img
 						src="<%=path%>/static/image/user/arrow_r.png"
@@ -64,7 +65,7 @@
 						class="txt">最近阅读</span><img
 						src="<%=path%>/static/image/user/arrow_r.png"
 						class="arrow_r"></a></li> --%>
-				<li><a href="<%=path%>/wxBookrack/list?userId=3"><img
+				<li><a href="<%=path%>/wxBookrack/list/?fm=${fromurl}"><img
 						src="<%=path%>/static/image/user/icon_feedback.png" class="icon"><span
 						class="txt">我的书架</span><img
 						src="<%=path%>/static/image/user/arrow_r.png"
@@ -94,8 +95,9 @@
 <script type="text/javascript" src="<%=path %>/static/js/public.js"></script>
 <script type="text/javascript">
 function loginout(){
+	var fromurl=$("#fromurl").val();
 	setCookie("wx_gzh_token","",-1);
-	window.location.href="<%=path %>/"; 
+	window.location.href="<%=path %>/?fm="+fromurl; 
 }
 </script>
 </html>

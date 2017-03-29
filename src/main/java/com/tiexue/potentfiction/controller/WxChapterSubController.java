@@ -68,6 +68,7 @@ public class WxChapterSubController {
 		}
 		String bookIdStr = request.getParameter("bookId");
 		String chapterIdStr = request.getParameter("chapterId");
+		String fm = request.getParameter("fm");
 		String bookName = "";
 		String chapterTitle="";
 		int userId = 0;
@@ -104,10 +105,12 @@ public class WxChapterSubController {
 					case EnumType.ResultNum_Pay:
 						attr.addAttribute("chapterId", chapterId);
 						attr.addAttribute("bookId", bookId);
+						attr.addAttribute("fm", fm);
 						return "redirect:/wxPay/pay";
 					case EnumType.ResultNum_Cons:
 						attr.addAttribute("chapterId", chapterId);
 						attr.addAttribute("bookId", bookId);
+						attr.addAttribute("fm", fm);
 						return "redirect:/wxConsume/subscribe";
 					}
 				}
@@ -116,6 +119,7 @@ public class WxChapterSubController {
 			// 获取章节信息
 			WxChapterSubDto chapSubDto = getCahperDto(bookId, bookName, chapterId, chapterModel,tag);
 			request.setAttribute("wxChapterSub", chapSubDto);
+			request.setAttribute("fromurl", fm);
 		}
 		//保存书架
         if(bookId>0&&userId>0){
@@ -148,6 +152,7 @@ public class WxChapterSubController {
 			}
 			String bookIdStr = request.getParameter("bookId");
 			String chapterIdStr = request.getParameter("chapterId");
+			String fm = request.getParameter("fm");
 			String bookName = "";
 			String chapterTitle="";
 			int userId = 0;
@@ -184,10 +189,12 @@ public class WxChapterSubController {
 						case EnumType.ResultNum_Pay:
 							attr.addAttribute("chapterId", chapterId);
 							attr.addAttribute("bookId", bookId);
+							attr.addAttribute("fm", fm);
 							return "redirect:/wxPay/pay";
 						case EnumType.ResultNum_Cons:
 							attr.addAttribute("chapterId", chapterId);
 							attr.addAttribute("bookId", bookId);
+							attr.addAttribute("fm", fm);
 							return "redirect:/wxConsume/subscribe";
 						}
 					}
@@ -196,6 +203,7 @@ public class WxChapterSubController {
 				// 获取章节信息
 				WxChapterSubDto chapSubDto = getCahperDto(bookId, bookName, chapterId, chapterModel,tag);
 				request.setAttribute("wxChapterSub", chapSubDto);
+				request.setAttribute("fromurl", fm);
 			}
 			//保存书架
 	        if(bookId>0&&userId>0){
@@ -218,6 +226,7 @@ public class WxChapterSubController {
 			}
 		}
 		String bookIdStr = request.getParameter("bookId");
+		String fm = request.getParameter("fm");
 		String bookName = "";
 		int userId = 0;
 		String tag="";
@@ -257,6 +266,7 @@ public class WxChapterSubController {
 			// 获取章节信息
 			WxChapterSubDto chapSubDto = getCahperDto(bookId, bookName, chapterId, chapterModel,tag);
 			request.setAttribute("wxChapterSub", chapSubDto);
+			request.setAttribute("fromurl", fm);
 		}
 		return "wxChapterSub/index";
 	}

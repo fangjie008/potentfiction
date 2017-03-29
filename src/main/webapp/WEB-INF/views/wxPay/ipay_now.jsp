@@ -16,11 +16,11 @@
 				//支付成功，可以做跳转到支付成功的提示页面
 				//alert("支付成功");
 				//todo:跳转到支付成功展示页面
-				window.location.href="payresult"; 
+				window.location.href="payresult/"; 
 			} else {
 				//支付失败
 				//alert(res.err_msg);
-				window.location.href="errorpay"; 
+				window.location.href="errorpay/"; 
 			}
 		});
 	}

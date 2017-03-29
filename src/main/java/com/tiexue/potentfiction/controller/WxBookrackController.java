@@ -158,6 +158,7 @@ public class WxBookrackController {
 				userIdStr = pageUser.getId();
 			}
 		}
+		String fm = request.getParameter("fm");
 		int userId = 0;
 		WxChapter chap;
 		List<WxBookrackDto> racks = new ArrayList<WxBookrackDto>();
@@ -230,6 +231,7 @@ public class WxBookrackController {
 				}
 			}
 			request.setAttribute("bookracks", racks);
+			request.setAttribute("fromurl", fm);
 		} catch (Exception e) {
 			logger.error("获取书架信息失败:" + e.getMessage());
 		}

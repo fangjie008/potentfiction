@@ -11,9 +11,10 @@
 <body>
 <input type="hidden" id="bookid" name="bookid" value="${bookid }">
 <input type="hidden" id="chapterid" name="chapterid" value="${chapterid }">
+<input type="hidden" id="fromurl" name="fromurl" value="${fromurl }">
 	<header class="nav wrap">
 		<a class="ico52 back" href="javascript:history.go(-1);"></a>充值小说币<a
-			href="<%=path%>/" class="ico52 home"></a>
+			href="<%=path%>/?fm=${fromurl}" class="ico52 home"></a>
 	</header>
 	<div class="mod_content panel c1  "
 		style="padding-top: 8px; padding-bottom: 2px;">
@@ -93,6 +94,7 @@
 		$(".pay_money li").click(function(){
 			var bookid=$("#bookid").val();
 			var chapterid=$("#chapterid").val();
+			var fromurl=$("#fromurl").val();
 			var span = $(this).find("span");
 			var money = span.attr("data-money");
 			var premium = span.attr("data-premium");
@@ -109,6 +111,7 @@
 			form.append($("<input>",{'type':'hidden','name':'type','value':type})); 
 			form.append($("<input>",{'type':'hidden','name':'bookid','value':bookid})); 
 			form.append($("<input>",{'type':'hidden','name':'chapterid','value':chapterid})); 
+			form.append($("<input>",{'type':'hidden','name':'fromurl','value':fromurl})); 
 			form.submit();
 		});
 		
@@ -116,6 +119,7 @@
 		$(".testPay ").click(function(){
 			var bookid=$("#bookid").val();
 			var chapterid=$("#chapterid").val();
+			var fromurl=$("#fromurl").val();
 			var span = $(this).find("span");
 			var money = span.attr("data-money");
 			var premium = span.attr("data-premium");
@@ -132,6 +136,7 @@
 			form.append($("<input>",{'type':'hidden','name':'type','value':type})); 
 			form.append($("<input>",{'type':'hidden','name':'bookid','value':bookid})); 
 			form.append($("<input>",{'type':'hidden','name':'chapterid','value':chapterid})); 
+			form.append($("<input>",{'type':'hidden','name':'fromurl','value':fromurl})); 
 			form.submit();
 		});
 	</script>

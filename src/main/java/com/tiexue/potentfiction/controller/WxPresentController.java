@@ -45,6 +45,7 @@ public class WxPresentController {
 		if(userIdStr!=null&&!userIdStr.isEmpty()){
 			userId=Integer.parseInt(userIdStr);
 		}
+		String fm = request.getParameter("fm");
 		String startDt= DateUtil.getDays("yyyy-MM-dd");
 		Date dt=new Date();
 		dt=DateUtil.AddDays(dt, 1);
@@ -56,6 +57,7 @@ public class WxPresentController {
 		}
 		request.setAttribute("isget", isget);
 		request.setAttribute("userId", userId);
+		request.setAttribute("fromurl", fm);
 		return "wxPresent/index";
 	}
 	

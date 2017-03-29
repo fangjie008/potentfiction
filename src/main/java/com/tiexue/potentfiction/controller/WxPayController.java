@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alibaba.fastjson.JSONObject;
 import com.tiexue.potentfiction.dto.PageUserDto;
@@ -66,6 +67,7 @@ public class WxPayController {
 		}
 		String pageNoStr = request.getParameter("pageNo");
 		String pageSizeStr = request.getParameter("pageSize");
+		String fm = request.getParameter("fm");
 		if (userIdStr != null && !userIdStr.isEmpty()) {
 			int userId = Integer.parseInt(userIdStr);
 			int pageNo = 0;
@@ -84,8 +86,7 @@ public class WxPayController {
 			// 获取分页数据
 			Pager pagerModel = new Pager().getPager(pageNo, pageSize, totalRecord);
 			request.setAttribute("pager", pagerModel);
-
-			request.setAttribute("userId", userId);
+			request.setAttribute("fromurl", fm);
 		}
 
 		return "/wxPay/index";
@@ -122,12 +123,19 @@ public class WxPayController {
 		// todo:如果充值来源于阅读中,我们需要将阅读信息保存到cookie中
 		String bookid = request.getParameter("bookid");
 		String chapterid = request.getParameter("chapterid");
+		String fm = request.getParameter("fm");
 		request.setAttribute("bookid", bookid);
 		request.setAttribute("chapterid", chapterid);
+		request.setAttribute("fromurl", fm);
 		String refer = request.getHeader("Referer");
 		if (null != refer && !refer.isEmpty()) {
 			Cookie _refCookie = new Cookie("_refpay", refer); // 创建一个Cookie对象，并将用户名保存到Cookie对象中
 			_refCookie.setMaxAge(5*60); // 设置Cookie的过期之前的时间，单位为秒
+			response.addCookie(_refCookie); // 通过response的addCookie()方法将此Cookie对象保存到客户端的Cookie中
+		}
+		if (null != fm && !fm.isEmpty()) {
+			Cookie _refCookie = new Cookie("_fromurl", fm); // 创建一个Cookie对象，并将用户名保存到Cookie对象中
+			_refCookie.setMaxAge(50); // 设置Cookie的过期之前的时间，单位为秒
 			response.addCookie(_refCookie); // 通过response的addCookie()方法将此Cookie对象保存到客户端的Cookie中
 		}
 		return "/wxPay/pay";
@@ -166,6 +174,7 @@ public class WxPayController {
 		String typeStr = request.getParameter("type");
 		String bookIdStr = request.getParameter("bookid");
 		String chapterIdStr = request.getParameter("chapterid");
+		String fm = request.getParameter("fromurl");
 		int money = 0;
 		int coin=0;
 		Integer type = 0;
@@ -194,6 +203,7 @@ public class WxPayController {
 		logger.error("json:"+json);
 		// 将json 传到jsp 页面
 		request.setAttribute("json", json);
+		request.setAttribute("fromurl", fm);
 		// 转到支付发起js页面
 		return "/wxPay/ipay_now";
 	}
@@ -243,10 +253,17 @@ public class WxPayController {
 	 * 支付结果跳转页面
 	 */
 	@RequestMapping("payresult")
-	public String payResult(HttpServletRequest request, HttpServletResponse response,
+	public String payResult(HttpServletRequest request, HttpServletResponse response, RedirectAttributes attr,
 			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token,
-			@CookieValue(value = "_refpay", required = true, defaultValue = "") String ref) {
+			@CookieValue(value = "_refpay", required = true, defaultValue = "") String ref,
+			@CookieValue(value = "_fromurl", required = true, defaultValue = "") String fromurl) {
 		try {
+			String fm = request.getParameter("fromurl");
+			if(fm==null||fm.isEmpty()){
+				fm=fromurl;
+			}
+			logger.error("fromurl:"+fm);
+			attr.addAttribute("fm", fm);
 			// todo:在这里处理支付成功的逻辑,跳转到原来阅读地址,或者到首页等
 			if (ref != ""&&(ref.contains("wxChapterSub")||ref.contains("wxUser")||ref.contains("wxChapter"))) {
 				logger.error("pay _refpay:"+ref);

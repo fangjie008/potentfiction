@@ -36,7 +36,7 @@ public class WxChapterController {
 		String bookIdStr = request.getParameter("bookId");
 		String pageNoStr = request.getParameter("pageNo");
 		String jumpPage = request.getParameter("jumpPage");
-		
+		String fm = request.getParameter("fm");
 		if (bookIdStr != null && !bookIdStr.isEmpty()) {
 			int bookId = 0;
 			bookId = Integer.parseInt(bookIdStr);
@@ -58,6 +58,7 @@ public class WxChapterController {
 		    request.setAttribute("wxChapters",wxChapterDtoFill(wxChapters));
 			request.setAttribute("pager", pagerModel);
 			request.setAttribute("jumpPage", jumpPage);
+			request.setAttribute("fromurl", fm);
 		}
 
 		return "/wxChapter/index";

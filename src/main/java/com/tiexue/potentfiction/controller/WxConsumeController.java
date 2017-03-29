@@ -57,6 +57,7 @@ public class WxConsumeController {
 		}
 		String pageNoStr=request.getParameter("pageNo");
 		String pageSizeStr=request.getParameter("pageSize");
+		String fm = request.getParameter("fm");
 		if (userIdStr!=null&&!userIdStr.isEmpty()) {
 			int userId = Integer.parseInt(userIdStr);
 			int pageNo = 0;
@@ -75,7 +76,7 @@ public class WxConsumeController {
 			//获取分页数据
 			Pager pagerModel=new Pager().getPager(pageNo,pageSize,totalRecord);;
 			request.setAttribute("pager", pagerModel);
-			request.setAttribute("userId", userId);
+			request.setAttribute("fromurl", fm);
 		}
 		return "wxConsume/index";
 	}
@@ -97,6 +98,7 @@ public class WxConsumeController {
 		}
 		String bookIdStr = request.getParameter("bookId");
 		String chapterIdStr = request.getParameter("chapterId");
+		String fm = request.getParameter("fm");
 		int chapterId = 0;
 		int bookId = 0;
 		int userId = 0;
@@ -115,6 +117,7 @@ public class WxConsumeController {
 		request.setAttribute("chapter", chapterModel);
 		request.setAttribute("user", userModel);
 		request.setAttribute("book", bookModel);
+		request.setAttribute("fromurl", fm);
 		return "wxConsume/subscribe";
 	}
 	/**
