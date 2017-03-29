@@ -12,7 +12,8 @@
  .body2{
    background: rgb(56, 56, 56);
  }
-
+ .tc { text-align: center; }
+fieldset { border:none; border-top:1px solid #ccc; padding: 0.25rem; margin:0 0.75rem; font-size: 0.975rem; }
 </style>
 <title>${wxChapterSub.bookName}</title>
 </head>
@@ -134,14 +135,15 @@
 			</ul>
 		</div>
 		
-		<div style="background-color: rgba(50, 201, 186, 0.7);padding: 8px 10px;">
-	<a style="color:white" href="http://t.cn/R6LUaeS">
-		点击关注公众号“<span style="color:#2897ed;border-bottom:1px solid">五彩读书网</span>”方便下次继续阅读
-	</a>
-	
-
-</div>
-		
+    <div style="text-align: center;margin-bottom:5px;font-size: 18px;">
+		【关注微信公众号,方便下次阅读】
+	</div>
+	<fieldset id="fllow_wximg">
+				<legend class="tc">长按识别 即可添加</legend>
+	</fieldset>
+	<div style="text-align:center;">
+    	<img style="width:242.5px;heigth:120.5px;" src="<%=path %>/static/image/QRCodeWuCai.png">
+	</div> 	
 	<%-- 	<!--收藏本书开始-->
 		<div class="alertbk alertbk-fav" id="collect">
 		   <input type="hidden" id="bookid" name="bookid" value="${wxChapterSub.bookId}">
@@ -154,9 +156,7 @@
 			</center>
 		</div> --%>
 		<!--收藏本书结束-->
-	<div style="text-align:center;">
-    	<img style="width:242.5px;heigth:120.5px;" src="<%=path %>/static/image/QRCodeWuCai.png">
-	</div> 
+
 
 <%@ include file="/WEB-INF/views/include/include_footer.jsp"%>
 	</article>
