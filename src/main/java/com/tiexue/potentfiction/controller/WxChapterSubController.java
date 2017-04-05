@@ -122,7 +122,14 @@ public class WxChapterSubController {
 			request.setAttribute("wxChapterSub", chapSubDto);
 			if(chapterModel!=null)
 			{
-				request.setAttribute("pageNo", chapterModel.getSortorder()-chapterModel.getSortorder()%pageSize);
+				int pageNo=0;
+				if(chapterModel.getSortorder()%pageSize==0){
+					if(chapterModel.getSortorder()>0)
+						pageNo=chapterModel.getSortorder()-pageSize;
+				}
+				else
+					pageNo=chapterModel.getSortorder()-(chapterModel.getSortorder()%pageSize);
+				request.setAttribute("pageNo",pageNo);
 			}
 			request.setAttribute("fromurl", fm);
 		}
@@ -210,7 +217,14 @@ public class WxChapterSubController {
 				WxChapterSubDto chapSubDto = getCahperDto(bookId, bookName, chapterId, chapterModel,tag);
 				if(chapterModel!=null)
 				{
-					request.setAttribute("pageNo", chapterModel.getSortorder()-chapterModel.getSortorder()%pageSize);
+					int pageNo=0;
+					if(chapterModel.getSortorder()%pageSize==0){
+						if(chapterModel.getSortorder()>0)
+							pageNo=chapterModel.getSortorder()-pageSize;
+					}
+					else
+						pageNo=chapterModel.getSortorder()-(chapterModel.getSortorder()%pageSize);
+					request.setAttribute("pageNo",pageNo);
 				}
 				request.setAttribute("wxChapterSub", chapSubDto);
 				request.setAttribute("fromurl", fm);
@@ -277,7 +291,14 @@ public class WxChapterSubController {
 			WxChapterSubDto chapSubDto = getCahperDto(bookId, bookName, chapterId, chapterModel,tag);
 			if(chapterModel!=null)
 			{
-				request.setAttribute("pageNo", chapterModel.getSortorder()-chapterModel.getSortorder()%pageSize);
+				int pageNo=0;
+				if(chapterModel.getSortorder()%pageSize==0){
+					if(chapterModel.getSortorder()>0)
+						pageNo=chapterModel.getSortorder()-pageSize;
+				}
+				else
+					pageNo=chapterModel.getSortorder()-(chapterModel.getSortorder()%pageSize);
+				request.setAttribute("pageNo",pageNo);
 			}
 			request.setAttribute("wxChapterSub", chapSubDto);
 			request.setAttribute("fromurl", fm);
