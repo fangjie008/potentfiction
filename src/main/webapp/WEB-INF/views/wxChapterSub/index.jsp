@@ -82,7 +82,7 @@ fieldset { border:none; border-top:1px solid #ccc; padding: 0.25rem; margin:0 0.
 				<li><a href="<%=path%>/wxbook/detail?id=${wxChapterSub.bookId}&fm=${fromurl}"><i
 						class="ico40 back back2"></i>书页</a></li>
 				<li class="center-li"><a class=""
-					href="<%=path %>/wxChapter/index?bookId=${wxChapterSub.bookId}&pageNo=0&fm=${fromurl}">目录</a></li>
+					href="<%=path %>/wxChapter/index?bookId=${wxChapterSub.bookId}&pageNo=${pageNo}&fm=${fromurl}">目录</a></li>
 				<li><a
 					href="<%=path%>/wxBookrack/list?fm=${fromurl}">书架
 						<i class="ico40 bookshelf"></i>

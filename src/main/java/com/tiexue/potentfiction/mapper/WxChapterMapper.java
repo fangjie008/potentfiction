@@ -92,7 +92,7 @@ public interface WxChapterMapper {
     @Select({"select  ",
         "Id, BookId, SortOrder, Title, ChapterType, Pirce,ContentLen ",
         "from wxchapter",
-        "where bookId=#{bookId} and id < #{chapterId,jdbcType=INTEGER} and Status=#{status}",
+        "where bookId=#{bookId} and SortOrder < #{chapterId,jdbcType=INTEGER} and Status=#{status}",
         " order by SortOrder desc,Id desc  LIMIT 0,1 "})
     @ResultMap("ResultListMap")
     WxChapter getPreChapter(@Param("bookId")Integer bookId,@Param("chapterId")Integer chapterId,@Param("status")Integer status);
@@ -101,7 +101,7 @@ public interface WxChapterMapper {
     @Select({"select ",
         "Id, BookId, SortOrder, Title, ChapterType, Pirce,ContentLen ",
         "from wxchapter",
-        "where bookId=#{bookId} and id > #{chapterId,jdbcType=INTEGER} and Status=#{status}",
+        "where bookId=#{bookId} and SortOrder > #{chapterId,jdbcType=INTEGER} and Status=#{status}",
         " order by SortOrder asc,Id asc    LIMIT 0,1 "})
     @ResultMap("ResultListMap")
     WxChapter getNextChapter(@Param("bookId")Integer bookId,@Param("chapterId")Integer chapterId,@Param("status")Integer status);

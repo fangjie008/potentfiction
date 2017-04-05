@@ -33,6 +33,7 @@ import com.tiexue.potentfiction.service.IWxUserService;
 @RequestMapping("wxChapterSub")
 public class WxChapterSubController {
 	private static Logger logger=Logger.getLogger(WxChapterController.class);
+	int pageSize=20;
 	@Resource
 	IWxChapterSubService chapterSubSer;
 	@Resource
@@ -119,6 +120,10 @@ public class WxChapterSubController {
 			// 获取章节信息
 			WxChapterSubDto chapSubDto = getCahperDto(bookId, bookName, chapterId, chapterModel,tag);
 			request.setAttribute("wxChapterSub", chapSubDto);
+			if(chapterModel!=null)
+			{
+				request.setAttribute("pageNo", chapterModel.getSortorder()-chapterModel.getSortorder()%pageSize);
+			}
 			request.setAttribute("fromurl", fm);
 		}
 		//保存书架
@@ -173,6 +178,7 @@ public class WxChapterSubController {
 					bookName = book.getName();
 					tag=book.getTag();
 				}
+				
 				// 章节数据
 				WxChapter chapterModel = chapterService.selectByPrimaryKey(chapterId, EnumType.ChapterStatus_OnLine);
 				if (chapterModel == null)
@@ -202,6 +208,10 @@ public class WxChapterSubController {
 				}
 				// 获取章节信息
 				WxChapterSubDto chapSubDto = getCahperDto(bookId, bookName, chapterId, chapterModel,tag);
+				if(chapterModel!=null)
+				{
+					request.setAttribute("pageNo", chapterModel.getSortorder()-chapterModel.getSortorder()%pageSize);
+				}
 				request.setAttribute("wxChapterSub", chapSubDto);
 				request.setAttribute("fromurl", fm);
 			}
@@ -265,6 +275,10 @@ public class WxChapterSubController {
 			}
 			// 获取章节信息
 			WxChapterSubDto chapSubDto = getCahperDto(bookId, bookName, chapterId, chapterModel,tag);
+			if(chapterModel!=null)
+			{
+				request.setAttribute("pageNo", chapterModel.getSortorder()-chapterModel.getSortorder()%pageSize);
+			}
 			request.setAttribute("wxChapterSub", chapSubDto);
 			request.setAttribute("fromurl", fm);
 		}
@@ -284,12 +298,15 @@ public class WxChapterSubController {
 		int nextId = 0;
 		int preType = 0;
 		int nextType = 0;
+        int sortOrder=0;
+        if(chapterModel!=null)
+        	sortOrder=chapterModel.getSortorder();
 		// 章节内容数据
 		WxChapterSub chapSub = chapterSubSer.selectByChapterId(chapterId);
 		// 上一章数据
-		WxChapter preChap = chapterService.getPreChapter(bookId,chapterId, EnumType.ChapterStatus_OnLine);
+		WxChapter preChap = chapterService.getPreChapter(bookId,sortOrder, EnumType.ChapterStatus_OnLine);
 		// 下一章数据
-		WxChapter nextChap = chapterService.getNextChapter(bookId,chapterId, EnumType.ChapterStatus_OnLine);
+		WxChapter nextChap = chapterService.getNextChapter(bookId,sortOrder, EnumType.ChapterStatus_OnLine);
 		if (preChap != null) {
 			preId = preChap.getId();
 			preType=preChap.getChaptertype();

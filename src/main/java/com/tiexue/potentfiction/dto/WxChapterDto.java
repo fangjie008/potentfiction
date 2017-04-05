@@ -20,7 +20,6 @@ public class WxChapterDto {
     private Integer status;
     //章节字节		
     private Integer contentlen;
-
     public Integer getId() {
         return id;
     }

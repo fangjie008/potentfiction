@@ -112,6 +112,8 @@
 <title>${wxBook.name}</title>
 </head>
 <body>
+<input type="hidden" name="bookId" id="bookId" value="${bookId}">
+<input type="hidden" name="fromurl" id="fromurl" value="${fromurl}">
 	<header class="nav wrap">
 		<a class="ico52" href="<%=path%>/wxbook/detail?id=${bookId}&fm=${fromurl}"></a>
 		<div class="header-center">${wxBook.name}</div>
@@ -156,13 +158,13 @@
 		<c:forEach items="${wxChapters}" var="chapters">
 			<li><c:if test="${chapters.getChaptertype()==0}">
 			    <a class="chapter" onclick="addbookrack('${wxBook.id}','${chapters.id}')"
-				href="<%=path%>/wxChapterSub/index?bookId=${wxBook.id}&chapterId=${chapters.id}&fm=${fromurl}">
+				href="<%=path%>/wxChapterSub/index?bookId=${wxBook.id}&chapterId=${chapters.id}&orderNum=${sortorder}&fm=${fromurl}">
 					${chapters.title} </a>
 					<span class="fn-right c999">免费</span>
 				</c:if>
 				<c:if test="${chapters.getChaptertype()!=0}">
 			    <a class="chapter" onclick="addbookrack('${wxBook.id}','${chapters.id}')"
-				href="<%=path%>/wxChapterSub/vip?bookId=${wxBook.id}&chapterId=${chapters.id}&fm=${fromurl}">
+				href="<%=path%>/wxChapterSub/vip?bookId=${wxBook.id}&chapterId=${chapters.id}&orderNum=${sortorder}&fm=${fromurl}">
 					${chapters.title} </a>
 				</c:if>
 		    </li>
@@ -191,13 +193,13 @@
 	</ul>
 	<div
 		style="background: none repeat scroll 0 0 #F9F8F8; padding-left: 10px; padding-bottom: 10px">
-		跳转至 <input type="hidden" id="totalPage" value="${pager.totalPage }">
+		跳转至 <input type="hidden" id="totalPage" value="${totalRecord }">
 		<input type="hidden" id="pageSize" value="${pager.pageSize }">
 		<input type="hidden" id="preUrl"
 			value="<%=path %>/wxChapter/index?bookId=${bookId}&pageNo=&fm=${fromurl}">
 		<input id="jump_page"
 			style="width: 40px; border: none; border-bottom: 1px solid #ccc; text-align: center"
-			type="text" name="p" value="${jumpPage }">页 <input
+			type="text" name="p" value="${jumpPage }">页(共${totalRecord}) <input
 			id="jump_to" onclick="jumpPage()" class="btn white"
 			style="height: 35px; line-height: 35px" type="button" name="jumpto"
 			value="跳转">
@@ -216,8 +218,8 @@
 		var jumpPage = $("#jump_page").val();
 		var totalPage = $("#totalPage").val();
 		var pageSize = $("#pageSize").val();
-		var preUrl = $("#preUrl").val();
-
+		var fromurl = $("#fromurl").val();
+		var bookId = $("#bookId").val();
 		if (isNaN(jumpPage) || jumpPage <= 0) {
 			alert("请输入大于0的数字");
 			return;
@@ -226,7 +228,8 @@
 			alert("超出最大页数");
 		} else {
 			var pageNo = (jumpPage - 1) * pageSize;
-			window.location.href = preUrl + pageNo + "&jumpPage=" + jumpPage;
+			window.location.href="<%=path%>/wxChapter/index?bookId="
+					+bookId +"&pageNo="+ pageNo+"&jumpPage="+jumpPage+"&fm="+fromurl;
 		}
 	}
 	$("#zjlb .spage").click(
