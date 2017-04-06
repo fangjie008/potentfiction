@@ -65,7 +65,7 @@ public class WxBookController {
 				logger.error("获取 pageUser.getId："+userIdStr);
 			}
 			String status = EnumType.BookStatus_Finish + "," + EnumType.BookStatus_Update;
-			List<WxBook> wxBooks = this.wxBookService.getList(status, "ViewCount",40);
+			List<WxBook> wxBooks = this.wxBookService.getList(status, "ViewCount",50);
 			List<WxBookDto> wxBookDtos = toWxBookListDto(wxBooks);
 			request.setAttribute("wxBooks", wxBookDtos);
 			WxBookrack rack=new WxBookrack();
