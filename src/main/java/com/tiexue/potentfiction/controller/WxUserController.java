@@ -31,6 +31,7 @@ import com.tiexue.potentfiction.service.IWxBookService;
 import com.tiexue.potentfiction.service.IWxBookrackService;
 import com.tiexue.potentfiction.service.IWxChapterService;
 import com.tiexue.potentfiction.service.IWxUserService;
+import com.tiexue.potentfiction.util.CookieUtils;
 import com.tiexue.potentfiction.util.CyptoUtils;
 import com.tiexue.potentfiction.util.DateUtil;
 
@@ -56,8 +57,8 @@ public class WxUserController {
 	IWxChapterService wxChapterService;
 	
 	@RequestMapping("/content")
-	public String getModel(HttpServletRequest request,
-			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token) {
+	public String getModel(HttpServletRequest request
+			,@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token) {
 		String userIdStr = "";
 		if (wx_gzh_token != "") {
 			PageUserDto pageUser = userSer.getPageUserDto(wx_gzh_token);
@@ -87,7 +88,8 @@ public class WxUserController {
 
 	// 转到用户登录界面,记录来源refer,将refer保存到cookie里面,用于登录后的返回
 	@RequestMapping("/login")
-	public String login(HttpServletRequest request, HttpServletResponse response) {
+	public String login(HttpServletRequest request, HttpServletResponse response
+			,@CookieValue(value ="from_name",required = true, defaultValue = "")String from_name) {
 		String refer = request.getHeader("Referer");
 		String fm = request.getParameter("fm");
 		if (null != refer && !refer.isEmpty()) {
@@ -96,6 +98,10 @@ public class WxUserController {
 			response.addCookie(_refCookie); // 通过response的addCookie()方法将此Cookie对象保存到客户端的Cookie中
 		}
 		request.setAttribute("fromurl", fm);
+		 //把小说来源公共号信息放到cookie中
+		if((from_name==null||from_name.isEmpty())&&fm!=null&&!fm.isEmpty()){
+			CookieUtils.addcookie("from_name", 1*365*24*60*60, response,fm);
+		}
 		return "wxUser/login";
 	}
 
@@ -150,17 +156,23 @@ public class WxUserController {
 	 */
 	@RequestMapping("wxoauthcallback")
 	public String wxOAuthCallback(HttpServletRequest request, HttpServletResponse response,RedirectAttributes attr, 
-			@CookieValue(value = "defaultbookrack", required = true, defaultValue = "") String rackCookie) throws Exception {
+			@CookieValue(value = "defaultbookrack", required = true, defaultValue = "") String rackCookie,
+			@CookieValue(value ="from_name",required = true, defaultValue = "")String from_name) throws Exception {
 		try {
 			// 微信token
 			SnsToken wxSnsToken = null;
 			User wxSnsUser = null;
+			String fm="";
 			String code = request.getParameter("code");
 			String state = request.getParameter("state");
-			String fm = request.getParameter("fm");
+		    fm = request.getParameter("fm");
 			attr.addAttribute("fm", fm);
-			logger.error("login code "+code);
-			logger.error("login state "+state);
+			if(fm==null||fm.isEmpty()){
+				if(from_name!=null&&!from_name.isEmpty()){
+					fm=from_name;
+				}
+			}
+			
 			int userId=0;
 			if (!state.equalsIgnoreCase(WxConstants.WxOauthState)) {
 				logger.error("登录异常：");
@@ -170,7 +182,7 @@ public class WxUserController {
 			wxSnsToken = SnsAPI.oauth2AccessToken(WxConstants.WxAppId, WxConstants.WxAppSecret, code);
 			// 根据access_token及openid等信息请求用户信息
 			wxSnsUser = SnsAPI.userinfo(wxSnsToken.getAccess_token(), wxSnsToken.getOpenid(), WxConstants.WxSnsLang);
-			WxUser resUxUser= userSer.saveLoginMsg(wxSnsToken, wxSnsUser);
+			WxUser resUxUser= userSer.saveLoginMsg(wxSnsToken, wxSnsUser,fm);
 			if(resUxUser!=null&&resUxUser.getId()>0){
 				userId=resUxUser.getId();
 				String wx_gzh_token=userSer.setLoginInCookie(resUxUser);

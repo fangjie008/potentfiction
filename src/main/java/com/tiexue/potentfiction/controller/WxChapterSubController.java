@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,7 @@ import com.tiexue.potentfiction.service.IWxBookrackService;
 import com.tiexue.potentfiction.service.IWxChapterService;
 import com.tiexue.potentfiction.service.IWxChapterSubService;
 import com.tiexue.potentfiction.service.IWxUserService;
+import com.tiexue.potentfiction.util.CookieUtils;
 
 
 @Controller
@@ -56,9 +58,10 @@ public class WxChapterSubController {
 	 * @throws UnsupportedEncodingException
 	 */
 	@RequestMapping("/index")
-	public String getContent(HttpServletRequest request, RedirectAttributes attr,
+	public String getContent(HttpServletRequest request,HttpServletResponse response, RedirectAttributes attr,
 			@CookieValue(value = "defaultbookrack", required = true, defaultValue = "") String rackCookie,
-			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token)
+			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token
+			,@CookieValue(value ="from_name",required = true, defaultValue = "")String from_name)
 			throws UnsupportedEncodingException {
 		String userIdStr = "";
 		if (wx_gzh_token != "") {
@@ -137,6 +140,10 @@ public class WxChapterSubController {
         if(bookId>0&&userId>0){
         	saveBookrack(bookId,userId,bookName,chapterId,chapterTitle);
         }
+        //把小说来源公共号信息放到cookie中
+		if((from_name==null||from_name.isEmpty())&&fm!=null&&!fm.isEmpty()){
+			CookieUtils.addcookie("from_name", 1*365*24*60*60, response,fm);
+		}
 		return "wxChapterSub/index";
 	}
 	
@@ -151,9 +158,10 @@ public class WxChapterSubController {
 	  * @throws UnsupportedEncodingException
 	  */
 	 @RequestMapping("/vip")
-	 public String getVipContent(HttpServletRequest request, RedirectAttributes attr,
+	 public String getVipContent(HttpServletRequest request, RedirectAttributes attr,HttpServletResponse response,
 				@CookieValue(value = "defaultbookrack", required = true, defaultValue = "") String rackCookie,
-				@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token)
+				@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token
+				,@CookieValue(value ="from_name",required = true, defaultValue = "")String from_name)
 				throws UnsupportedEncodingException {
 			String userIdStr = "";
 			if (wx_gzh_token != "") {
@@ -233,14 +241,19 @@ public class WxChapterSubController {
 	        if(bookId>0&&userId>0){
 	        	saveBookrack(bookId,userId,bookName,chapterId,chapterTitle);
 	        }
+	        //把小说来源公共号信息放到cookie中
+			if((from_name==null||from_name.isEmpty())&&fm!=null&&!fm.isEmpty()){
+				CookieUtils.addcookie("from_name", 1*365*24*60*60, response,fm);
+			}
 			return "wxChapterSub/index";
 		}
 	
 
 	// 获取章节的内容信息
 	@RequestMapping("/defualt")
-	public String getContentByBookId(HttpServletRequest request, RedirectAttributes attr,
-			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token)
+	public String getContentByBookId(HttpServletRequest request, RedirectAttributes attr,HttpServletResponse response,
+			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token
+			,@CookieValue(value ="from_name",required = true, defaultValue = "")String from_name)
 			throws UnsupportedEncodingException {
 		String userIdStr = "";
 		if (wx_gzh_token != "") {
@@ -302,6 +315,10 @@ public class WxChapterSubController {
 			}
 			request.setAttribute("wxChapterSub", chapSubDto);
 			request.setAttribute("fromurl", fm);
+		}
+		 //把小说来源公共号信息放到cookie中
+		if((from_name==null||from_name.isEmpty())&&fm!=null&&!fm.isEmpty()){
+			CookieUtils.addcookie("from_name", 1*365*24*60*60, response,fm);
 		}
 		return "wxChapterSub/index";
 	}

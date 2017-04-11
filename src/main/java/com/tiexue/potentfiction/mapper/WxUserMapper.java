@@ -29,7 +29,7 @@ public interface WxUserMapper {
         "Coin, Deadline, ",
         "DeviceCode, Status, ",
         "Mobile, OpenId, ",
-        "WeixinToken, Token, ",
+        "WeixinToken, Token,FromName, ",
         "LastActiveTime, CreateTime, ",
         "UpdateTime, AutoPurchase)",
         "values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, ",
@@ -40,6 +40,7 @@ public interface WxUserMapper {
         "#{devicecode,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, ",
         "#{mobile,jdbcType=VARCHAR}, #{openid,jdbcType=VARCHAR}, ",
         "#{weixintoken,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}, ",
+        "#{fromname,jdbcType=VARCHAR},",
         "#{lastactivetime,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP}, ",
         "#{updatetime,jdbcType=TIMESTAMP}, #{autopurchase,jdbcType=LONGVARCHAR})"
     })
@@ -51,7 +52,7 @@ public interface WxUserMapper {
     @Select({
         "select",
         "Id, Name, HeaderIcon, Signature, Pwd, Sex, City, Province, UserType, Coin, Deadline, ",
-        "DeviceCode, Status, Mobile, OpenId, WeixinToken, Token, LastActiveTime, CreateTime, ",
+        "DeviceCode, Status, Mobile, OpenId, WeixinToken, Token,FromName, LastActiveTime, CreateTime, ",
         "UpdateTime, AutoPurchase",
         "from wxuser",
         "where Id = #{id,jdbcType=INTEGER}"
@@ -79,6 +80,7 @@ public interface WxUserMapper {
           "OpenId = #{openid,jdbcType=VARCHAR},",
           "WeixinToken = #{weixintoken,jdbcType=VARCHAR},",
           "Token = #{token,jdbcType=VARCHAR},",
+          "FromName = #{fromname,jdbcType=VARCHAR},",
           "LastActiveTime = #{lastactivetime,jdbcType=TIMESTAMP},",
           "CreateTime = #{createtime,jdbcType=TIMESTAMP},",
           "UpdateTime = #{updatetime,jdbcType=TIMESTAMP},",
@@ -105,6 +107,7 @@ public interface WxUserMapper {
           "OpenId = #{openid,jdbcType=VARCHAR},",
           "WeixinToken = #{weixintoken,jdbcType=VARCHAR},",
           "Token = #{token,jdbcType=VARCHAR},",
+          "FromName = #{fromname,jdbcType=VARCHAR},",
           "LastActiveTime = #{lastactivetime,jdbcType=TIMESTAMP},",
           "CreateTime = #{createtime,jdbcType=TIMESTAMP},",
           "UpdateTime = #{updatetime,jdbcType=TIMESTAMP},",
@@ -116,7 +119,7 @@ public interface WxUserMapper {
     @Select({
         "select",
         "Id, Name, HeaderIcon, Signature, Pwd, Sex, City, Province, UserType, Coin, Deadline, ",
-        "DeviceCode, Status, Mobile, OpenId, WeixinToken, Token, LastActiveTime, CreateTime, ",
+        "DeviceCode, Status, Mobile, OpenId, WeixinToken, Token,FromName, LastActiveTime, CreateTime, ",
         "UpdateTime, AutoPurchase",
         "from wxuser",
         "where OpenId = #{openId,jdbcType=VARCHAR}"

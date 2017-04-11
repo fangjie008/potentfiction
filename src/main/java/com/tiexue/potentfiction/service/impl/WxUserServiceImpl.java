@@ -94,7 +94,7 @@ public class WxUserServiceImpl implements IWxUserService{
 	}
 	
 	@Override
-	public WxUser saveLoginMsg(SnsToken user,User wxSnsUser){
+	public WxUser saveLoginMsg(SnsToken user,User wxSnsUser,String fm){
 		if(user==null||wxSnsUser==null)
 			return null;
 	    WxUser wxUser;
@@ -106,6 +106,8 @@ public class WxUserServiceImpl implements IWxUserService{
 	        updateByPrimaryKey(wxUser);
 	        return wxUser;
 	    }else{
+	    	if(fm==null)
+	    		fm="";
 	    	wxUser=new WxUser();
 	    	wxUser.setAutopurchase("");
 	    	wxUser.setCity(wxSnsUser.getCity());
@@ -126,7 +128,8 @@ public class WxUserServiceImpl implements IWxUserService{
 	    	wxUser.setWeixintoken(user.getAccess_token());
 	    	wxUser.setToken(user.getRefresh_token());
 	    	wxUser.setUpdatetime(DateUtil.fomatCurrentDate("yyyy-MM-dd HH:mm:ss"));
-	    	wxUser.setUsertype(EnumType.UserType_Normal);	
+	    	wxUser.setUsertype(EnumType.UserType_Normal);
+	    	wxUser.setFromname(fm);
 	    	int wxUserId=insert(wxUser);
 	    	
 	    	if(wxUser.getId()==null){

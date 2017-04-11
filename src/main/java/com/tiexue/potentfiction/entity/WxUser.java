@@ -36,6 +36,8 @@ public class WxUser {
     private String weixintoken;
 
     private String token;
+    
+    private String fromname;
 
     private Date lastactivetime;
 
@@ -181,7 +183,15 @@ public class WxUser {
         this.token = token == null ? null : token.trim();
     }
 
-    public Date getLastactivetime() {
+    public String getFromname() {
+		return fromname;
+	}
+
+	public void setFromname(String fromname) {
+		this.fromname = fromname;
+	}
+
+	public Date getLastactivetime() {
         return lastactivetime;
     }
 

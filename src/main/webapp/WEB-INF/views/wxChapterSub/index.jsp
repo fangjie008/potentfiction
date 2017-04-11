@@ -44,7 +44,7 @@ fieldset { border:none; border-top:1px solid #ccc; padding: 0.25rem; margin:0 0.
 						disabled="disabled">上一章</a>
 				</c:if></li>
 			<li class="mulu"><a class="btn white block"
-				href="<%=path %>/wxChapter/index?bookId=${wxChapterSub.bookId}&pageNo=0&fm=${fromurl}">目录</a></li>
+				href="<%=path %>/wxChapter/index?bookId=${wxChapterSub.bookId}&pageNo=${pageNo}&fm=${fromurl}">目录</a></li>
 			<li class="pn">
 			<c:if test="${wxChapterSub.nextId>0 }">
 			     <c:if test="${wxChapterSub.nextType!=0}">

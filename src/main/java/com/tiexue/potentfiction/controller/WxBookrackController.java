@@ -8,6 +8,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -29,6 +30,7 @@ import com.tiexue.potentfiction.service.IWxBookService;
 import com.tiexue.potentfiction.service.IWxBookrackService;
 import com.tiexue.potentfiction.service.IWxChapterService;
 import com.tiexue.potentfiction.service.IWxUserService;
+import com.tiexue.potentfiction.util.CookieUtils;
 
 @Controller
 @RequestMapping("wxBookrack")
@@ -148,9 +150,10 @@ public class WxBookrackController {
 	 * @return
 	 */
 	@RequestMapping("list")
-	public String getBookrackList(HttpServletRequest request,
+	public String getBookrackList(HttpServletRequest request,HttpServletResponse response,
 			@CookieValue(value = "defaultbookrack", required = true, defaultValue = "") String rackCookie,
-			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token) {
+			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token
+			,@CookieValue(value ="from_name",required = true, defaultValue = "")String from_name) {
 		String userIdStr = "";
 		if (wx_gzh_token != "") {
 			PageUserDto pageUser = userSer.getPageUserDto(wx_gzh_token);
@@ -159,6 +162,10 @@ public class WxBookrackController {
 			}
 		}
 		String fm = request.getParameter("fm");
+		//把小说来源公共号信息放到cookie中
+		if((from_name==null||from_name.isEmpty())&&fm!=null&&!fm.isEmpty()){
+			CookieUtils.addcookie("from_name", 1*365*24*60*60, response,fm);
+		}
 		int userId = 0;
 		WxChapter chap;
 		List<WxBookrackDto> racks = new ArrayList<WxBookrackDto>();

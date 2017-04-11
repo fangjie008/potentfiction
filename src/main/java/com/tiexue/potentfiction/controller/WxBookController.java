@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,7 @@ import com.tiexue.potentfiction.service.IWxBookService;
 import com.tiexue.potentfiction.service.IWxBookrackService;
 import com.tiexue.potentfiction.service.IWxChapterService;
 import com.tiexue.potentfiction.service.IWxUserService;
+import com.tiexue.potentfiction.util.CookieUtils;
 
 @Controller
 @RequestMapping("/wxbook")
@@ -49,9 +52,10 @@ public class WxBookController {
 	 * @return
 	 */
 	@RequestMapping("/list")
-	public String list(HttpServletRequest request
+	public String list(HttpServletRequest request,HttpServletResponse response
 			,@CookieValue(value ="defaultbookrack",required = true, defaultValue = "")String rackCookie
-			,@CookieValue(value ="wx_gzh_token",required = true, defaultValue = "")String wx_gzh_token) {
+			,@CookieValue(value ="wx_gzh_token",required = true, defaultValue = "")String wx_gzh_token
+			,@CookieValue(value ="from_name",required = true, defaultValue = "")String from_name) {
 		String userIdStr="";
 		try {
 			String fm = request.getParameter("fm");
@@ -65,7 +69,8 @@ public class WxBookController {
 				logger.error("获取 pageUser.getId："+userIdStr);
 			}
 			String status = EnumType.BookStatus_Finish + "," + EnumType.BookStatus_Update;
-			List<WxBook> wxBooks = this.wxBookService.getList(status, "ViewCount",50);
+			String strWhere=" Status in ("+status+")"+" and tag='军事'";
+			List<WxBook> wxBooks = this.wxBookService.getList(strWhere, "ViewCount",50);
 			List<WxBookDto> wxBookDtos = toWxBookListDto(wxBooks);
 			request.setAttribute("wxBooks", wxBookDtos);
 			WxBookrack rack=new WxBookrack();
@@ -77,6 +82,10 @@ public class WxBookController {
 			}
 			request.setAttribute("bookrack", rack);
 			request.setAttribute("fromurl", fm);
+			//把小说来源公共号信息放到cookie中
+			if((from_name==null||from_name.isEmpty())&&fm!=null&&!fm.isEmpty()){
+				CookieUtils.addcookie("from_name", 1*365*24*60*60, response,fm);
+			}
 		} catch (Exception e) {
 			logger.error("首页获取数据异常"+e.getMessage());
 		}
@@ -220,4 +229,6 @@ public class WxBookController {
 	private void saveBookrack(int bookId,int userId,String bookName){
 		bookrackService.saveBookrack(userId, bookId, bookName, 0, "");
 	}
+	
+
 }

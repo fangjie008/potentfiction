@@ -41,6 +41,8 @@ public class WxUserDto {
     private String updatetime;
 
     private String autopurchase;
+    
+    private String fromname;
 
     public Integer getId() {
         return id;
@@ -149,7 +151,15 @@ public class WxUserDto {
         this.token = token == null ? null : token.trim();
     }
 
-    public String getAutopurchase() {
+    public String getFromname() {
+		return fromname;
+	}
+
+	public void setFromname(String fromname) {
+		this.fromname = fromname;
+	}
+
+	public String getAutopurchase() {
         return autopurchase;
     }
 

@@ -50,7 +50,7 @@ public interface IWxUserService {
      * @param wxSnsUser
      * @return
      */
-    WxUser saveLoginMsg(SnsToken user,User wxSnsUser);
+    WxUser saveLoginMsg(SnsToken user,User wxSnsUser,String fm);
    
     /**
      * 生成登录后的cookie
