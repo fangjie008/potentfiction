@@ -39,17 +39,17 @@
 		</ul>
 	</div>
 	<ul class="pay_money moneylist margin-top-10">
-		<li><span data-money="1000" data-premium="50" data-type="1">10元(1000小说币)<br>
-			<label>送50小说币</label></span></li>
-		<li><span data-money="3000" data-premium="350" data-type="1">30元(3000小说币)<br>
-			<label>送350小说币</label></span></li>
+		
+		<li><span data-money="3000" data-premium="300" data-type="1">30元(3000小说币)<br>
+			<label>送300小说币</label></span></li>
 		<li><span data-money="5000" data-premium="600" data-type="1">50元(5000小说币)<br>
 			<label>送600小说币</label></span></li>
 		<li><span data-money="10000" data-premium="1500" data-type="1">100元(10000小说币)<br>
 			<label>送1500小说币</label></span></li>
-		
+		<li><span data-money="20000" data-premium="4000" data-type="1">200元(20000小说币)<br>
+			<label>送4000小说币</label></span></li>
 	</ul>
-	<ul class="pay_money moneylist">
+<!-- 	<ul class="pay_money moneylist">
 		<h1 style="padding-left: 10px; margin-top: 10px;">
 			<font color="red">↓↓包年更划算，全站作品免费看🔥</font>
 		</h1>
@@ -58,19 +58,19 @@
 			<label>全站作品免费看</label></span></li>
 		<li><span data-money="29800" data-premium="6" data-type="2">298元（半年）<br>
 			<label>全站作品免费看</label></span></li>
-	</ul>
+	</ul> -->
 	
 	<div class="mod_content c1 gray">
 	<ul class="gray small">
 			<li style="color:red;font-size:20px;">首充优惠活动：
 			</li>
-			<li>用户第一次充值可获得小说币<span style="color:red;font-size:16px;">加倍</span>的奖励。即:充值10元即可获得2100小说币。以此类推。包年或半年也享受加倍奖励。即:包年可得两年会员。</li>
+			<li>用户第一次充值可获得小说币<span style="color:red;font-size:16px;">加倍</span>的奖励。即:充值30元即可获得6300小说币。以此类推。</li>
 		</ul>
 		<ul class="gray small">
 			<li class="orange">温馨提示：
 			</li>
-			<li>包年只能直接购买，不可以用小说币兑换。</li>
-			<li>包年时间是365天，半年是180天，重复购买时间会累加。</li>
+<!-- 			<li>包年只能直接购买，不可以用小说币兑换。</li>
+			<li>包年时间是365天，半年是180天，重复购买时间会累加。</li> -->
 			<li>充值阅读权限仅限本站使用
 			  <!--  测试充值 -->
 				<span class="testPay">&nbsp;&nbsp;<span data-money="1" data-premium="10" data-type="1">

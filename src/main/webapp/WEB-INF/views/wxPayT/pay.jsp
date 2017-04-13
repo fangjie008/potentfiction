@@ -38,14 +38,15 @@
 		</ul>
 	</div>
 	<ul class="pay_money moneylist margin-top-10">
-		<li><span data-money="1000" data-premium="50" data-type="1">10元(1000小说币)<br>
-			<label>送50小说币</label></span></li>
+		
 		<li><span data-money="3000" data-premium="350" data-type="1">30元(3000小说币)<br>
 			<label>送350小说币</label></span></li>
 		<li><span data-money="5000" data-premium="600" data-type="1">50元(5000小说币)<br>
 			<label>送600小说币</label></span></li>
 		<li><span data-money="10000" data-premium="1500" data-type="1">100元(10000小说币)<br>
 			<label>送1500小说币</label></span></li>
+			<li><span data-money="20000" data-premium="3000" data-type="1">200元(20000小说币)<br>
+			<label>送3000小说币</label></span></li>
 		
 	</ul>
 	<ul class="pay_money moneylist">
