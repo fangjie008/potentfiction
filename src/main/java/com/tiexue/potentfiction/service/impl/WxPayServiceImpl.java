@@ -171,10 +171,10 @@ public class WxPayServiceImpl implements IWxPayService {
 		    WxUser wxUser= wxUserMapper.getModelByOpenId(openid);
 		    //首次充值加倍
 		    boolean isfristPay=false;
-		    int payCount=getPayCountByUserId(wxUser.getId(), EnumType.OrderStatus_Success,out_trade_no);
-		    if(payCount<=0){
-		    	isfristPay=true;
-		    }
+//		    int payCount=getPayCountByUserId(wxUser.getId(), EnumType.OrderStatus_Success,out_trade_no);
+//		    if(payCount<=0){
+//		    	isfristPay=true;
+//		    }
 		    Integer payCoin=wxPayRecord.getCount();
 		    if(isfristPay){
 		    	payCoin=payCoin*2;
@@ -189,10 +189,7 @@ public class WxPayServiceImpl implements IWxPayService {
 		    // type==1充值小说币 type==2 包年包月
 			if(wxPayRecord.getPaytype()==1)
 			{
-				int coin=wxPayRecord.getCount();
-				if(isfristPay){
-				coin=coin*2;
-				}
+			   int coin=wxPayRecord.getCount();
 			   wxUser.setCoin(wxUser.getCoin()+coin);
 			}
 			else if(wxPayRecord.getPaytype()==2)
@@ -235,10 +232,10 @@ public class WxPayServiceImpl implements IWxPayService {
 		    WxUser wxUser= wxUserMapper.getModelByOpenId(openid);
 		    //首次充值加倍
 		    boolean isfristPay=false;
-		    int payCount=getPayCountByUserId(wxUser.getId(), EnumType.OrderStatus_Success,out_trade_no);
-		    if(payCount<=0){
-		    	isfristPay=true;
-		    }
+//		    int payCount=getPayCountByUserId(wxUser.getId(), EnumType.OrderStatus_Success,out_trade_no);
+//		    if(payCount<=0){
+//		    	isfristPay=true;
+//		    }
 		    // type==1充值小说币 type==2 包年包月
 			if(wxPayRecord.getPaytype()==1)
 			{

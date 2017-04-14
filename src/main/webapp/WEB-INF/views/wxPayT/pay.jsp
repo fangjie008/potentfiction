@@ -39,26 +39,32 @@
 	</div>
 	<ul class="pay_money moneylist margin-top-10">
 		
-		<li><span data-money="3000" data-premium="350" data-type="1">30元(3000小说币)<br>
-			<label>送350小说币</label></span></li>
-		<li><span data-money="5000" data-premium="600" data-type="1">50元(5000小说币)<br>
-			<label>送600小说币</label></span></li>
-		<li><span data-money="10000" data-premium="1500" data-type="1">100元(10000小说币)<br>
-			<label>送1500小说币</label></span></li>
-			<li><span data-money="20000" data-premium="3000" data-type="1">200元(20000小说币)<br>
-			<label>送3000小说币</label></span></li>
-		
+		<li><span data-money="3000" data-premium="300" data-type="1">
+		    3000+300小说币<br>
+			<label>30元</label><br>
+			<label>送3元(10%)</label></span></li>
+		<li><span data-money="5000" data-premium="900" data-type="1">5000+900小说币<br>
+			<label>50元</label>
+			<label>送9元(18%)</label>
+			</span></li>
+		<li><span data-money="10000" data-premium="2000" data-type="1">10000+2000小说币<br>
+			<label>100元</label>
+			<label>送20元(20%)</label>
+			</span></li>
+		<li><span data-money="20000" data-premium="5000" data-type="1">20000+5000小说币<br>
+			<label>200元</label>
+			<label>送50元(25%)</label>
+		</span></li>
+		<li><span data-money="50000" data-premium="15000" data-type="1">50000+15000小说币<br>
+			<label>500元</label>
+			<label>送150元(30%)</label>
+		</span></li>
+		<li><span data-money="100000" data-premium="35000" data-type="1">100000+35000小说币<br>
+			<label>1000元</label>
+			<label>送350元(35%)</label>
+		</span></li>
 	</ul>
-	<ul class="pay_money moneylist">
-		<h1 style="padding-left: 10px; margin-top: 10px;">
-			<font color="red">↓↓包年更划算，全站作品免费看🔥</font>
-		</h1>
-		<li><span class="" data-money="36500" data-premium="12"
-			data-type="2">365元（包年）<br>
-			<label>全站作品免费看</label></span></li>
-		<li><span data-money="29800" data-premium="6" data-type="2">298元（半年）<br>
-			<label>全站作品免费看</label></span></li>
-	</ul>
+	
 	
 	<div class="mod_content c1 gray">
 		<ul class="gray small">

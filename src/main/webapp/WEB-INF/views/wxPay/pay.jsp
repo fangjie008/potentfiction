@@ -39,16 +39,40 @@
 		</ul>
 	</div>
 	<ul class="pay_money moneylist margin-top-10">
-		
-		<li><span data-money="3000" data-premium="300" data-type="1">30元(3000小说币)<br>
-			<label>送300小说币</label></span></li>
-		<li><span data-money="5000" data-premium="600" data-type="1">50元(5000小说币)<br>
-			<label>送600小说币</label></span></li>
-		<li><span data-money="10000" data-premium="1500" data-type="1">100元(10000小说币)<br>
-			<label>送1500小说币</label></span></li>
-		<li><span data-money="20000" data-premium="4000" data-type="1">200元(20000小说币)<br>
-			<label>送4000小说币</label></span></li>
+		<li><span data-money="3000" data-premium="300" data-type="1">
+		    <span>3000+300小说币</span>
+			<dl>30元</dl>
+			<label>送3元(10%)</label>
+			</span></li>
+		<li ><span style="border: 1px solid #ff6600;" data-money="5000" data-premium="900" data-type="1">
+		<div class="top_up_send">热</div>
+			<span>5000+900小说币</span>
+			<dl>50元</dl>
+			<label>送9元(18%)</label>
+			</span></li>
+		<li><span data-money="10000" data-premium="2000" data-type="1">
+			<span>10000+2000小说币</span>
+			<dl>100元</dl>
+			<label>送20元(20%)</label>
+			</span></li>
+		<li><span data-money="20000" data-premium="5000" data-type="1">
+			<span>20000+5000小说币</span>
+			<dl>200元</dl>
+			<label>送50元(25%)</label>
+		</span></li>
+		<li><span data-money="50000" data-premium="15000" data-type="1">
+			<span>50000+15000小说币</span>
+			<dl>500元</dl>
+			<label>送150元(30%)</label>
+		</span></li>
+		<li><span data-money="100000" data-premium="35000" data-type="1">
+			<span>100000+35000小说币</span>
+			<dl>1000元</dl>
+			<label>送350元(35%)</label>
+		</span></li>
 	</ul>
+	
+	 <a class="btn block" href="#" onclick="defaultPay();">确认充值</a> 
 <!-- 	<ul class="pay_money moneylist">
 		<h1 style="padding-left: 10px; margin-top: 10px;">
 			<font color="red">↓↓包年更划算，全站作品免费看🔥</font>
@@ -62,10 +86,10 @@
 	
 	<div class="mod_content c1 gray">
 	<ul class="gray small">
-			<li style="color:red;font-size:20px;">首充优惠活动：
+			<!-- <li style="color:red;font-size:20px;">首充优惠活动：
 			</li>
 			<li>用户第一次充值可获得小说币<span style="color:red;font-size:16px;">加倍</span>的奖励。即:充值30元即可获得6300小说币。以此类推。</li>
-		</ul>
+		</ul> -->
 		<ul class="gray small">
 			<li class="orange">温馨提示：
 			</li>
@@ -116,6 +140,28 @@
 		});
 		
 		
+		function defaultPay(){
+			var bookid=$("#bookid").val();
+			var chapterid=$("#chapterid").val();
+			var fromurl=$("#fromurl").val();
+			var money = 5000;
+			var premium =900;
+			var type = 1;
+			var form = $("<form></form>",{ 
+				'method':'post', 
+				'action':'ipay_now', 
+				'style':'display:none' 
+				}).appendTo($("body")); 
+			
+			form.append($("<input>",{'type':'hidden','name':'money','value':money})); 
+			form.append($("<input>",{'type':'hidden','name':'premium','value':premium})); 
+			form.append($("<input>",{'type':'hidden','name':'type','value':type})); 
+			form.append($("<input>",{'type':'hidden','name':'bookid','value':bookid})); 
+			form.append($("<input>",{'type':'hidden','name':'chapterid','value':chapterid})); 
+			form.append($("<input>",{'type':'hidden','name':'fromurl','value':fromurl})); 
+			form.submit();
+		}
+		
 		$(".testPay ").click(function(){
 			var bookid=$("#bookid").val();
 			var chapterid=$("#chapterid").val();
@@ -124,7 +170,6 @@
 			var money = span.attr("data-money");
 			var premium = span.attr("data-premium");
 			var type = span.attr("data-type");
-			
 			var form = $("<form></form>",{ 
 				'method':'post', 
 				'action':'ipay_now', 
