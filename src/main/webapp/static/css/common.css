@@ -1186,6 +1186,7 @@ article > ul.chapter_pager{overflow: auto;margin-bottom: 16px}
 article > ul.chapter_pager li{float: left;display: block; width: 30%;}
 article > ul.chapter_pager li.mulu{width: 24%}
 article > ul.chapter_pager li.pn{width: 38%}
+article > ul.chapter_pager li.pn{width: 48%}
 article > ul.chapter_pager li.last-child{ width: 65%}
 article > ul.chapter_pager li a{height: 42px; line-height: 40px; margin: 0 5px; border: 1px solid #ddd0a6;border-radius: 6px;}
 .ico40.returnbtn{background-position: 0 -160px; vertical-align: middle; position: relative; margin-top: -3px;}

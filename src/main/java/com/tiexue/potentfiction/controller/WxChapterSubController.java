@@ -249,7 +249,16 @@ public class WxChapterSubController {
 		}
 	
 
-	// 获取章节的内容信息
+	/**
+	 *  获取默认章节的内容信息
+	 * @param request
+	 * @param attr
+	 * @param response
+	 * @param wx_gzh_token
+	 * @param from_name
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
 	@RequestMapping("/defualt")
 	public String getContentByBookId(HttpServletRequest request, RedirectAttributes attr,HttpServletResponse response,
 			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token
@@ -321,6 +330,114 @@ public class WxChapterSubController {
 			CookieUtils.addcookie("from_name", 1*365*24*60*60, response,fm);
 		}
 		return "wxChapterSub/index";
+	}
+	
+
+	@RequestMapping("/show")
+	public String getContentUnlogin(HttpServletRequest request,HttpServletResponse response, RedirectAttributes attr,
+			@CookieValue(value = "defaultbookrack", required = true, defaultValue = "") String rackCookie,
+			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token
+			,@CookieValue(value ="from_name",required = true, defaultValue = "")String from_name)
+			throws UnsupportedEncodingException {
+		String userIdStr = "";
+		if (wx_gzh_token != "") {
+			PageUserDto pageUser = userSer.getPageUserDto(wx_gzh_token);
+			if (pageUser != null) {
+				userIdStr = pageUser.getId();
+			}
+		}
+		String bookIdStr = request.getParameter("bookId");
+		String chapterIdStr = request.getParameter("chapterId");
+		String fm = request.getParameter("fm");
+		String bookName = "";
+		String chapterTitle="";
+		int userId = 0;
+		int bookId = 0;
+		int chapterId = 0;
+		String tag="";
+		if (chapterIdStr != null && !chapterIdStr.isEmpty()) {
+		    chapterId = Integer.parseInt(chapterIdStr);
+			if (bookIdStr != null && !bookIdStr.isEmpty()) {
+				bookId = Integer.parseInt(bookIdStr);
+			}
+			if (userIdStr != null && !userIdStr.isEmpty()) {
+				userId = Integer.parseInt(userIdStr);
+			}
+			
+			// 获取图书信息
+			WxBook book = bookService.selectByPrimaryKey(bookId);
+			if (book != null) {
+				bookName = book.getName();
+				tag=book.getTag();
+			}
+			// 章节数据
+			WxChapter chapterModel = chapterService.selectByPrimaryKey(chapterId, EnumType.ChapterStatus_OnLine);
+			if (chapterModel == null)
+				return "wxChapterSub/index";
+			else
+				chapterTitle=chapterModel.getTitle();
+			// 付费章节操作
+			if (chapterModel.getChaptertype() == 1) {
+				ResultMsg resultMsg = userConsService.consDeal(userId, bookId, bookName, chapterModel);
+				if (!resultMsg.getStatus()) {
+					switch (resultMsg.getNum()) {
+					case EnumType.ResultNum_Login:
+						return "redirect:/wxUser/login";
+					case EnumType.ResultNum_Pay:
+						attr.addAttribute("chapterId", chapterId);
+						attr.addAttribute("bookId", bookId);
+						attr.addAttribute("fm", fm);
+						return "redirect:/wxPay/pay";
+					case EnumType.ResultNum_Cons:
+						attr.addAttribute("chapterId", chapterId);
+						attr.addAttribute("bookId", bookId);
+						attr.addAttribute("fm", fm);
+						return "redirect:/wxConsume/subscribe";
+					}
+				}
+				logger.error(resultMsg.getMsg());
+			}
+			// 获取章节信息
+			WxChapterSubDto chapSubDto = getCahperDto(bookId, bookName, chapterId, chapterModel,tag);
+			request.setAttribute("wxChapterSub", chapSubDto);
+			if(chapterModel!=null)
+			{
+				int pageNo=0;
+				if(chapterModel.getSortorder()%pageSize==0){
+					if(chapterModel.getSortorder()>0)
+						pageNo=chapterModel.getSortorder()-pageSize;
+				}
+				else
+					pageNo=chapterModel.getSortorder()-(chapterModel.getSortorder()%pageSize);
+				request.setAttribute("pageNo",pageNo);
+			}
+			request.setAttribute("fromurl", fm);
+		}
+		//保存书架
+        if(bookId>0&&userId>0){
+        	saveBookrack(bookId,userId,bookName,chapterId,chapterTitle);
+        }
+        //把小说来源公共号信息放到cookie中
+		if((from_name==null||from_name.isEmpty())&&fm!=null&&!fm.isEmpty()){
+			CookieUtils.addcookie("from_name", 1*365*24*60*60, response,fm);
+		}
+		if(chapterId==20321){
+			String url="/wxChapterSub/index?bookId="+bookId+"&chapterId="+chapterId;
+			CookieUtils.addcookie("readMark_Show", 1*365*24*60*60, response,url);
+			return "/wxChapterSub/focusQR";
+		}
+		return "wxChapterSub/show";
+	}
+	
+	@RequestMapping("/readContinue")
+	public String readContinue(HttpServletRequest request,HttpServletResponse response, RedirectAttributes attr,
+			@CookieValue(value = "defaultbookrack", required = true, defaultValue = "") String rackCookie,
+			@CookieValue(value = "wx_gzh_token", required = true, defaultValue = "") String wx_gzh_token
+			,@CookieValue(value ="readMark_Show",required = true, defaultValue = "")String readMark_Show){
+		if(!readMark_Show.isEmpty()&&readMark_Show.contains("/wxChapterSub/index?bookId=")){
+			return "redirect:"+readMark_Show;
+		}
+		return "redirect:/wxBookrack/list";
 	}
 	
 
