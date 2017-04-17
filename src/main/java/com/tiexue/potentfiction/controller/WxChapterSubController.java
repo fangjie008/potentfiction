@@ -422,7 +422,7 @@ public class WxChapterSubController {
 			CookieUtils.addcookie("from_name", 1*365*24*60*60, response,fm);
 		}
 		if(chapterId==20321){
-			String url="/wxChapterSub/index?bookId="+bookId+"&chapterId="+chapterId;
+			String url="/wxChapterSub/index?bookId="+bookId+"&chapterId="+chapterId+"&fm="+fm;
 			CookieUtils.addcookie("readMark_Show", 1*365*24*60*60, response,url);
 			return "/wxChapterSub/focusQR";
 		}
