@@ -26,7 +26,7 @@ fieldset { border:none; border-top:1px solid #ccc; padding: 0.25rem; margin:0 0.
 		【继续阅读】
 	</div>
     <div style="text-align: center;margin-bottom:5px;font-size: 18px;margin-top: 10px;">
-		关注微信公众号,方便继续阅读
+		关注微信公众号,继续阅读
 	</div>
 	<fieldset id="fllow_wximg">
 				<legend class="tc">长按识别 即可添加</legend>
