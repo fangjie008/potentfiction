@@ -420,8 +420,8 @@ public class WxChapterSubController {
         //把小说来源公共号信息放到cookie中
 		if((from_name==null||from_name.isEmpty())&&fm!=null&&!fm.isEmpty()){
 			CookieUtils.addcookie("from_name", 1*365*24*60*60, response,fm);
-		}
-		if(chapterId==20321){
+		}//逍遥医圣在都市||监狱风云||苗疆蛊事||1980之他来自未来
+		if((bookId==26795&&chapterId>=68006)||(bookId==26794&&chapterId>=67681)||(bookId==26779&&chapterId>=49581)||(bookId==26777&&chapterId>=17568)){
 			String url="/wxChapterSub/index?bookId="+bookId+"&chapterId="+chapterId+"&fm="+fm;
 			CookieUtils.addcookie("readMark_Show", 1*365*24*60*60, response,url);
 			return "/wxChapterSub/focusQR";

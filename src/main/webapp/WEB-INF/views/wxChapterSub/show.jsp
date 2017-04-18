@@ -26,7 +26,7 @@ fieldset { border:none; border-top:1px solid #ccc; padding: 0.25rem; margin:0 0.
 			${wxChapterSub.content}</div>
 		<ul class="chapter_pager">
 
-			<li class="pn">
+			<li class="pn2">
 			<c:if test="${wxChapterSub.preId>0 }">
 			      <a class="chapter_prev btn white block"
 						data-cid="${wxChapterSub.preId}"
@@ -35,7 +35,7 @@ fieldset { border:none; border-top:1px solid #ccc; padding: 0.25rem; margin:0 0.
 					<a class="chapter_prev btn white block" href="#"
 						disabled="disabled">上一章</a>
 				</c:if></li>
-			<li class="pn">
+			<li class="pn2">
 			<c:if test="${wxChapterSub.nextId>0 }">
 			   
 			       <a  onclick="addbookrack('${wxChapterSub.bookId}','${wxChapterSub.nextId}')"  class="chapter_next btn block" data-cid="${wxChapterSub.nextId}"
