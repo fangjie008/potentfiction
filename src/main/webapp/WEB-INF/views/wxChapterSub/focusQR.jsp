@@ -41,7 +41,8 @@ fieldset { border:none; border-top:1px solid #ccc; padding: 0.25rem; margin:0 0.
 </body>
 
 <script type="text/javascript" src="<%=path %>/static/js/public.js"></script>
-<script type="text/javascript">
-
-</script>
+	<script>
+		var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    	document.write(unescape("%3Cspan id='cnzz_stat_icon_1261514024'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "w.cnzz.com/q_stat.php%3Fid%3D1261514024' type='text/javascript'%3E%3C/script%3E"));
+    </script>
 </html>
